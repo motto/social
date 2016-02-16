@@ -6,11 +6,12 @@ session_start();
 //doc megjelenítés: ctrl+q
 
 include_once 'definial.php';
-
-include_once 'lib/lang.php';
+include_once 'lib/db_fgv.php';
+//include_once 'lib/lang.php';
 include_once 'lib/factory.php';
 include_once 'lib/jog.php';
 include_once 'lib/html.php';
+include_once 'lib/altalanos_fgv.php';
 include_once 'mod/mod.php';
 
 if(MoConfig::$offline=='igen'){ //offline módban kikapcsolja a weblapot
@@ -26,16 +27,15 @@ if(MoConfig::$offline=='igen'){ //offline módban kikapcsolja a weblapot
 class GOB {
 	private static $userjog=Array();
 	public static $html='';
-	public static $html_part=array();
-	public static $head;//js,css,ogg stb
-	public static $bodyhead;//js,css stb
+	public static $html_part=array();//head[],js,css,ogg stb
 	public static $upload_dir='media/user2';
 	public static $tmpl='oneday';
 	public static $title='Oneday club';
-	public static $app='base';
+	public static $app='admin';
 	public static $user=Array();
 	public static $hiba=array();
 	public static $param=array();
+	public static $admin=array(62);
 	/**
 	 * @var string
 	 * '' (alapértelmezés) az adminok csak saját cikkeiket szerkeszthetik
@@ -54,22 +54,13 @@ class GOB {
 	}
 }
 
-
-
-
-// adatbázis elérés------------------------------------------------------
-include_once 'lib/db_fgv.php';  //adatbázis
 $db=DB::connect();
-include_once 'lib/jog.php'; // azzonosítás jogosultságok
 
-//azonosítás jogok--------------------------------------------------
-$azonosit= new Azonosit; //
-//$_SESSION['userid']=62;
+$azonosit= new Azonosit; //$_SESSION['userid']=62;
+
 GOB::set_userjog();
 
-include_once ALTALANOS_FGV;
-
-GOB::$app=session_post_get('app',GOB::$app);
+GOB::$app=ADAT::GET_POST_SESS('app',GOB::$app);
 include_once 'app/'.GOB::$app.'/'.GOB::$app.'.php';
 
 ?>

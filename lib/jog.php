@@ -2,33 +2,26 @@
 defined( '_MOTTO' ) or die( 'Restricted access' );
 class Jog
 {
-    public static function fromGOB(){
+    public static function fromGOB()
+    {
+        $userjog=array();
+        if(isset($_SESSION['userid']))
+        {
         $userid=$_SESSION['userid'];
-        if(empty($userid)or $userid==0){$userid='noname';}
-                if(!empty($_SESSION['userid']))
+                if($userid>0)
                 {
                     $userjog[]='user';
                 }
 
                 //szerzo jog beállítása-----------
-                if(is_array(GOB::$get_userjog['szerzo'])&& in_array($userid,GOB::$get_userjog['szerzo']))
+                if(in_array($userid,GOB::$admin))
                 {
-                    $userjog[]='szerzo';
+                    $userjog[]='admin';
                 }
-                //moderator jog beállítása-----------
-                if(is_array(GOB::$get_userjog['moderator'])&& in_array($userid,GOB::$get_userjog['moderator']))
-                {
-                    $userjog[]='mod';
 
-                }
-                //adminjog beállítása------------
-               if(is_array(GOB::$get_userjog['admin'])&& in_array($userid,GOB::$get_userjog['admin']))
-               {
-                   $userjog[]='admin';
-               }
             return $userjog;
-
-            }
+        }
+    }
             public static function fromDB(){
 
             }

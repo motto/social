@@ -6,20 +6,6 @@ Link::kiszed(link,'task,id'); //ha a linkben nincs kérdőjel mögé tesz egy ?g
 Link::src_thumb($src)  //képnév elé illeszti a thumb/ -ot
 */
 
-function session_post_get($adatnev,$ertek){
-	if($_SESSION[$adatnev]!=null){$ertek=$_SESSION[$adatnev];}
-	if($_POST[$adatnev]!=null){$ertek=$_POST[$adatnev];}
-	if($_GET[$adatnev]!=null){$ertek=$_GET[$adatnev];}
-return $ertek;
-}
-function unit_to_GOB(){
-	$html = file_get_contents('tmpl/'.GOB::$tmpl.'/unit.html', true);
-$unittomb=explode('<!--*|',$html);
-	foreach ( $unittomb as $unit){
-		$tomb=explode('|*-->',$unit);
-		GOB::$html_part[$tomb[0]]=$tomb[1];
-	}
-}
 
 class STR
 {
@@ -34,7 +20,8 @@ class STR
 	}
 
 static public function webnev($string,$hosz=20)
-	{ $hungarianABC = array( 'á','é','í','ó','ö','ő','ú','ü','ű','Á','É','Í','Ó','Ö','Ő','Ú','Ü','Ű','&','#','@','$','%','/','\\');
+	{$webnev='';
+		$hungarianABC = array( 'á','é','í','ó','ö','ő','ú','ü','ű','Á','É','Í','Ó','Ö','Ő','Ú','Ü','Ű','&','#','@','$','%','/','\\');
 		$englishABC = array( 'a','e','i','o','o','o','u','u','u','A','E','I','O','O','O','U','U','U','e','e','e','e','e','e','e');
 		$string=str_replace($hungarianABC, $englishABC, $string);
 		$webabc = array( 'a','e','i','o','u','b','c','d','f','g','h','j','k','l','m','n','p','_','q','r','s','z','v','w','x','y','t','0','1','2','3','4','5','6','7','8','9');
@@ -47,6 +34,7 @@ static public function webnev($string,$hosz=20)
 
 class TOMB {
 static public function to_string($tomb){
+	$str='';
 foreach($tomb as $key=>$value){
 if(is_array($value)){self::to_string($value);}else{$str=$str. $key.': '.$value.'\n </br>';}}
 	return $str;
@@ -82,6 +70,8 @@ static public function thumb_src($src)
 
 static public function kiszed($link,$kiszed1)
 {
+	$get_resz='';
+	$altag=array();
 if(is_array($kiszed1)){$kiszed=$kiszed1;}else{$kiszed=explode(',',$kiszed1);}
 $linktomb1=explode('?',$link);
 if(empty($linktomb1[1])){$link2=$link.'?gt=0'; GOB::$hiba['link'][]='Link::kiszed:linkben nincs kérdőjel';

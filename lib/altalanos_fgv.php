@@ -106,6 +106,12 @@ if (strpos($link,'?') === false){$link2=$link2.'?'.$cserel;}else{$link2=$link2.'
 //echo $link2;
 return $link2; 
 }
+	static public function link_cserel($cserel)
+	{
+		$link2=self::get_cserel($_SERVER['REQUEST_URI'],$cserel);
+		return $link2;
+	}
+
 }
 
 

@@ -1,9 +1,5 @@
 <?php
-
-
-    class Admin
-    {
-    }
+include_once 'app/admin/lib/table.php';
 //$query="SELECT * FROM scroll WHERE pub='1' ";
     if(isset($_GET['task']))
     {
@@ -22,14 +18,13 @@
         }
     }
 GOB::$html = file_get_contents('tmpl/flat/admin.html', true);
+//GOB::$html = str_replace('<!--|tartalom|-->',$table ,GOB::$html);
 
-
-
-if(!empty($_GET['fget'])){$fget=$_GET['fget'];
-include_once 'app/admin/'.$fget.'.php';}
-//$html = str_replace('<!--|tartalom|-->',$tartalom ,$html);
-//return $html;
-
+if(!empty($_GET['fget']))
+{$fget=$_GET['fget'];}
+else
+{$fget='faucet';}
+include_once 'app/admin/'.$fget.'.php';
  echo GOB::$html;
 
 

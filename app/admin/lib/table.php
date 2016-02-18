@@ -16,23 +16,23 @@ class Table
         $this->dataszerk=$dataszerk;
         $this->datatomb=$datatomb;
     }
-    public function mezo($data)
+    public function mezo($data="")
     {
-        $html='<td>'.$data.'</td>';
+        $html="<td>".$data."</td>";
       return $html;
     }
     public function checkbox_mezo($id)
     {   //$checked_tomb = $_POST['sor'];
-        $data="<input type=\"checkbox\" name=\"sor[]\" value=\"$id\" />";
-        $html=$this->mezo($data);
+        $html="<input type=\"checkbox\" name=\"sor[]\" value=\"$id\" />";
+      //  $html=$this->mezo($data);
         return $html;
     }
     public function pub_mezo($pub)
     {   //$checked_tomb = $_POST['sor'];
         if($pub>0){$src='/res/ico/16/unpublished.png';}
         else{$src='/res/ico/16/published.png';}
-        $data='<image src="'.$src.'"/>';
-        $html=$this->mezo($data);
+        $html='<image src="'.$src.'"/>';
+       // $html=$this->mezo($data);
         return $html;
     }
     public function rendez_mezo($mezonev)
@@ -50,6 +50,7 @@ class Table
         $html='<tr>';
         foreach($this->dataszerk as $mezotomb)
         {
+            $data=' ';
             switch($mezotomb['tipus']){
                 case 'checkbox':
                     $data=$this->checkbox_mezo($datasor['id']);
@@ -58,7 +59,9 @@ class Table
                     $data=$this->pub_mezo($datasor['pub']);
                     break;
                 default :
-                    $data=$datasor[$mezotomb['mezonev']];
+                    if(isset($datasor[$mezotomb['mezonev']]))
+                    {$data=$datasor[$mezotomb['mezonev']];}
+
 
             }
 
@@ -69,12 +72,12 @@ class Table
     }
     public function fejlec()
     {
-        $html='<tr>';
+        $html="<tr style=\"background-color: royalblue; color: white; \" >";
         foreach($this->dataszerk as $mezotomb)
         {
-            $html=$html.$this->mezo([$mezotomb['cim']]);
+            $html=$html.$this->mezo($mezotomb['cim']);
         }
-        $html=$html.'</tr>';
+        $html=$html."</tr>\n";
         return $html;
     }
     public function rendez_sor()
@@ -88,16 +91,17 @@ class Table
         $html=$html.'</tr>';
         return $html;
     }
-    public function tabla()
+
+    public function __toString()
     {
         $html='<table>';
        if($this->fejlec){$html=$html.$this->fejlec();}
-       if($this->rendez_sor){$html=$html.$this->rendez_sor();}
+    //   if($this->rendez_sor){$html=$html.$this->rendez_sor();}
         foreach($this->datatomb as $datasor)
         {
         $html=$html.$this->sor($datasor);
         }
-        $html=$html.'<table>';
+        $html=$html.'</table>';
         return $html;
     }
 

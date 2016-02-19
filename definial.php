@@ -11,7 +11,7 @@ class MoConfig {
 public static $host = 'localhost';
 public static $felhasznalonev = 'root';
 public static $jelszo = '';
-public static $adatbazis = 'fejleszt';
+public static $adatbazis = 'social';
 public static $mailfrom= 'motto001@gmail.com';
 public static $fromnev= 'Admin'; 
 public static $offline = 'nem'; //igen bekapcsolja az offline módot

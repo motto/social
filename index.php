@@ -27,6 +27,7 @@ if(MoConfig::$offline=='igen'){ //offline módban kikapcsolja a weblapot
 class GOB {
 	private static $userjog=Array();
 	public static $html='';
+	public static $admin_data=array();
 	public static $html_part=array();//head[],js,css,ogg stb
 	public static $upload_dir='media/user2';
 	public static $tmpl='oneday';
@@ -35,7 +36,7 @@ class GOB {
 	public static $user=Array();
 	public static $hiba=array();
 	public static $param=array();
-	public static $admin=array(62);
+	public static $adminok=array(62);
 	/**
 	 * @var string
 	 * '' (alapértelmezés) az adminok csak saját cikkeiket szerkeszthetik

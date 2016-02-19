@@ -14,7 +14,7 @@ class Jog
                 }
 
                 //szerzo jog beállítása-----------
-                if(in_array($userid,GOB::$admin))
+                if(in_array($userid,GOB::$adminok))
                 {
                     $userjog[]='admin';
                 }

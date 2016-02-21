@@ -48,12 +48,12 @@ if(empty(GOB::$hiba['ELL'])){
 	$sql="INSERT INTO userek( username,email,password,registerdate) VALUES ('".ELL::$adatok['username']."','".ELL::$adatok['email']."','".$jelszo."',NOW())";
 	$insert_id=DB::beszur($sql);
 		if($insert_id>0){LANG::ECH('REG SUCCESFULL');
-		include LOGINPATH.DS.'wiev'.DS.'belep_form.php';
+		include LOGINPATH.DS.'view'.DS.'belep_form.html';
 		}else{
 		LANG::ECH('DATA ERROR,REPEAT');
-		include LOGINPATH.DS.'wiev'.DS.'regisztral_form.php';}
+		include LOGINPATH.DS.'view'.DS.'regisztral_form.html';}
 	}else{
-	include LOGINPATH.DS.'wiev'.DS.'regisztral_form.php';
+	include LOGINPATH.DS.'view'.DS.'regisztral_form.html';
 	}
 }
 function vment($adatok){
@@ -79,11 +79,11 @@ if(empty(GOB::$hiba['ELL'])){
 if($adatok['password']!=''){$uj_jelszo=md5(ELL::$adatok['password']);}else{$uj_jelszo=$jelszo;}
 	DB::parancs("UPDATE userek SET username='".ELL::$adatok['username']."',email='".ELL::$adatok['email']."',password='".$uj_jelszo."' where id='".GOB::get_user('id')."'");
 	LANG::ECH('DATA_CHANGED');
-	include LOGINPATH.DS.'wiev'.DS.'belep_form.php';
+	include LOGINPATH.DS.'view'.DS.'belep_form.html';
 	}else{
 	Tomb::kiir(GOB::$hiba['ELL']);
 	
-	include LOGINPATH.DS.'wiev'.DS.'valtoztat_form.php';
+	include LOGINPATH.DS.'view'.DS.'valtoztat_form.html';
 	}
 	
 }
@@ -91,10 +91,10 @@ if($adatok['password']!=''){$uj_jelszo=md5(ELL::$adatok['password']);}else{$uj_j
 
 switch ($_GET['login']){
 	case 'reg':
-	include LOGINPATH.DS.'wiev'.DS.'regisztral_form.php';
+	include LOGINPATH.DS.'view'.DS.'regisztral_form.html';
 		break;
 	case 'valtoztat':
-	include LOGINPATH.DS.'wiev'.DS.'valtoztat_form.php';
+	include LOGINPATH.DS.'view'.DS.'valtoztat_form.html';
 		break;
 	case 'vment':
 		vment($adatok);
@@ -104,11 +104,11 @@ switch ($_GET['login']){
 		break;
 	default: 
 	if($_SESSION['userid']>0)
-		{include LOGINPATH.DS.'wiev'.DS.'belepve_form.php';}
+		{include LOGINPATH.DS.'view'.DS.'belepve_form.html';}
 		else
-		{include LOGINPATH.DS.'wiev'.DS.'belep_form.php';}
+		{include LOGINPATH.DS.'view'.DS.'belep_form.html';}
 	}
 
-Tomb::kiir(array(GOB::$hiba));
+//Tomb::kiir(array(GOB::$hiba));
 //print_r(GOB::$hiba['ELL']);
 ?>

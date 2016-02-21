@@ -36,7 +36,7 @@ class GOB {
 	public static $user=Array();
 	public static $hiba=array();
 	public static $param=array();
-	public static $adminok=array(62);
+	public static $adminok=array(62,3);
 	/**
 	 * @var string
 	 * '' (alapértelmezés) az adminok csak saját cikkeiket szerkeszthetik

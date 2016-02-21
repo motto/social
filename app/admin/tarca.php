@@ -2,11 +2,13 @@
 class ADT
 {
     public static $itemid='0';
+    public static $jog='admin';
     public static $itemidtomb=array();
     public static $tablanev='tarca';
     public static $lista_sql="SELECT * FROM tarca ORDER BY id ASC";
     public static $ujurlap='app/admin/view/tarca_urlap.html';
     public static $alapview='app/admin/view/tabla_pubnelkul.html';
+    public static $allowed_func=array('uj','szerk','ment','mentuj','cancel','torol','joghiba');
     public static $tablaszerk=array(
         array('cim'=>'','mezonev'=>'','tipus'=>'checkbox'),
        // array('cim'=>'','mezonev'=>'pub','tipus'=>'pubmezo'),
@@ -31,7 +33,7 @@ if(isset($_POST['itemid']))
 {
     ADT::$itemid=$_POST['itemid'];
 }
-
+class Admin extends Admin_base{};
 class AppEll extends AppEll_base{}
 class AppData extends AppData_base{}
 class AppView extends AppView_base{}

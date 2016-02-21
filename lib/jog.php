@@ -4,7 +4,7 @@ class Jog
 {
     public static function fromGOB()
     {
-        $userjog=array();
+        $userjog=array('noname');
         if(isset($_SESSION['userid']))
         {
         $userid=$_SESSION['userid'];

@@ -130,7 +130,16 @@ static public function beszur_postbol($tabla,$mezok=array())
 			if($mezodata[2]!=''){$ellenor_func=$mezodata[2];}
 				if(isset($_POST[$postnev]))
 				{
-					$value=$_POST[$postnev];
+
+					if($mezonev=='password')
+					{
+						$value=md5($_POST[$mezonev]);
+
+					}
+					else
+					{
+						$value=$_POST[$postnev];
+					}
 				}
 				else
 				{
@@ -149,6 +158,7 @@ static public function beszur_postbol($tabla,$mezok=array())
 		$mezo_string2=rtrim($mezo_string,',');
 		$value_string2=rtrim($value_string,',');
 		$sql="INSERT INTO $tabla ($mezo_string2) VALUES ($value_string2)";
+			//echo $sql;
 		$result=DB::beszur($sql);
 		}
 		else

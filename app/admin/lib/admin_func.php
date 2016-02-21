@@ -19,8 +19,41 @@ interface IF_AppView
     public function lista();
 }
 
-class Admin
+class Admin_base
 {
+    public $appview;
+    public $appdata;
+    public $allowed_func='';
+    public $tartalom='';
+    public function __construct($appview,$appdata)
+    {
+        $this->appview=$appview;
+        $this->appdata=$appdata;
+    }
+public function uj(){$this->tartalom =$this->appview->uj();}
+public function szerk(){$this->tartalom =$this->appview->szerk($this->appdata->item_feltolt());}
+public function ment(){$this->appdata->ment();
+    $this->tartalom= $this->appview->lista($this->appdata->lista_feltolt());}
+
+public function mentuj(){$this->appdata->ment();
+    $this->tartalom=$this->appview->uj();}
+public function cancel(){$this->tartalom= $this->appview->alap($this->appdata->lista_feltolt());}
+public function torol(){$this->appdata->torol();
+    $this->tartalom= $this->appview->lista($this->appdata->lista_feltolt());}
+public function pub(){$this->appdata->pub();
+    $this->tartalom= $this->appview->lista($this->appdata->lista_feltolt());
+}
+public function unpub(){$this->appdata->unpub();
+    $this->tartalom=$this->appview->lista($this->appdata->lista_feltolt());}
+public function alap()
+{
+    $this->tartalom=$this->appview->alap($this->appdata->lista_feltolt());
+}
+public function joghiba()
+    {
+        $this->tartalom='<center><h2>Jogosultság hiba!</h2></center>';
+    }
+
     static public function view_feltolt($view,$datatomb,$elotag='<!--',$utotag='-->',$value_elotag='',$value_utotag='')
     {
         $value_str=''; $csere_str='';

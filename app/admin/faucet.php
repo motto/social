@@ -1,75 +1,40 @@
 <?php
-
-GOB::$admin_data['tabla']=array(
-    array('cim'=>'','mezonev'=>'','tipus'=>'checkbox'),
-    array('cim'=>'','mezonev'=>'pub','tipus'=>'pubmezo'),
-    array('cim'=>'id','mezonev'=>'id','tipus'=>''),
-    array('cim'=>'Webcím','mezonev'=>'cim','tipus'=>''),
-    array('cim'=>'Megjegyzés','mezonev'=>'jegyzet','tipus'=>''),
-    array('cim'=>'PR','mezonev'=>'prior','tipus'=>'')
+class ADT
+{
+    public static $itemid='0';
+    public static $itemidtomb=array();
+    public static $lista_sql="SELECT * FROM faucet ORDER BY prior ASC";
+    public static $tablanev='faucet';
+    public static $ujurlap='app/admin/view/faucet_urlap.html';
+    public static $alapview='app/admin/view/tabla_alap.html';
+    public static $tablaszerk=array(
+array('cim'=>'','mezonev'=>'','tipus'=>'checkbox'),
+array('cim'=>'','mezonev'=>'pub','tipus'=>'pubmezo'),
+array('cim'=>'id','mezonev'=>'id','tipus'=>''),
+array('cim'=>'Webcím','mezonev'=>'link','tipus'=>''),
+array('cim'=>'Megjegyzés','mezonev'=>'megjegyzes','tipus'=>''),
+array('cim'=>'PR','mezonev'=>'prior','tipus'=>'')
 );
-//$tabla:faucet--array('postnev','mezonev(ha más mit a postnév)','ellenor_func(nem kötelező)')
-GOB::$admin_data['ment']=array(
+    public static $mentmezok=array(
     array('link','',''),
     array('megjegyzes','',''),
-    array('prior','',''),
-    array('pub','',''),
+    array('prior','','')
 );
-GOB::$admin_data['id']=$_POST['sor'][0];
-
-class AppEll
-{
-public static function base($value){return true;}
-
+    public static $listatomb=array();
+    public static $itemtomb=array();
 }
-class AppData
+if(isset($_POST['sor'][0]))
 {
-public static $tabla='faucet';
-public static $itemdata=array();
-public static $listdata=array();
-public static function pub()
+    ADT::$itemid=$_POST['sor'][0];
+    ADT::$itemidtomb=$_POST['sor'];
+}
+if(isset($_POST['itemid']))
 {
-  DB::tobb_pub(self::$tabla,$_POST['sor']);
-}
-public static function unpub()
-{
-  DB::tobb_unpub(self::$tabla,$_POST['sor']);
-}
-public static function torol()
-{
-  DB::tobb_del(self::$tabla,$_POST['sor']);
-}
-public static function ment()
-{
- $id= DB::beszur_postbol(self::$tabla,GOB::$admin_data['ment']);
- return $id;
-}
-public static function frissit()
-{
-DB::frissit_postbol(self::$tabla,$_POST['id'],GOB::$admin_data['ment']);
-}
-public static function item()
-{   $sql=select_sql(self::$tabla,GOB::$admin_data['id'],'*');
-    self::$itemdata=DB::assoc_sor($sql);
-}
-public static function lista()
-{
-    $sql="SELECT * FROM ".self::$tabla." ORDER BY prior ASC";
-    self::$itemdata=DB::assoc_tomb($sql);
-    return true;
-}
-}
-class AppView
-{
-    public static function alap(){return true;}
-    public static function uj(){return true;}
-    public static function szerk(){return true;}
-    public static function lista(){return true;}
+    ADT::$itemid=$_POST['itemid'];
 }
 
-$table = new Table($dataszerk, $datatomb);
-$tartalom = file_get_contents('app/admin/view/alap.html', true);
-$tartalom = str_replace('<!--|tabla|-->', $table, $tartalom);
-file_get_contents('app/admin/view/faucet_urlap.html', true);
-GOB::$html = str_replace('<!--|tartalom|-->',$tartalom ,GOB::$html);
-//echo $table;
+class AppEll extends AppEll_base{}
+class AppData extends AppData_base{}
+class AppView extends AppView_base{}
+
+

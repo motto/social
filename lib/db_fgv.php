@@ -37,11 +37,28 @@ $sth->execute();
 return $sth;
 }
 static public function assoc_tomb($sql){
+	global $db;$eredmeny_tomb=array();
+	try {
+		$stmt =$db ->prepare($sql);
+
+		$stmt->execute();
+		$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+		while ($row = $stmt->fetch()) {
+			$eredmeny_tomb[]= $row;
+		}
+
+	}
+	catch(PDOException $e)
+	{
+		GOB::$hiba['pdo'][]=$e->getMessage();
+	}
+
+/*
 $sth =self::alap($sql);
  while($row = $sth->fetch(PDO::FETCH_ASSOC)) {
-     $eredmeny_tomb[]= $row;
+     $eredmeny_tomb[]= $row; */
 	//$row= $sth->fetchAll();//sorszámozottan is és associatívan is tárolja a mezőket(duplán)
-  }
+
 return $eredmeny_tomb;
 }
 static public function assoc_sor($sql){
@@ -53,6 +70,7 @@ global $db;
 $sth =self::alap($sql);
 $h=$sth->errorInfo();
 if(empty($h[2])){$result=$db->lastInsertId();}else{$result='0';}
+	//echo $result;
 return $result;
 
 }
@@ -78,13 +96,13 @@ static public function tobb_unpub ($tabla,$id_tomb,$id_nev='id')
 }
 static public function del($tabla,$id,$id_nev='id')
 	{
-		$sql="DELETE FROM $tabla WHERE $id_nev = '$id'";
+		$sql="DELETE FROM $tabla WHERE $id_nev = '".$id."'";
 		$sth =self::alap($sql);
 		return $sth;
 	}
 static public function tobb_del($tabla,$id_tomb,$id_nev='id')
 {
-foreach($id_tomb as $id){self::torol_sor($tabla,$id,$id_nev); }
+foreach($id_tomb as $id){self::del($tabla,$id,$id_nev); }
 }
 /** $mezok: array(array('postnev','mezonev(ha más mit a postnév)','ellenor_func(nem kötelező)'))
  * ha az ellenőr funkció false-al tér vissza azt a mezőt kihagyja,
@@ -118,9 +136,11 @@ static public function beszur_postbol($tabla,$mezok=array())
 				{
 					$value='';
 				}
+
+
 			if(AppEll::$ellenor_func($value))
 			{
-			$value_string=$value."'',";
+			$value_string=$value_string."'".$value."',";
 			$mezo_string=$mezo_string.$mezonev.",";
 			}
 		}
@@ -147,10 +167,11 @@ static public function beszur_postbol($tabla,$mezok=array())
 	 */
 static public function frissit_postbol($tabla,$id,$mezok=array())
 	{
+
+		$setek='';
 		foreach ($mezok as $mezo)
 		{
 			$value='';
-			$setek='';
 			$postnev=$mezo[0];
 			if($mezo[1]!='')
 			{
@@ -162,20 +183,19 @@ static public function frissit_postbol($tabla,$id,$mezok=array())
 			}
 			if($mezo[2]!=''){$ellenor_func=$mezo[2];}
 
-
+//TODO: ellenőr funkciót beüzemelni!
 			if(isset($_POST[$postnev])){$value=$_POST[$postnev];}
-			if(AppEll::$ellenor_func($value))
-			{
+
 				$setek = $setek . $mezonev . "='" . $value . "', ";
-			}
+
 		}
 		$setek2 = substr($setek, 0, -2);
 		$sql="UPDATE $tabla SET $setek2 WHERE id='$id'";
-		echo $sql;
+echo $sql;
 		$result=DB::parancs($sql);
 		return $result;
 	}
-static public function select_sql($tabla,$id,$mezok)
+static public function select_sql($tabla,$id,$mezok='*')
 {
 $sql="SELECT $mezok FROM $tabla WHERE id='$id'";
 	return $sql;

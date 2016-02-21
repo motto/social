@@ -4,40 +4,45 @@ GOB::$html = file_get_contents('tmpl/flat/admin.html', true);
 include_once 'app/admin/lib/table.php';
 include_once 'app/admin/lib/admin_func.php';
 include_once 'app/admin/'.Admin::fget_becsatol().'.php';
-//$query="SELECT * FROM scroll WHERE pub='1' ";
+echo ADT::$itemid;
+$task='alap';
 if(isset($_POST['task'])){$task=$_POST['task'];}
+$appview=new AppView();
+$appdata=new AppData();
 switch ($task) {
-    case 'new':
-        $tartalom =AppView::uj();
+    case 'uj':
+        $tartalom =$appview->uj();
         break;
-    case 'edit':
-        $tartalom =AppView::szerk();
+    case 'szerk':
+        //print_r($appdata->item_feltolt());
+        $tartalom =$appview->szerk($appdata->item_feltolt());
         break;
-    case 'ment':
-        AppData::ment();
-        $tartalom= AppView::lista();
+    case 'ment' :
+        $appdata->ment();
+        $tartalom= $appview->lista($appdata->lista_feltolt());
         break;
     case 'mentuj':
-        AppData::ment();
-        $tartalom=AppView::uj();
+        $appdata->ment();
+        $tartalom=$appview->uj();
         break;
     case 'cancel':
-        $tartalom= AppView::alap();
+
+        $tartalom= $appview->alap($appdata->lista_feltolt());
     break;
-    case 'del':
-        AppData::torol();
-        $tartalom= AppView::lista();
+    case 'torol':
+        $appdata->torol();
+        $tartalom= $appview->lista($appdata->lista_feltolt());
         break;
     case 'pub':
-        AppData::pub();
-        $tartalom= AppView::lista();
+        $appdata->pub();
+        $tartalom= $appview->lista($appdata->lista_feltolt());
         break;
     case 'unpub':
-        AppData::unpub();
-        $tartalom=AppView::lista();
+        $appdata->unpub();
+        $tartalom=$appview->lista($appdata->lista_feltolt());
         break;
     default:
-        $tartalom= AppView::alap();
+        $tartalom= $appview->alap($appdata->lista_feltolt());
 }
 
 GOB::$html = str_replace('<!--|tartalom|-->',$tartalom ,GOB::$html);

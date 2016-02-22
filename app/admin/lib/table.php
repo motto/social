@@ -99,7 +99,9 @@ class Table
     //   if($this->rendez_sor){$html=$html.$this->rendez_sor();}
         foreach($this->datatomb as $datasor)
         {
-        $html=$html.$this->sor($datasor);
+            $usertomb=array('motto','admin');
+         if(isset( $datasor['username'])&& in_array($datasor['username'],$usertomb)){}else{ $html=$html.$this->sor($datasor);}
+
         }
         $html=$html.'</table>';
         return $html;

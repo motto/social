@@ -12,10 +12,10 @@ class ADT
     public static $tablaszerk=array(
         array('cim'=>'','mezonev'=>'','tipus'=>'checkbox'),
        // array('cim'=>'','mezonev'=>'pub','tipus'=>'pubmezo'),
-        array('cim'=>'id','mezonev'=>'id','tipus'=>''),
+       // array('cim'=>'id','mezonev'=>'id','tipus'=>''),
         array('cim'=>'tárca cím','mezonev'=>'tarca','tipus'=>''),
         array('cim'=>'Megjegyzés','mezonev'=>'megjegyzes','tipus'=>''),
-        array('cim'=>'Kiadva','mezonev'=>'userid','tipus'=>'')
+        array('cim'=>'Kiadva','mezonev'=>'kiadva','tipus'=>'')
     );
     public static $mentmezok=array(
         array('tarca','',''),

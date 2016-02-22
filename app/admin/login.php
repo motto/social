@@ -87,15 +87,16 @@ class Admin
 
       if(AppDataStat::ment())
       {
-          $tartalom= file_get_contents(ADT::$belep_form, true);
+          $this->alap();
       }
       else
       {
           $view= file_get_contents(ADT::$reg_form, true);
           $hiba=AppDataStat::hibakiir();
           $tartalom = str_replace('<!--<h5>hiba</h5>-->', $hiba, $view);
+          $this->tartalom=$tartalom;
       }
-        $this->tartalom=$tartalom;
+
     }
 }
 class AppEll extends AppEll_base{}
@@ -119,9 +120,9 @@ class AppDataStat {
 
         if($hiba)
         {
-            $sql = "SELECT usernev FROM " .ADT::$tablanev. " WHERE username='" .$usernev."'";
+            $sql = "SELECT username FROM " .ADT::$tablanev. " WHERE username='" .$usernev."'";
             $marvan=DB::assoc_sor($sql);
-            if($marvan['usernev']==$usernev)
+            if($marvan['username']==$usernev)
             {
                 GOB::$hiba['login'][]='Már van ilyen felhasználónév';
                 $hiba=false;
@@ -135,6 +136,15 @@ class AppDataStat {
             {
                 GOB::$hiba['login'][]='Adatbázis hiba';
                 $hiba=false;
+            }
+            else
+            {
+                $sql = "SELECT id,tarca FROM tarca  WHERE kiadva='0' limit 1";
+                $tarcasor=DB::assoc_sor($sql);
+                $ql="UPDATE tarca SET kiadva='1' WHERE id='".$tarcasor['id']."'";
+                DB::parancs($ql);
+                $ql="UPDATE userek SET tarca='".$tarcasor['tarca']."' WHERE id='".$beszurtid."'";
+                DB::parancs($ql);
             }
         }
         return $hiba;

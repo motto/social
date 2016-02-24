@@ -54,6 +54,74 @@ public function joghiba()
         $this->tartalom='<center><h2>Jogosultság hiba!</h2></center>';
     }
 
+    /**
+     * $mezotomb=array($mezonev=array('mezonev'=>'','postnev'=>'nemkell',tipus=>'nemkell'))
+     */
+    static public function view_tipusfeltolt($view,$datatomb,$mezotomb)
+    {
+        $value_str=''; $csere_str='';
+        if(is_array($datatomb))
+        {
+            foreach($datatomb as $key=>$value)
+            {   if(isset($mezotomb[$key]['tipus']))
+                {
+                    switch ($mezotomb[$key]['tipus'])
+                    {
+                        case 'datamezo':
+                            $csere_str = 'data="'.$key.'"';
+                            $value_str = 'value="'.$key.'"';
+                            break;
+                        default:
+                            $csere_str = '<!--'.$key.'-->';
+                            $value_str = $key;
+                    }
+                }
+                $view= str_replace($csere_str, $value_str, $view);
+            }
+        }
+        return $view;
+    }
+
+    /**
+     * $mezotomb=array($mezonev=array('mezonev'=>'','postnev'=>'nemkell',tipus=>'nemkell'))
+     */
+    static public function view_tipusfeltolt_postbol($view,$datatomb,$mezotomb)
+    {
+        $value_str=''; $csere_str='';
+        if(is_array($datatomb))
+        {
+            foreach($datatomb as $key=>$value)
+            {
+            {
+                if(isset($mezotomb[$key]['postnev']))
+                {
+                   $postnev= $mezotomb[$key]['postnev'];
+                }
+                else
+                {
+                    $postnev= $mezotomb[$key]['mezonev'];
+                }
+
+                switch ($mezotomb[$key]['tipus'])
+                {
+                    case 'datamezo':
+                        $csere_str = 'data="'.$_POST[$postnev].'"';
+                        $value_str = 'value="'.$_POST[$postnev].'"';
+                        break;
+                    default:
+                        $csere_str = '<!--'.$_POST[$postnev].'-->';
+                        $value_str = $_POST[$postnev];
+                }
+            }
+                $view= str_replace($csere_str, $value_str, $view);
+            }
+        }
+        return $view;
+    }
+
+
+
+
     static public function view_feltolt($view,$datatomb,$elotag='<!--',$utotag='-->',$value_elotag='',$value_utotag='')
     {
         $value_str=''; $csere_str='';

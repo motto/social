@@ -1,7 +1,13 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: dolgozo
- * Date: 2015.11.16.
- * Time: 22:31
- */
+class App
+{
+    static public function get_fget($fget = 'faucet')
+    {
+        if (!empty($_GET['fget']))
+        {
+            $fget = $_GET['fget'];
+        }
+        return $fget;
+    }
+
+}

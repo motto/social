@@ -30,8 +30,8 @@ class GOB {
 	public static $admin_data=array();
 	public static $html_part=array();//head[],js,css,ogg stb
 	public static $upload_dir='media/user2';
-	public static $tmpl='oneday';
-	public static $title='Oneday club';
+	public static $tmpl='flat';
+	public static $title='Social';
 	public static $app='admin';
 	public static $user=Array();
 	public static $hiba=array();

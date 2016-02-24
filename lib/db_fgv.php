@@ -118,16 +118,16 @@ static public function beszur_postbol($tabla,$mezok=array())
 		$mezo_string='';
 		foreach ($mezok as $mezodata)
 		{
-			$postnev=$mezodata[0];
-			if($mezodata[1]!='')
+			$mezonev=$mezodata['mezonev'];
+			if($mezodata['postnev']!='')
 			{
-				$mezonev=$mezodata[1];
+				$postnev=$mezodata['postnev'];
 			}
 			else
 			{
-				$mezonev=$mezodata[0];
+				$postnev=$mezodata['mezonev'];
 			}
-			if($mezodata[2]!=''){$ellenor_func=$mezodata[2];}
+			if($mezodata['ell']!=''){$ellenor_func=$mezodata['ell'];}
 				if(isset($_POST[$postnev]))
 				{
 
@@ -179,30 +179,37 @@ static public function frissit_postbol($tabla,$id,$mezok=array())
 	{
 
 		$setek='';
-		foreach ($mezok as $mezo)
+		foreach ($mezok as $mezodata)
 		{
 			$value='';
-			$postnev=$mezo[0];
-			if($mezo[1]!='')
+			$mezonev=$mezodata['mezonev'];
+			if($mezodata['postnev']!='')
 			{
-				$mezonev=$mezo[1];
+				$postnev=$mezodata['postnev'];
 			}
 			else
 			{
-				$mezonev=$mezo[0];
+				$postnev=$mezodata['mezonev'];
 			}
-			if($mezo[2]!=''){$ellenor_func=$mezo[2];}
+			if($mezodata['ell']!=''){$ellenor_func=$mezodata['ell'];}
 
-//TODO: ellenőr funkciót beüzemelni!
-			if(isset($_POST[$postnev])){$value=$_POST[$postnev];}
+			if(AppEll::$ellenor_func($value))
+			{
+				if (isset($_POST[$postnev])) {
+					$value = $_POST[$postnev];
+				}
 
 				$setek = $setek . $mezonev . "='" . $value . "', ";
+			}
 
 		}
-		$setek2 = substr($setek, 0, -2);
-		$sql="UPDATE $tabla SET $setek2 WHERE id='$id'";
-echo $sql;
-		$result=DB::parancs($sql);
+		if($setek !='')
+		{
+			$setek2 = substr($setek, 0, -2);
+			$sql = "UPDATE $tabla SET $setek2 WHERE id='$id'";
+			//echo $sql;
+			$result = DB::parancs($sql);
+		}
 		return $result;
 	}
 static public function select_sql($tabla,$id,$mezok='*')

@@ -2,18 +2,37 @@
 
 <section class="container">
     <h4>Faucet admin</h4>
-    <form  class="contact-form"  method="post" action="index.php" >
+    <form  class="contact-form" id="faucetform" method="post" action="#" >
         <div class="row">
             <div class="col-sm-5">
                 <div class="form-group">
                     <input type="text" class="form-control" required="required" placeholder="Faucet link" name="link" data="link" ><!--link-->
                 </div>
                 <div class="form-group">
+                    <textarea name="leiras" class="form-control" rows="5" placeholder="Leírás (hogy mit kell csinálni az adott oldalon)" data="leiras"></textarea><!--megjegyzes-->
+                </div>
+                <div class="form-group">
                     <input type="text" class="form-control" name="megjegyzes" placeholder="Megjegyzés" data="megjegyzes" ><!--megjegyzes-->
                 </div>
-                <input type="radio" name="prior" value="1">1
-                <input type="radio" name="prior" value="2"> 2
-                <input type="radio" checked name="prior" value="3"> 3</br></br>
+                <h4>Pontok</h4>
+                <input type="radio" class="pont1" name="pont1" value="101">100+
+                <input type="radio" class="pont1" name="pont1" value="201"> 200+
+                <input type="radio" class="pont1" name="pont1" value="301"> 300+
+                <input type="radio" class="pont1" name="pont1" value="501"> 500+
+                <input type="radio" class="pont1" name="pont1" value="1001"> 1000+
+                <input type="radio" class="pont1" name="pont1" value="2001"> 2000+
+             </br>
+                <div class="form-group">
+                    <input type="text" id="pont" class="form-control" name="pont" placeholder="Pont érték" value="" data="pont"><!--pont-->
+                </div>
+                <h4>Percek</h4>
+                <input type="radio" class="perc1" name="perc1" value="30">max 30
+                <input type="radio" class="perc1" name="perc1" value="60"> max 60
+                <input type="radio" class="perc1" name="perc1" value="180"> max 180
+                <input type="radio" class="perc1" name="perc1" value="800"> akár 800</br></br>
+                <div class="form-group">
+                    <input type="text" id="perc" class="form-control" name="perc" placeholder="Perc" data="perc" ><!--pont-->
+                </div>
                 <div class="form-group">
                     <input type="hidden" name="itemid" data="id" />
                     <button type="submit" name="task" value="ment" class="btn btn-primary btn-lg">Ment</button>

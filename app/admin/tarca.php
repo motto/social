@@ -9,6 +9,9 @@ class ADT
     public static $ujurlap='app/admin/view/tarca_urlap.html';
     public static $alapview='app/admin/view/tabla_pubnelkul.html';
     public static $allowed_func=array('uj','szerk','ment','mentuj','cancel','torol','joghiba');
+    /**
+     * cim,mezonev,func,tipus
+     */
     public static $tablaszerk=array(
         array('cim'=>'','mezonev'=>'','tipus'=>'checkbox'),
        // array('cim'=>'','mezonev'=>'pub','tipus'=>'pubmezo'),
@@ -17,9 +20,13 @@ class ADT
         array('cim'=>'Megjegyzés','mezonev'=>'megjegyzes','tipus'=>''),
         array('cim'=>'Kiadva','mezonev'=>'kiadva','tipus'=>'')
     );
+    /**
+     * mezonev,postnev,ell,tipus
+     */
     public static $mentmezok=array(
-        array('tarca','',''),
-        array('megjegyzes','','')
+        array('mezonev'=>'tarca'),
+        //array('mezonev'=>'','postnev'=>'','ell'=>'','tipus'=>''),
+        array('mezonev'=>'megjegyzes')
     );
     public static $listatomb=array();
     public static $itemtomb=array();

@@ -9,18 +9,28 @@ class ADT
     //public static $ujurlap='app/admin/view/faucet_urlap.html';
     public static $alapview='app/admin/view/tabla_userek.html';
     public static $allowed_func=array('cancel','torol','pub','unpub','joghiba','email');
+    /**
+     * cim,mezonev,func,tipus
+     */
     public static $tablaszerk=array(
         array('cim'=>'','mezonev'=>'','tipus'=>'checkbox'),
         array('cim'=>'','mezonev'=>'pub','tipus'=>'pubmezo'),
-        array('cim'=>'id','mezonev'=>'id','tipus'=>''),
-        array('cim'=>'Usernév','mezonev'=>'username','tipus'=>''),
-        array('cim'=>'Tárca','mezonev'=>'tarca','tipus'=>''),
-        array('cim'=>'Refer','mezonev'=>'ref','tipus'=>'')
+        array('cim'=>'id','mezonev'=>'id'),
+        array('cim'=>'Usernév','mezonev'=>'username'),
+        array('cim'=>'Tárca','mezonev'=>'tarca'),
+        array('cim'=>'Refer','mezonev'=>'ref')
     );
+
+    /**
+     * mezonev,postnev,ell,tipus
+     */
     public static $mentmezok=array(
-        array('link','',''),
-        array('megjegyzes','',''),
-        array('prior','','')
+        array('mezonev'=>'link'),
+        //array('mezonev'=>'','postnev'=>'','ell'=>'','tipus'=>''),
+        array('mezonev'=>'leiras','tipus'=>'text'),
+        array('mezonev'=>'megjegyzes'),
+        array('mezonev'=>'perc','tipus'=>'radio'),
+        array('mezonev'=>'pont','tipus'=>'radio')
     );
     public static $listatomb=array();
     public static $itemtomb=array();

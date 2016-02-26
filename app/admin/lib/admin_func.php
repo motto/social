@@ -151,7 +151,7 @@ public function joghiba()
 }
 class AppEll_base
 {
-    public static function base($value){return true;}
+    public static function base($value=''){return true;}
 
 }
 

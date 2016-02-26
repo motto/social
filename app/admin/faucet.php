@@ -29,8 +29,8 @@ array('cim'=>'Pont','mezonev'=>'pont','tipus'=>'')
     //array('mezonev'=>'','postnev'=>'','ell'=>'','tipus'=>''),
     array('mezonev'=>'leiras','tipus'=>'text'),
     array('mezonev'=>'megjegyzes'),
-    array('mezonev'=>'perc','tipus'=>'radio'),
-    array('mezonev'=>'pont','tipus'=>'radio')
+    array('mezonev'=>'perc'),
+    array('mezonev'=>'pont')
 );
     public static $listatomb=array();
     public static $itemtomb=array();

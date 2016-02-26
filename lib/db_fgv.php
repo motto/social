@@ -119,7 +119,7 @@ static public function beszur_postbol($tabla,$mezok=array())
 		foreach ($mezok as $mezodata)
 		{
 			$mezonev=$mezodata['mezonev'];
-			if($mezodata['postnev']!='')
+			if(isset($mezodata['postnev'])&& $mezodata['postnev']!='')
 			{
 				$postnev=$mezodata['postnev'];
 			}
@@ -127,7 +127,7 @@ static public function beszur_postbol($tabla,$mezok=array())
 			{
 				$postnev=$mezodata['mezonev'];
 			}
-			if($mezodata['ell']!=''){$ellenor_func=$mezodata['ell'];}
+			if(isset($mezodata['ell'])){$ellenor_func=$mezodata['ell'];}
 				if(isset($_POST[$postnev]))
 				{
 
@@ -146,11 +146,13 @@ static public function beszur_postbol($tabla,$mezok=array())
 					$value='';
 				}
 
-
-			if(AppEll::$ellenor_func($value))
+			if($ellenor_func!='')
 			{
-			$value_string=$value_string."'".$value."',";
-			$mezo_string=$mezo_string.$mezonev.",";
+				if (AppEll::$ellenor_func($value))
+				{
+					$value_string = $value_string . "'" . $value . "',";
+					$mezo_string = $mezo_string . $mezonev . ",";
+				}
 			}
 		}
 		if($mezo_string!='')
@@ -177,13 +179,13 @@ static public function beszur_postbol($tabla,$mezok=array())
 	 */
 static public function frissit_postbol($tabla,$id,$mezok=array())
 	{
-
+		$ellenor_func='base';
 		$setek='';
 		foreach ($mezok as $mezodata)
 		{
 			$value='';
 			$mezonev=$mezodata['mezonev'];
-			if($mezodata['postnev']!='')
+			if(isset($mezodata['postnev'])&& $mezodata['postnev']!='')
 			{
 				$postnev=$mezodata['postnev'];
 			}
@@ -191,16 +193,20 @@ static public function frissit_postbol($tabla,$id,$mezok=array())
 			{
 				$postnev=$mezodata['mezonev'];
 			}
-			if($mezodata['ell']!=''){$ellenor_func=$mezodata['ell'];}
-
-			if(AppEll::$ellenor_func($value))
+			if(isset($mezodata['ell'])){$ellenor_func=$mezodata['ell'];}
+			if($ellenor_func!='')
 			{
-				if (isset($_POST[$postnev])) {
-					$value = $_POST[$postnev];
-				}
+				if (AppEll_base::$ellenor_func($value))
+				{
+					if (isset($_POST[$postnev])) {
+						$value = $_POST[$postnev];
+					}
 
-				$setek = $setek . $mezonev . "='" . $value . "', ";
+					$setek = $setek . $mezonev . "='" . $value . "', ";
+					//echo $setek;
+				}
 			}
+
 
 		}
 		if($setek !='')

@@ -26,9 +26,9 @@
         $(document).ready(function(){
         $('#faucetform').on('change', function(){
             $vv=$('input[name="pont1"]:checked', '#faucetform').val();
-            $("#pont").val($vv);
+            if($vv>0){$("#pont").val($vv);}
             $vv2=$('input[name="perc1"]:checked', '#faucetform').val();
-            $("#perc").val($vv2);
+            if($vv2>0){$("#perc").val($vv2);}
             //alert($('input[name="pont1"]:checked', '#faucetform').val());
         });
         });

@@ -1,5 +1,17 @@
 <?php
 //localhost/index.php?app=admin&fget=login&task=reg&ref=4646
+require_once('vendor/autoload.php');
+use Coinbase\Wallet\Client;
+use Coinbase\Wallet\Configuration;
+use Coinbase\Wallet\Resource\Address;
+use Coinbase\Wallet\Resource\Account;
+class Coin{
+public static $apiKey='duqWXbUlCKH8qNg8';
+public static $apiSecret='DE4hteGw1nAzRwpxh4hPVN8dwRBjSBCL';
+}
+
+
+
 class ADT
 {
     public static $itemid='0';
@@ -11,13 +23,14 @@ class ADT
     public static $valtoztat_form='mod/login/view/valtoztat_form.html';
     public static $allowed_func=array('belep_form','szerk','reg','ment','belep','kilep');
 
-    public static $mentmezok=array(
-        array('username','',''),
-        array('email','',''),
-        array('password','',''),
-        array('ref','','')
+    public static $mentmezok=array
+    (
+        array('mezonev'=>'username'),
+        //array('mezonev'=>'','postnev'=>'','ell'=>'','tipus'=>''),
+        array('mezonev'=>'email'),
+        array('mezonev'=>'password'),
+        array('mezonev'=>'ref')
     );
-
 }
 
 if(isset($_POST['itemid']))
@@ -139,20 +152,28 @@ class AppDataStat {
             }
             else
             {
-                $sql = "SELECT id,tarca FROM tarca  WHERE kiadva='0' limit 1";
-                $tarcasor=DB::assoc_sor($sql);
-                $ql="UPDATE tarca SET kiadva='1' WHERE id='".$tarcasor['id']."'";
-                DB::parancs($ql);
-                $ql="UPDATE userek SET tarca='".$tarcasor['tarca']."' WHERE id='".$beszurtid."'";
-                DB::parancs($ql);
+                $configuration =Configuration::apiKey(Coin::$apiKey, Coin::$apiSecret);
+                $client = Client::create($configuration);
+                $client->enableActiveRecord();
+                $account = new Account();
+                $account->setName($usernev);
+                $client->createAccount($account);
+                $accountid=$account->getId();
+                $address = new Address();
+                $client->createAccountAddress($account, $address);
+                $adressid=$client->getAccountAddresses($account)->getFirstId();
+                $address=$client->getAccountAddress($account,$adressid)->getAddress();
+                if($address!=''){
+                    $ql="UPDATE userek SET tarca='".$address."', tarcaid='".$adressid."', accountid='".$accountid."' WHERE id='".$beszurtid."'";
+                    DB::parancs($ql);
+                }
+                else
+                {echo 'nincs address';}
+
             }
         }
         return $hiba;
     }
-
-
-
-
     public static function hibakiir()
     {$result='';
         foreach(GOB::$hiba['login'] as $hiba)

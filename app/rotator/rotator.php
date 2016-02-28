@@ -1,20 +1,34 @@
 <?php
+include_once 'app/app.php';
 include_once 'app/rotator/view/view.php';
 
 class ADT
 {
-    //paraméterek---------------------------
+    //paraméterek Nem szabad törölni!---------------------------
     public static $jog='user';
-    public static $allowed_func=array('uj','vissza','ment','joghiba');
+    public static $allowed_task=array('joghiba');
+    public static $allowed_fget=array();
 
-    //globális változók---------------------------
+    //globális változók Nem szabad törölni!--------------------------
+    public static $task='alap';
     public static $itemid='0';
     public static $userid='0';
-    public static $mktime='0';
+    public static $tartalom='';
+    public static $html='';
+    /** a view osztály állítja be ez alapján az alp html-t alapértelmezés: tmpl/GOB::tmpl/ADT::html.'html' ;
+     */
+    public static $html_file='alap.html';
     public static $itemtomb=array();
+    public static $litatomb=array();
+    //app változók------------------------
+    public static $mktime='0';
     public static $linktomb=array();
 
 }
+
+/**
+ * feltölti a lapváltozókat ADT::userid, ADT::lapid;
+ */
 class Lap
 {
 
@@ -26,6 +40,10 @@ class Lap
        if(isset($_GET['id'])){ADT::$itemid=$_GET['id'];}
     }
 }
+
+/**
+ * Az adattömbök feltöltését végzi ADT:: itemtömb stb
+ */
 class Adatok
 {
 
@@ -45,7 +63,7 @@ class Adatok
     }
     public function linktomb_feltolt()
     {
-        $sql="SELECT * FROM faucet ORDER BY pont DESC" ;
+        $sql="SELECT * FROM faucet WHERE pub='0' ORDER BY pont DESC ";
         $sql_log="SELECT * FROM faucet_log WHERE userid='".ADT::$userid."'" ;
         $linktomb=DB::assoc_tomb($sql);
         $logtomb=DB::assoc_tomb($sql_log);
@@ -90,15 +108,31 @@ class Adatok
             ADT::$itemtomb=DB::assoc_sor("SELECT * FROM faucet WHERE id='".ADT::$itemid."'");
         }
     }
+}
 
+/**
+ *becsatolja az fget-et ha van illetve beállítja az ADT::$task-ot
+ * tartalmazza a task függvényeket;
+ */
+class App extends App_base
+{
+public function alap()
+{
+    $adatok = new Adatok();
+
+    $tartalom = '<div style="width:1500px; position:absolute;top:100px;">' . Rview::varolista();
+    $tartalom = $tartalom . '<iframe src="' . ADT::$itemtomb['link'] . '"  width="1200px" height="1500px"></iframe></div>';
+    ADT::$tartalom = $tartalom;
 
 }
+}
 $lap=new Lap();
-$adatok=new Adatok();
+$app=new App();
+$view=new View_base();
+$task=ADT::$task;
+$app->$task();
 
-$tartalom='<div style="width:1500px; position:absolute;top:100px;">'.Rview::varolista();
-$tartalom=$tartalom.'<iframe src="'.ADT::$itemtomb['link'].'"  width="1200px" height="1500px"></iframe></div>';
-$view = file_get_contents('tmpl/'.GOB::$tmpl.'/alap.html', true);
-$view = str_replace('<!--|tartalom|-->', $tartalom,$view );
-$view = str_replace('//<!--var_itemid-->','var itemid=\''.ADT::$itemid.'\';',$view );
-echo $view;
+ADT::$html = str_replace('<!--|tartalom|-->',ADT::$tartalom,ADT::$html );
+ADT::$html = str_replace('//<!--var_itemid-->','var itemid=\''.ADT::$itemid.'\';',ADT::$html );
+echo ADT::$html;
+

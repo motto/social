@@ -14,8 +14,12 @@ $apiSecret='DE4hteGw1nAzRwpxh4hPVN8dwRBjSBCL';
 $configuration =Configuration::apiKey($apiKey, $apiSecret);
 $client = Client::create($configuration);
 $client->enableActiveRecord();
+
+
 //$accounts = $client->getAccounts();
 //$buyPrice = $client->getBuyPrice();
+
+
 /*
 $client->enableActiveRecord();
 $accounts = $client->getAccounts();

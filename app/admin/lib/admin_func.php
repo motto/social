@@ -1,23 +1,5 @@
 <?php
 
-interface IF_AppData
-{
-    public  function pub();
-    public  function unpub();
-    public  function torol();
-    public function ment();
-    public  function beszur();
-    public  function frissit();
-    public  function item();
-    public  function lista();
-}
-interface IF_AppView
-{
-    public function alap();
-    public function uj();
-    public function szerk();
-    public function lista();
-}
 
 class Admin_base
 {

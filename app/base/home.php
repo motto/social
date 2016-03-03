@@ -11,10 +11,11 @@ class ADT
     public static $task='alap';
     public static $userid='0';
     public static $html='';
-    public static $html_file='nyitotxt.html';
+    public static $html_file='nyito.html';
     public static $lang_cseretomb=array();
     public static $lang_db_cseretomb=array();
     public static $lang_dbtomb=array();
+    public static $mezotomb=array('udvozles','udvszoveg','hogyan','hogyan1','hogyan2','hogyan3','jobbegyutt','jobbegyutt_txt','bitcoin','bitcoin_txt','probalja_ki','szeretne_meg','hirlevel');
 }
 
 /**
@@ -50,14 +51,11 @@ class Adatok
         $sql= "INSERT INTO faucet_log (userid,linkid,mktime)VALUES ('".ADT::$userid."','".ADT::$itemid."','".ADT::$mktime."')";
         DB::beszur($sql);
     }
-    public function lang_dbtomb_feltolt()
+   static public function lang_dbtomb()
     {
-        $sql="SELECT * FROM faucet WHERE pub='0' ORDER BY pont DESC ";
-        $sql_log="SELECT * FROM faucet_log WHERE userid='".ADT::$userid."'" ;
-        $linktomb=DB::assoc_tomb($sql);
-        $logtomb=DB::assoc_tomb($sql_log);
+        $sql="SELECT * FROM lng WHERE lap='nyito'  ";
+       return DB::assoc_tomb($sql);
        // $logtomb_idkulcs=TOMB::mezobol_kulcs($logtomb,'linkid');
-
 
     }
 
@@ -66,6 +64,26 @@ class View
 {
     public $elotag='<!--#';
     public $utotag='-->';
+    public static function dbfeltolt($view,$datatomb,$mezotomb)
+    {
+        $value_str=''; $csere_str='';
+        if(is_array($mezotomb))
+        {
+            if(is_array($datatomb))
+            {
+                foreach($datatomb as $datasor)
+                {
+                    if(in_array($datasor['nev'],$mezotomb))
+                    {
+                        $csere_str='<!--#'.$datasor['nev'].'-->';
+                        $value_str=$datasor[GOB::$lang];
+                        $view= str_replace($csere_str, $value_str, $view );
+                    }
+                }
+            }
+        }
+        return $view;
+    }
 
 
    public function lang_feltolt($view,$datatomb,$cseretomb)
@@ -104,8 +122,10 @@ $lap=new Lap();
 $matches='';
 preg_match_all ("/<!--#([^`]*?)-->/",ADT::$html , $matches);
 ADT::$lang_cseretomb=$matches[1];
+ADT::$lang_dbtomb=
 $view=new View();
 ADT::$html=$view->lang_feltolt(ADT::$html,GOB::$LT,ADT::$lang_cseretomb);
+ADT::$html=$view->dbfeltolt(ADT::$html,Adatok::lang_dbtomb(),ADT::$mezotomb);
 ADT::$html = str_replace('<!--:zaszlo-->',MOD::enhu_zaszlo(),ADT::$html );
 ADT::$html = str_replace('<!--:usd-->',$rates['rates']['USD'],ADT::$html );
 echo ADT::$html;

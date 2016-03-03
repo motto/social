@@ -1,15 +1,21 @@
 <?php
+
+/**
+ * $datatomb lehet $_POST is,vagy sima DB::assoc_tomb()
+ * $mezotomb=array(mezonev1,mezonev2)
+ */
 class ViewFeltolt
 {
     public $view='';
-    public $csere_nyito='<!--|';
-    public $csere_zaro='|-->';
+    public $csere_nyito='<!--#';
+    public $csere_zaro='-->';
     public $value_nyito='';
     public $value_zaro='';
     public $datatomb=array();
     public $mezotomb=array();
 
     /**
+     * $datatomb lehet $_POST is,vagy sima DB::assoc_tomb()
      * $mezotomb=array(mezonev1,mezonev2)
      */
     public function __construct($view,$datatomb,$mezotomb)
@@ -36,15 +42,15 @@ class ViewFeltolt
      */
     public function view_feltolt()
     {
-        $value_str=''; $csere_str='';
-        if(is_array($this->datatomb))
+        $value_str=''; $csere_str='';$view='';
+        if(is_array($this->mezotomb))
         {
-            foreach($this->datatomb as $key=>$value)
+            foreach($this->mezotomb as $mezonev)
             {
-                if(in_array($key,$this->mezotomb))
+                if(isset($this->datatomb[$mezonev]))
                 {
-                $csere_str=$this->csere_nyito.$key.$this->csere_zaro;
-                $value_str=$this->value_nyito.$value.$this->value_zaro;
+                $csere_str=$this->csere_nyito.$mezonev.$this->csere_zaro;
+                $value_str=$this->value_nyito.$this->datatomb[$mezonev].$this->value_zaro;
                 $view= str_replace($csere_str, $value_str, $this->view );
                 }
             }
@@ -66,6 +72,10 @@ class ViewFeltolt
     }
 
 }
+/**
+ * $datatomb lehet $_POST is,vagy sima DB::assoc_tomb()
+ * $mezotomb=array(mezonev1,mezonev2)
+ */
 class Sview
 {
    static public function feltolt($view,$datatomb,$mezotomb)

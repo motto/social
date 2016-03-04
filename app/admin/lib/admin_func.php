@@ -1,17 +1,12 @@
 <?php
 
+class Admin_base{
 
-class Admin_base
+}
+
+class Admin_all extends Admin_base
 {
-    public $appview;
-    public $appdata;
-    public $allowed_func='';
-    public $tartalom='';
-    public function __construct($appview,$appdata)
-    {
-        $this->appview=$appview;
-        $this->appdata=$appdata;
-    }
+
 public function uj(){$this->tartalom =$this->appview->uj();}
 public function szerk(){$this->tartalom =$this->appview->szerk($this->appdata->item_feltolt());}
 public function ment(){$this->appdata->ment();
@@ -27,42 +22,9 @@ public function pub(){$this->appdata->pub();
 }
 public function unpub(){$this->appdata->unpub();
     $this->tartalom=$this->appview->lista($this->appdata->lista_feltolt());}
-public function alap()
-{
-    $this->tartalom=$this->appview->alap($this->appdata->lista_feltolt());
-}
-public function joghiba()
-    {
-        $this->tartalom='<center><h2>Jogosultság hiba!</h2></center>';
-    }
 
-    /**
-     * $mezotomb=array($mezonev=array('mezonev'=>'','postnev'=>'nemkell',tipus=>'nemkell'))
-     */
-    static public function view_tipusfeltolt($view,$datatomb,$mezotomb)
-    {
-        $value_str=''; $csere_str='';
-        if(is_array($datatomb))
-        {
-            foreach($datatomb as $key=>$value)
-            {   if(isset($mezotomb[$key]['tipus']))
-                {
-                    switch ($mezotomb[$key]['tipus'])
-                    {
-                        case 'datamezo':
-                            $csere_str = 'data="'.$key.'"';
-                            $value_str = 'value="'.$key.'"';
-                            break;
-                        default:
-                            $csere_str = '<!--'.$key.'-->';
-                            $value_str = $key;
-                    }
-                }
-                $view= str_replace($csere_str, $value_str, $view);
-            }
-        }
-        return $view;
-    }
+
+
 
     /**
      * $mezotomb=array($mezonev=array('mezonev'=>'','postnev'=>'nemkell',tipus=>'nemkell'))

@@ -8,5 +8,12 @@ public static function enhu_zaszlo()
     return $zaszlo->eng_hu()
         ;
 }
-
+public static function login()
+    {   $func='alap';
+        include_once 'mod/login/login.php';
+        $login=new Login();
+       if(isset($_POST['task'])){ $func=$_POST['task'];}
+         $login->$func();
+            return $login->tartalom;
+    }
 }

@@ -7,4 +7,6 @@ GOB::$LT=array(
     'personal'=>'Personal',
     'licenc'=>'Licenc',
     'contact'=>'Contact',
+    'account'=>'Account',
+    'home'=>'Home','joghiba'=>'Error,authority!',''=>''
 );

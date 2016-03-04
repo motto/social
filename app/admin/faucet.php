@@ -9,6 +9,8 @@ class ADT
     public static $ujurlap='app/admin/view/faucet_urlap.html';
     public static $alapview='app/admin/view/tabla_alap.html';
     public static $allowed_func=array('uj','szerk','ment','mentuj','cancel','torol','pub','unpub','joghiba');
+    public static $listatomb=array();
+    public static $itemtomb=array();
     /**
      * cim,mezonev,func,tipus
      */
@@ -32,9 +34,8 @@ array('cim'=>'Pont','mezonev'=>'pont','tipus'=>'')
     array('mezonev'=>'perc'),
     array('mezonev'=>'pont')
 );
-    public static $listatomb=array();
-    public static $itemtomb=array();
 }
+
 if(isset($_POST['sor'][0]))
 {
     ADT::$itemid=$_POST['sor'][0];
@@ -44,7 +45,10 @@ if(isset($_POST['itemid']))
 {
     ADT::$itemid=$_POST['itemid'];
 }
-class Admin extends Admin_base{};
+class Admin extends Admin_base{
+
+
+};
 class AppEll extends AppEll_base{}
 class AppData extends AppData_base{}
 class AppView extends AppView_base{}

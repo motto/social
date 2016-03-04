@@ -109,12 +109,13 @@ class View
         return $view;
     }
 }
+/*
 $apiKey='duqWXbUlCKH8qNg8';
 $apiSecret='DE4hteGw1nAzRwpxh4hPVN8dwRBjSBCL';
 
 $configuration =Configuration::apiKey($apiKey, $apiSecret);
-$client = Client::create($configuration);
-$rates = $client->getExchangeRates('btc');
+$client = Client::create($configuration);*/
+$rates = GOB::$client->getExchangeRates('btc');
 //echo $rates['rates']['HUF'];
 ;
 $lap=new Lap();

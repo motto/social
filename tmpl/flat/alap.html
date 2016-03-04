@@ -28,6 +28,16 @@
 
             $('#'+itemid).css('border-color','red') ;
             $('#'+itemid).css('border-width','3px') ;
+
+            $('.varoperc').each( function() {
+                var p = $(this).text();
+                var perc=parseInt(p);
+                // $(this).text(perc);
+                if(perc<10){ $(this).css('background-color','blue')}
+                if(perc<1){ $(this).css('background-color','green')
+                    $(this).text('0');
+                }
+            });
         });
 
         function infokapcs(){
@@ -57,7 +67,7 @@
             });
         }
         //setTimeout(explode, 2000);
-        var refreshId = setInterval("visszaszamol()", 1000);
+        var refreshId = setInterval("visszaszamol()", 60000);
 
     </script>
     <style>
@@ -118,7 +128,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.html"><img src="tmpl/flat/images/logo.png" alt="logo"></a>
+            <a class="navbar-brand" href="index.php"><img src="tmpl/flat/images/logo.png" alt="logo"></a>
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">

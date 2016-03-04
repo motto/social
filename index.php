@@ -5,12 +5,19 @@ session_start();
 //doc megjelenítés: ctrl+q
 
 include_once 'definial.php';
+include_once 'lib/lang.php';
 include_once 'lib/db_fgv.php';
+include_once 'app/app.php';
 //include_once 'lib/factory.php';
 include_once 'lib/jog.php';
 //include_once 'lib/html.php';
 include_once 'lib/altalanos_fgv.php';
 include_once 'mod/mod.php';
+require_once('vendor/autoload.php');
+use Coinbase\Wallet\Client;
+use Coinbase\Wallet\Configuration;
+use Coinbase\Wallet\Resource\Address;
+use Coinbase\Wallet\Resource\Account;
 
 if(MoConfig::$offline=='igen'){ //offline módban kikapcsolja a weblapot
 				if($jogok_gt['stat']!='admin'){die(MoConfig::$offline_message);
@@ -32,11 +39,14 @@ class GOB {
 	public static $upload_dir='media/user2';
 	public static $tmpl='flat';
 	public static $title='Social';
-	public static $app='admin';
+	public static $app='base';
 	public static $user=Array();
 	public static $hiba=array();
 	public static $param=array();
 	public static $adminok=array(3,4);
+	public static $coinKey='duqWXbUlCKH8qNg8';
+	public static $coinSecret='DE4hteGw1nAzRwpxh4hPVN8dwRBjSBCL';
+	public static $client=null;
 	/**
 	 * @var string
 	 * '' (alapértelmezés) az adminok csak saját cikkeiket szerkeszthetik
@@ -54,6 +64,8 @@ class GOB {
 		self::$userjog=Jog::fromGOB();
 	}
 }
+$configuration =Configuration::apiKey(GOB::$coinKey, GOB::$coinSecret);
+GOB::$client = Client::create($configuration);
 //adatbázis,azonosítás--------------------
 $db=DB::connect();
 $azonosit= new Azonosit; //$_SESSION['userid']=62;

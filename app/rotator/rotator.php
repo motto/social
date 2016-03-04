@@ -73,8 +73,9 @@ class Adatok
         {
             if(isset($logtomb_idkulcs[$linksor['id']]))
             {
-                $eltelt=ADT::$mktime-$logtomb_idkulcs[$linksor['id']]['mktime'];
-                $linksor['hatravan']=$linksor['perc']-$eltelt;
+                $eltelt_sec=ADT::$mktime-$logtomb_idkulcs[$linksor['id']]['mktime'];
+                $eltelt_perc=$eltelt_sec/60;
+                $linksor['hatravan']=$linksor['perc']-$eltelt_perc;
                 if($linksor['hatravan']<1){$linksor['hatravan']=0;}
             }
             else

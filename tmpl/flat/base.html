@@ -20,7 +20,7 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="tmpl/flat/images/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="tmpl/flat/images/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="tmpl/flat/images/ico/apple-touch-icon-57-precomposed.png">
-    <script src="lib/js/jquery-1.9.1.min.js"></script>
+
     <script>
 
         //<!--var_itemid-->
@@ -50,12 +50,12 @@
                 $('#infoablak').css('display','none') ;
             }
 
-           // alert('hello');
+            // alert('hello');
         }
         function visszaszamol(){
-           // $('.varoperc').innerText()= '10';
+            // $('.varoperc').innerText()= '10';
             $('.varoperc').each( function() {
-               // var a = parseInt("10")
+                // var a = parseInt("10")
                 var p = $(this).text();
                 var perc=parseInt(p);
                 perc =perc-1;
@@ -117,8 +117,7 @@
     </style>';
 
 </head><!--/head-->
-<body style="background-color: #2C3E50">
-
+<body>
 <header class="navbar navbar-inverse navbar-fixed-top wet-asphalt" role="banner">
     <div class="container">
         <div class="navbar-header">
@@ -128,18 +127,33 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.php"><img src="tmpl/flat/images/logo.png" alt="logo"></a>
+            <a class="navbar-brand" href="#"><img src="tmpl/flat/images/logo.png" alt="logo"></a>
         </div>
+
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li ><a onclick="infokapcs();false;" href="#">Infoablak</a></li>
-                <li class="active"><a href="index.php?app=rotator">Lapozás >></a></li>
-                <li><a href="index.php?app=admin&fget=login">Login</a></li>
-                <li><a href="index.php?app=admin&fget=tarca">Admin</a></li>
+                <li><a href="#" style="font-size:140%;font-weight: bold;"> BTC=<!--:usd-->$</a></li>
+                <li><a href=""></a></li>
+                <li><a href=""></a></li>
+                <li><a href="index.php?app=faucet"><!--#faucet rotator--></a></li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin <i class="icon-angle-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="index.php?app=admin&fget=penztar"><!--#penztar--></a></li>
+                        <li><a href="index.php?app=base&fget=login&task"><!--#login--></a></li>
+                        <li><a href="index.php?app=admin&fget=login&task=reg"><!--#reg--></a></li>
+                        <li><a href="index.php"><!--#personal--></a></li>
+                        <li><a href="#"><!--#licenc--></a></li>
+                    </ul>
+                </li>
+                <li><a href="contact-us.html"><!--#contact--></a></li>
+                <li><!--:zaszlo--></li>
             </ul>
         </div>
+
     </div>
-</header><!--/header style="min-height:700px;"-->
+</header><!--/header-->
 <section id=""   class=" midnight-blue">
     <!--|tartalom|-->
 </section><!--/#main-slider-->
@@ -147,15 +161,16 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-6">
-            <!--    &copy; 2016 <a target="_blank" href="#" title="sbt">SocialBittab</a>. All Rights Reserved.-->
+                <!--    &copy; 2016 <a target="_blank" href="#" title="sbt">SocialBittab</a>. All Rights Reserved.-->
             </div>
 
         </div>
     </div>
 </footer><!--/#footer-->
+<script src="tmpl/flat/js/jquery.js"></script>
+<script src="tmpl/flat/js/bootstrap.min.js"></script>
+<script src="tmpl/flat/js/main.js"></script>
+<!--<script src="tmpl/flat/js/jquery.prettyPhoto.js"></script>r-->
 
-<!--<script src="tmpl/flat/js/bootstrap.min.js"></script>
-<!--<script src="tmpl/flat/js/jquery.prettyPhoto.js"></script>
-<script src="tmpl/flat/js/main.js"></script>-->
 </body>
 </html>

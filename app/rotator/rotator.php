@@ -1,5 +1,4 @@
 <?php
-include_once 'app/app.php';
 include_once 'app/rotator/view/view.php';
 
 class ADT
@@ -17,7 +16,7 @@ class ADT
     public static $html='';
     /** a view osztály állítja be ez alapján az alp html-t alapértelmezés: tmpl/GOB::tmpl/ADT::html.'html' ;
      */
-    public static $html_file='alap.html';
+    public static $html_file='base.html';
     public static $itemtomb=array();
     public static $litatomb=array();
     //app változók------------------------

@@ -1,21 +1,8 @@
 <?php
-class View extends ViewBase{}
-class Data extends DataBase{}
-class App extends AppBase{}
-class ADT
-{
-public static $jog="";
-public static $view_file="";
-public static $view="";
-public static $sql="";
-public static $datatomb="";
-public static $allowed_func="";
-public static $allowed_fget="";
-}
-//------------------------------------------------------------
+
+
 class ViewBase{
-    public $view='nincs view';
-    /**
+    public $view='nincs view';/**
      * Taskok összevonása, több taskhoz ugyanaz a view ['task'=>'alias','task2'=>'alias']
      */
     public $func_alias_tomb=array();
@@ -23,6 +10,7 @@ class ViewBase{
     public function alap()
     {
        $this->view=file_get_contents(ADT::$view_file, true);
+       // echo $this->view;
     }
     public function result($task)
     {
@@ -85,8 +73,6 @@ class DataBase{
 class AppBase
 {
     public $tartalom='nincs tartalom';
-    public $appview='';
-    public $appdata=array();
     /**Taskok összevonása, több taskhoz ugyanaz a datatomb ['task'=>'alias','task2'=>'alias']
      */
     public $func_alias_tomb=array();
@@ -120,8 +106,9 @@ class AppBase
     }
     public function alap()
     {
-        $this->tartalom=AppS::feltolt($this->appview,$this->appdata);
-        $this->tartalom=AppS::inputmezo_feltolt($this->appview,$this->appdata);
+        $this->tartalom=ADT::$view;
+       // $this->tartalom=AppS::feltolt(ADT::$view,ADT::$datatomb);
+       // $this->tartalom=AppS::inputmezo_feltolt(ADT::$view,ADT::$datatomb);
     }
 
 
@@ -152,7 +139,7 @@ class AppS{
     }
     static public function feltolt($view,$datatomb)
     {
-        preg_match_all ("/<!--D([^`]*?)-->/",ADT::$html , $matches);
+        preg_match_all ("/<!--D([^`]*?)-->/",$view , $matches);
         $mezotomb=$matches[1];
         $value_str=''; $csere_str='';
         if(is_array($mezotomb))
@@ -172,7 +159,7 @@ class AppS{
     static public function inputmezo_feltolt($view,$datatomb,$mezotomb=array())
     {
         $matches=array();$value_str=''; $csere_str='';
-        if(empty($mezotomb)){preg_match_all("/data=\"([^`]*?)\"/",ADT::$html,$matches);}
+        if(empty($mezotomb)){preg_match_all("/data=\"([^`]*?)\"/",$view,$matches);}
         $mezotomb=$matches[1];
         if(is_array($mezotomb))
         {

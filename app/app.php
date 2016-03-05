@@ -1,177 +1,223 @@
 <?php
 
-
-class ViewBase{
-    public $view='nincs view';/**
-     * Taskok összevonása, több taskhoz ugyanaz a view ['task'=>'alias','task2'=>'alias']
+class ADT
+{
+    public static $jog="noname";
+    public static $view="Nincs tartalom";
+    public static $view_fileT=array(); //['task'=>'file','task2'=>'file2']
+    public static $dataT_sql='';        //['task'=>'sql']
+    public static $dataT=array();      //[['mezo2'=>'adat','mezo2'=>'adat2']['mezo2'=>'adat']]
+    public static $dbLT_sql='';        //['task'=>'sql']
+    public static $dbLT=array();       //[nev=>['hu'=>'adat','en'=>'adat']]
+    public static $LT=array();         //[nev=>adat,nev2=>adat2]
+    /**Taskok összevonása, több taskhoz ugyanaz a datatomb ['view'=>['task'=>'alias','task2'=>'alias']]
      */
-    public $func_alias_tomb=array();
+    public static $func_aliasT=array();//['view'=>['task1'=>'alias','task2'=>'alias']]
+    public static $allowed_funcT=array();//['func1','func2']
+}
 
-    public function alap()
+
+class ViewBase
+{
+    public function __construct($task)
     {
-       $this->view=file_get_contents(ADT::$view_file, true);
-       // echo $this->view;
+        $this->general($task);
     }
+    public function general($task)
+    {
+        $funcnev= $task;
+
+                if(isset(ADT::$func_aliasT['view'][$task]))
+                {
+                    $funcnev=ADT::$func_aliasT['view'][$task];
+                }
+
+        // StaticClass::{"methodName"}();
+        if(1==1)
+        {
+            $this->$funcnev($task) ;
+        }else
+        {
+            $this->alap($task);
+        }
+
+    }
+
+    public function alap($task)
+    {
+       ADT::$view=file_get_contents(ADT::$view_fileT[$task], true);
+    }
+
     public function result($task)
     {
-        if(!GOB::get_userjog(ADT::$jog)){$task='joghiba';}
-        if(isset($func_alias_tomb[$task]))
-        {$task=$func_alias_tomb[$task];}
-        if(in_array($task,ADT::$allowed_func))
-        {
-            if(function_exists($this->$task))
-            {$this->$task();}
-            else
-            {$this->alap();}
-        }
-        else
-        {
-            $this->alap();
-        }
-        return $this->view;
+        $this->general($task);
+        return ADT::$view;
     }
-
-
 }
 class DataBase{
+    public function __construct($task)
+    {
+        $this->general($task);
+    }
+    public function general($task)
+    {
+        $funcnev= $task;
 
-    public $datatomb=array();
-    public $sql='';
-    /**Taskok összevonása, több taskhoz ugyanaz a datatomb ['task'=>'alias','task2'=>'alias']
-     */
-    public $func_alias_tomb=array();
-    public function lista($sql)
-    {
-        $this->datatomb=DB::assoc_tomb($sql);
-    }
-    public function alap($sql)
-    {
-        $this->datatomb=DB::assoc_sor($sql);
-    }
-    public function result($task,$sql='')
-    {
-        if(!GOB::get_userjog(ADT::$jog)){$task='joghiba';}
-        if(isset($func_alias_tomb[$task]))
-        {$task=$func_alias_tomb[$task];}
-        if(in_array($task,ADT::$allowed_func))
+        if(isset(ADT::$func_aliasT['data'][$task]))
         {
-            if(function_exists($this->$task))
-            {$this->$task($sql);}
-            else
-            {$this->alap($sql);}
+            $funcnev=ADT::$func_aliasT['data'][$task];
         }
-        else
+
+        // StaticClass::{"methodName"}();
+        if(function_exists(1==1)) //  if(function_exists($this->{$funcnev}))
+        {   $this->alap($task);
+          $this->$funcnev($task);
+            //eval(''.$funcnev.'();');
+        }else
         {
-            $this->alap($sql);
+            $this->alap($task);
         }
-        return $this->datatomb;
+
+
     }
 
+    public function alap($task)
+    {
+        if(isset(ADT::$dataT_sql[$task]))
+        {
+            ADT::$dataT=DB::assoc_tomb(ADT::$dataT_sql[$task]);
+        }
+        if(isset(ADT::$dbLT_sql[$task]))
+        {//echo ADT::$dbLT_sql[$task];
+            ADT::$dbLT=DB::assoc_tomb(ADT::$dbLT_sql[$task]);
+            //print_r(ADT::$dbLT);
+        }
+
+    }
 
 }
 
 class AppBase
 {
-    public $tartalom='nincs tartalom';
-    /**Taskok összevonása, több taskhoz ugyanaz a datatomb ['task'=>'alias','task2'=>'alias']
-     */
-    public $func_alias_tomb=array();
-
-    public function result($task)
-    {  // $this->appview=ViewS::result($task);
-        //$this->appdata=DataS::result($task);
-        if(!GOB::get_userjog(ADT::$jog)){$task='joghiba';}
-        if(isset($func_alias_tomb[$task]))
-        {$task=$func_alias_tomb[$task];}
-        if(in_array($task,ADT::$allowed_func))
+    public function __construct($task)
+    {
+        $this->general($task);
+    }
+    public function general($task)
+    {
+        $funcnev='alap';
+        if(!GOB::get_userjog(ADT::$jog))
         {
-            if(function_exists($this->$task))
-            {$this->$task();}
-            else
-            {$this->alap();}
+            $funcnev='joghiba';
         }
         else
         {
-            $this->alap();
+            if(in_array($task,ADT::$allowed_funcT))
+            {
+                $funcnev=$task;
+                if(isset(ADT::$func_aliasT['app'][$task]))
+                {
+                    $funcnev=ADT::$func_aliasT['app'][$task];
+                }
+
+            }
         }
-        return $this->tartalom;
+
+
+       // StaticClass::{"methodName"}();
+        if(1==1)
+        {
+            $this->$funcnev($task) ;
+            //echo $funcnev;
+        }else
+        {
+            $this->alap($task);
+        }
+
     }
+
+    public function alap($task)
+    {
+        ADT::$view =AppS::db_feltolt(ADT::$view,ADT::$dataT);
+        ADT::$view=LANG::db_feltolt(ADT::$view,ADT::$dbLT);
+        //print_r(ADT::$dbLT);
+        ADT::$view=LANG::LT_feltolt(ADT::$view,ADT::$LT);
+        //$view=AppS::mod_feltolt(ADT::$view);
+       // $view=AppS::inputmezo_feltolt(ADT::$view,ADT::$dataT);
+
+    }
+    public function result($task)
+    {
+        $this->general($task);
+        return ADT::$view;
+    }
+
     public function joghiba()
     {
         if($_SESSION['userid']==0)
         {$this->tartalom=MOD::login();}
         else
-        {$this->tartalom='<center><h2><!--#joghiba--></h2></center>';}
+        {$this->tartalom='<h2><!--#joghiba--></h2>';}
 
     }
-    public function alap()
-    {
-        $this->tartalom=ADT::$view;
-       // $this->tartalom=AppS::feltolt(ADT::$view,ADT::$datatomb);
-       // $this->tartalom=AppS::inputmezo_feltolt(ADT::$view,ADT::$datatomb);
-    }
 
-
-}
-
-class ViewS
-{
-    static public function result($task,$alias_tomb=array()){
-      $view=new View();
-       $view->func_alias_tomb=$alias_tomb;
-       return $view->result($task);
-    }
-}
-class DataS
-{
-    static public function result($task,$sql='',$alias_tomb=array()){
-        $data=new Data();
-        $data->func_alias_tomb=$alias_tomb;
-        return $data->result($task,$sql='');
-    }
 }
 
 class AppS{
-    static public function result($task,$alias_tomb=array()){
-        $app=new App();
-        $app->func_alias_tomb=$alias_tomb;
-        return $app->result($task,$sql='');
+    static public function result($task){
+        $app=new App($task);
+        return $app->result($task);
     }
-    static public function feltolt($view,$datatomb)
+
+    static public function all_feltolt($view,$datatomb)
     {
-        preg_match_all ("/<!--D([^`]*?)-->/",$view , $matches);
+        $view=self::mod_feltolt($view);
+        $view=self::db_feltolt($view,$datatomb);
+        $view=self::inputmezo_feltolt($view,$datatomb);
+        return $view;
+    }
+    static public function mod_feltolt($view)
+    {
+        preg_match_all ("/<!--:([^`]*?)-->/",$view , $matches);
         $mezotomb=$matches[1];
-        $value_str=''; $csere_str='';
         if(is_array($mezotomb))
         {
             foreach($mezotomb as $mezo)
-            {   if(isset($datatomb[$mezo]))
             {
-                $csere_str = '<!--D'.$mezo.'-->';
-                $value_str = $datatomb[$mezo];
+                $view= str_replace('<!--:'.$mezo.'-->', MOD::$mezo(), $view);
             }
-            }
-            $view= str_replace($csere_str, $value_str, $view);
-
         }
         return $view;
     }
-    static public function inputmezo_feltolt($view,$datatomb,$mezotomb=array())
+    static public function db_feltolt($view,$datatomb)
     {
-        $matches=array();$value_str=''; $csere_str='';
-        if(empty($mezotomb)){preg_match_all("/data=\"([^`]*?)\"/",$view,$matches);}
+        preg_match_all ("/<!--x([^`]*?)-->/",$view ,$matches);
+        $mezotomb=$matches[1];
+        if(is_array($mezotomb))
+        {
+            foreach($mezotomb as $mezo)
+            {
+                if(isset($datatomb[$mezo]))
+                {
+                    $view= str_replace('<!--x'.$mezo.'-->',$datatomb[$mezo], $view);
+                }
+            }
+        }
+        return $view;
+    }
+    static public function inputmezo_feltolt($view,$datatomb)
+    {
+        $matches=array();
+        preg_match_all("/data=\"([^`]*?)\"/",$view,$matches);
         $mezotomb=$matches[1];
         if(is_array($mezotomb))
         {
             foreach($mezotomb as $mezo)
             {   if(isset($datatomb[$mezo]))
-            {
-                $csere_str = 'data="'.$mezo.'""';
-                $value_str = 'value="'.$datatomb[$mezo].'""';
+                {
+                    $view= str_replace('data="'.$mezo.'""',$datatomb[$mezo].'""' , $view);
+                }
             }
-            }
-            $view= str_replace($csere_str, $value_str, $view);
-
         }
         return $view;
     }

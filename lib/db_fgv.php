@@ -22,30 +22,33 @@ try {
 			}
 	return $db;		
 }
-static public function parancs($sql,$hibainfo='hibainfo nincs'){
-$sth =self::alap($sql,$hibainfo);
+static public function parancs($sql){
+$sth =self::alap($sql);
 	return $sth;
 }
-static public function alap($sql,$hibainfo='hibainfo nincs'){
-global $db;
-$sth = $db->prepare($sql);
-$sth->execute();
-		//GOB::$hiba][]="assoc_tomb: ".$sth->errorInfo(); nem jó!!!
-		//tömbhöz nem lehet hozzáfűzni	stringet!!!!!!!!!!!!!!!!!
-		$h=$sth->errorInfo();
-		if(!empty($h[2])){GOB::$hiba['pdo'][]=array('hibainfo'=>$hibainfo,'sth_error'=>$sth->errorInfo(),'sql'=>$sql);	}
-return $sth;
+static public function alap($sql){
+	global $db;$result = true;
+	try {
+		$stmt = $db->prepare($sql);
+		$stmt->execute();
+	} catch (PDOException $e) {
+		GOB::$hiba['pdo'][] = $e->getMessage();
+		$result = false;
+	}
+
+	return $result;
 }
 static public function assoc_tomb($sql){
-	global $db;$eredmeny_tomb=array();
+	global $db; $result = array();
 	try {
-		$stmt =$db ->prepare($sql);
+		$stmt = $db->prepare($sql);
 
 		$stmt->execute();
-		$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+		$stmt->setFetchMode(PDO::FETCH_ASSOC);
 		while ($row = $stmt->fetch()) {
-			$eredmeny_tomb[]= $row;
+			$result[] = $row;
 		}
+
 
 	}
 	catch(PDOException $e)
@@ -59,20 +62,36 @@ $sth =self::alap($sql);
      $eredmeny_tomb[]= $row; */
 	//$row= $sth->fetchAll();//sorszámozottan is és associatívan is tárolja a mezőket(duplán)
 
-return $eredmeny_tomb;
+return $result;
 }
 static public function assoc_sor($sql){
-$sth =self::alap($sql);
-return $sth->fetch(PDO::FETCH_ASSOC);
+	global $db;$result = array();
+	try {
+		$stmt = $db->prepare($sql);
+
+		$stmt->execute();
+		$stmt->setFetchMode(PDO::FETCH_ASSOC);
+		$row = $stmt->fetch();
+		if(!empty($row)){$result =$row;}
+
+	} catch (PDOException $e) {
+		GOB::$hiba['pdo'][] = $e->getMessage();
+	}
+	return $result;
 }
 static public function beszur($sql){
-global $db;
-$sth =self::alap($sql);
-$h=$sth->errorInfo();
-if(empty($h[2])){$result=$db->lastInsertId();}else{$result='0';}
-	//echo $result;
-return $result;
+	global $db;$result = false;
+	try {
+		$stmt = $db->prepare($sql);
 
+		$stmt->execute();
+		$result=$db->lastInsertId();
+
+	} catch (PDOException $e) {
+		GOB::$hiba['pdo'][] = $e->getMessage();
+		//echo $e->getMessage();
+	}
+	return $result;
 }
 static public function pub ($tabla,$id,$id_nev='id')
 {

@@ -10,15 +10,10 @@ public static function db_feltolt($view,$datatomb,$cseretomb=array())
         //print_r($datatomb);
         if(is_array($cseretomb))
         {
-            foreach($cseretomb as $value)
-            {   if(isset($datatomb[$value]))
+            foreach($datatomb as $value)
             {
-                $csere_str='<!--##'.$value.'-->';
-                $view= str_replace($csere_str, $datatomb[GOB::$lang], $view);
-              echo  $datatomb[GOB::$lang];
-                print_r($datatomb);
-            }
-
+                $csere_str='<!--##'.$value['nev'].'-->';
+                $view= str_replace($csere_str,$value[GOB::$lang] , $view);
             }
         }
         return $view;

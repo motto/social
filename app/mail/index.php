@@ -20,7 +20,7 @@ $mail->AddAddress($cimemail);
 //$mail->WordWrap = 50;                                 // set word wrap to 50 characters
 //$mail->AddAttachment("/var/tmp/file.tar.gz");         // add attachments
 //$mail->AddAttachment("/tmp/image.jpg", "new.jpg");    // optional name
-$mail->IsHTML(true);                                  // set email format to HTML
+$mail->IsHTML(true);                                  // set mail format to HTML
 $mail->Subject = $targy;
 $mail->Body    = $uzenet;
 

@@ -14,7 +14,7 @@ $mail->AddAddress("ellen@example.com");                  // name is optional
 $mail->WordWrap = 50;                                 // set word wrap to 50 characters
 $mail->AddAttachment("/var/tmp/file.tar.gz");         // add attachments
 $mail->AddAttachment("/tmp/image.jpg", "new.jpg");    // optional name
-$mail->IsHTML(true);                                  // set email format to HTML
+$mail->IsHTML(true);                                  // set mail format to HTML
 $mail->Subject = "Here is the subject";
 $mail->Body    = "This is the HTML message body <b>in bold!</b>";
 $mail->AltBody = "This is the body in plain text for non-HTML mail clients";
@@ -30,7 +30,7 @@ echo "Message has been sent";
  */
   function mail_ment($cim,$uzenet,$kuldocim,$subject='',$kuldonev='',$cimnev='',$allapot='sikeres')
  {
- $sql=" INSERT INTO email (domain,userid,kuldocim,kuldonev,targy,cim,cimnev,uzenet,allapot,datum) VALUES ('".$_SERVER['HTTP_HOST']."','".$_SESION['userid']."','".$kuldocim."','".$kuldonev."','".$subject."','".$cim."','".$cimnev."','".$uzenet."','".$allapot."',NOW())";
+ $sql=" INSERT INTO mail (domain,userid,kuldocim,kuldonev,targy,cim,cimnev,uzenet,allapot,datum) VALUES ('".$_SERVER['HTTP_HOST']."','".$_SESION['userid']."','".$kuldocim."','".$kuldonev."','".$subject."','".$cim."','".$cimnev."','".$uzenet."','".$allapot."',NOW())";
  Lekerdez::adat_ir($sql);
   $beszurtid= mysql_insert_id();
   //echo '$beszurtid'.$beszurtid;
@@ -40,7 +40,7 @@ echo "Message has been sent";
 $mail = new PHPMailerLite();
 $mail->SetFrom($kuldocim, $kuldonev);
 $mail->AddAddress($cim, $cimnev);
-$mail->IsHTML(true);                                  // set email format to HTML
+$mail->IsHTML(true);                                  // set mail format to HTML
 $mail->Subject = $subject;
 $mail->Body    = $uzenet;
 
@@ -93,7 +93,7 @@ class PHPMailerLite {
   public $ErrorInfo         = '';
 
   /**
-   * Sets the From email address for the message.
+   * Sets the From mail address for the message.
    * @var string
    */
   public $From              = 'root@localhost';
@@ -105,7 +105,7 @@ class PHPMailerLite {
   public $FromName          = 'Root User';
 
   /**
-   * Sets the Sender email (Return-Path) of the message.  If not empty,
+   * Sets the Sender mail (Return-Path) of the message.  If not empty,
    * will be sent via -f to sendmail
    * @var string
    */
@@ -126,8 +126,8 @@ class PHPMailerLite {
 
   /**
    * Sets the text-only body of the message.  This automatically sets the
-   * email to multipart/alternative.  This body can be read by mail
-   * clients that do not have HTML email capability such as mutt. Clients
+   * mail to multipart/alternative.  This body can be read by mail
+   * clients that do not have HTML mail capability such as mutt. Clients
    * that can read HTML will view the normal Body.
    * @var string
    */
@@ -153,7 +153,7 @@ class PHPMailerLite {
   public $Sendmail          = '/usr/sbin/sendmail';
 
   /**
-   * Sets the email address that a reading confirmation will be sent.
+   * Sets the mail address that a reading confirmation will be sent.
    * @var string
    */
   public $ConfirmReadingTo  = '';
@@ -181,7 +181,7 @@ class PHPMailerLite {
   public $SingleTo      = true;
 
   /**
-   * If SingleTo is true, this provides the array to hold the email addresses
+   * If SingleTo is true, this provides the array to hold the mail addresses
    * @var bool
    */
   public $SingleToArray = array();
@@ -200,7 +200,7 @@ class PHPMailerLite {
 
   /**
    * Used with DKIM DNS Resource Record
-   * optional, in format of email address 'you@yourdomain.com'
+   * optional, in format of mail address 'you@yourdomain.com'
    * @var string
    */
   public $DKIM_identity   = '';
@@ -228,13 +228,13 @@ class PHPMailerLite {
 
   /**
    * Callback Action function name
-   * the function that handles the result of the send email action. Parameters:
+   * the function that handles the result of the send mail action. Parameters:
    *   bool    $result        result of the send action
-   *   string  $to            email address of the recipient
-   *   string  $cc            cc email addresses
-   *   string  $bcc           bcc email addresses
+   *   string  $to            mail address of the recipient
+   *   string  $cc            cc mail addresses
+   *   string  $bcc           bcc mail addresses
    *   string  $subject       the subject
-   *   string  $body          the email body
+   *   string  $body          the mail body
    * @var string
    */
   public $action_function = ''; //'callbackAction';
@@ -378,7 +378,7 @@ class PHPMailerLite {
    * Adds an address to one of the recipient arrays
    * Addresses that have been added already return false, but do not throw exceptions
    * @param string $kind One of 'to', 'cc', 'bcc', 'ReplyTo'
-   * @param string $address The email address to send to
+   * @param string $address The mail address to send to
    * @param string $name
    * @return boolean true on success, false if address already used or invalid in some way
    * @access private
@@ -444,12 +444,12 @@ class PHPMailerLite {
   }
 
   /**
-   * Check that a string looks roughly like an email address should
+   * Check that a string looks roughly like an mail address should
    * Static so it can be used without instantiation
    * Tries to use PHP built-in validator in the filter extension (from PHP 5.2), falls back to a reasonably competent regex validator
    * Conforms approximately to RFC2822
    * @link http://www.hexillion.com/samples/#Regex Original pattern found here
-   * @param string $address The email address to check
+   * @param string $address The mail address to check
    * @return boolean
    * @static
    * @access public
@@ -633,7 +633,7 @@ class PHPMailerLite {
   function SetLanguage($langcode = 'en', $lang_path = 'language/') {
     //Define full set of translatable strings
     $PHPMAILER_LANG = array(
-      'provide_address' => 'You must provide at least one recipient email address.',
+      'provide_address' => 'You must provide at least one recipient mail address.',
       'mailer_not_supported' => ' mailer is not supported.',
       'execute' => 'Could not execute: ',
       'instantiate' => 'Could not instantiate mail function.',
@@ -1797,7 +1797,7 @@ class PHPMailerLite {
       $this->AltBody = html_entity_decode($textMsg);
     }
     if (empty($this->AltBody)) {
-      $this->AltBody = 'To view this email message, open it in a program that understands HTML!' . "\n\n";
+      $this->AltBody = 'To view this mail message, open it in a program that understands HTML!' . "\n\n";
     }
   }
 

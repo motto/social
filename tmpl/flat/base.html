@@ -21,100 +21,6 @@
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="tmpl/flat/images/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="tmpl/flat/images/ico/apple-touch-icon-57-precomposed.png">
 
-    <script>
-
-        //<!--var_itemid-->
-        $( document ).ready(function() {
-
-            $('#'+itemid).css('border-color','red') ;
-            $('#'+itemid).css('border-width','3px') ;
-
-            $('.varoperc').each( function() {
-                var p = $(this).text();
-                var perc=parseInt(p);
-                // $(this).text(perc);
-                if(perc<10){ $(this).css('background-color','blue')}
-                if(perc<1){ $(this).css('background-color','green')
-                    $(this).text('0');
-                }
-            });
-        });
-
-        function infokapcs(){
-            if( $('#infoablak').css('display')=='none')
-            {
-                $('#infoablak').css('display','block') ;
-            }
-            else
-            {
-                $('#infoablak').css('display','none') ;
-            }
-
-            // alert('hello');
-        }
-        function visszaszamol(){
-            // $('.varoperc').innerText()= '10';
-            $('.varoperc').each( function() {
-                // var a = parseInt("10")
-                var p = $(this).text();
-                var perc=parseInt(p);
-                perc =perc-1;
-                $(this).text(perc);
-                if(perc<10){ $(this).css('background-color','blue')}
-                if(perc<1){ $(this).css('background-color','green')
-                    $(this).text('0');
-                }
-            });
-        }
-        //setTimeout(explode, 2000);
-        var refreshId = setInterval("visszaszamol()", 60000);
-
-    </script>
-    <style>
-        .varolink
-        {
-            float: left;
-            background-color:white ;
-            width: 150px;
-            color: #080808;
-            padding: 2px;
-            margin: 1px;
-            overflow: hidden;
-        }
-        .varopont
-        {
-            float: left;
-            background-color:white ;
-            width: 40px;
-            color: #080808;
-            padding: 2px;
-            margin: 1px;
-        }
-        .varoperc {
-            float: left;
-            background-color: red;
-            color: yellow;
-            width: 40px;
-            padding: 2px;
-            margin: 1px;
-        }
-        #infoablak{
-            width: 250px;
-
-            z-index: 1000;
-
-        }
-        .varodiv
-        {
-            border-style: solid;
-            border-width: 0px;
-            border-color: blue;
-            float: left;
-        }
-
-
-
-    </style>';
 
 </head><!--/head-->
 <body>
@@ -137,17 +43,19 @@
                 <li><a href=""></a></li>
                 <li><a href="index.php?app=faucet"><!--#faucet rotator--></a></li>
 
-                <li class="dropdown">
+                <!--            <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin <i class="icon-angle-down"></i></a>
                     <ul class="dropdown-menu">
-                        <li><a href="index.php?app=admin&fget=penztar"><!--#penztar--></a></li>
-                        <li><a href="index.php?app=base&fget=login&task"><!--#login--></a></li>
-                        <li><a href="index.php?app=admin&fget=login&task=reg"><!--#reg--></a></li>
-                        <li><a href="index.php"><!--#personal--></a></li>
-                        <li><a href="#"><!--#licenc--></a></li>
+                        <li><a href="index.php?app=admin&fget=penztar"><!-#penztar-></a></li>
+                        <li><a href="index.php?app=base&fget=login&task"><!-#logi-></a></li>
+                        <li><a href="index.php?app=admin&fget=login&task=reg"><!-#reg-></a></li>
+                        <li><a href="index.php"><!-#personal-></a></li>
+                        <li><a href="#"><!-#licenc-></a></li>
                     </ul>
-                </li>
-                <li><a href="contact-us.html"><!--#contact--></a></li>
+                </li>-->
+                <li><a href="index.php?app=base&fget=login"><!--#login--></a></li>
+                <li><a href="index.php?app=admin"><!--#admin--></a></li>
+                <li><a href="index.php?app=base&fget=contact"><!--#contact--></a></li>
                 <li><!--:zaszlo--></li>
             </ul>
         </div>

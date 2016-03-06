@@ -1,177 +1,127 @@
 <?php
+include_once 'app/admin/lib/table.php';
+include_once 'app/appuj.php';
 
-class Admin_base{
-
-}
-
-class Admin_all extends Admin_base
+class GAT
 {
-
-public function uj(){$this->tartalom =$this->appview->uj();}
-public function szerk(){$this->tartalom =$this->appview->szerk($this->appdata->item_feltolt());}
-public function ment(){$this->appdata->ment();
-    $this->tartalom= $this->appview->lista($this->appdata->lista_feltolt());}
-
-public function mentuj(){$this->appdata->ment();
-    $this->tartalom=$this->appview->uj();}
-public function cancel(){$this->tartalom= $this->appview->alap($this->appdata->lista_feltolt());}
-public function torol(){$this->appdata->torol();
-    $this->tartalom= $this->appview->lista($this->appdata->lista_feltolt());}
-public function pub(){$this->appdata->pub();
-    $this->tartalom= $this->appview->lista($this->appdata->lista_feltolt());
+    static  public $urlapfiles='';
+    static  public $urlap_sql='';
+    static  public $urlap_dataT=array();
+    static  public $tabla='';  //sql tábla
+    static  public $ment_mezok=array();//$mezok: array(array('postnev','mezonev(ha más mit a postnév)','ellenor_func(nem kötelező)'))
+    static  public $tabla_szerk=array();//admin tábla
 }
-public function unpub(){$this->appdata->unpub();
-    $this->tartalom=$this->appview->lista($this->appdata->lista_feltolt());}
 
-
-
-
-    /**
-     * $mezotomb=array($mezonev=array('mezonev'=>'','postnev'=>'nemkell',tipus=>'nemkell'))
-     */
-    static public function view_tipusfeltolt_postbol($view,$datatomb,$mezotomb)
-    {
-        $value_str=''; $csere_str='';
-        if(is_array($datatomb))
-        {
-            foreach($datatomb as $key=>$value)
-            {
-            {
-                if(isset($mezotomb[$key]['postnev']))
-                {
-                   $postnev= $mezotomb[$key]['postnev'];
-                }
-                else
-                {
-                    $postnev= $mezotomb[$key]['mezonev'];
-                }
-
-                switch ($mezotomb[$key]['tipus'])
-                {
-                    case 'datamezo':
-                        $csere_str = 'data="'.$_POST[$postnev].'"';
-                        $value_str = 'value="'.$_POST[$postnev].'"';
-                        break;
-                    default:
-                        $csere_str = '<!--'.$_POST[$postnev].'-->';
-                        $value_str = $_POST[$postnev];
-                }
-            }
-                $view= str_replace($csere_str, $value_str, $view);
-            }
-        }
-        return $view;
-    }
-
-
-
-
-    static public function view_feltolt($view,$datatomb,$elotag='<!--',$utotag='-->',$value_elotag='',$value_utotag='')
-    {
-        $value_str=''; $csere_str='';
-    if(is_array($datatomb))
-    {
-      foreach($datatomb as $key=>$value)
-      {
-         $csere_str=$elotag.$key.$utotag;
-
-          $value_str=$value_elotag.$value.$value_utotag;
-          $view= str_replace($csere_str, $value_str, $view);
-      }
-    }
-        return $view;
-    }
-
-
-    static public function fget_becsatol($fget = 'faucet')
-    {
-        if (!empty($_GET['fget']))
-        {
-            $fget = $_GET['fget'];
-        }
-        return $fget;
-    }
-
-}
-class AppEll_base
+class ViewAdmin extends ViewBase
 {
-    public static function base($value=''){return true;}
+    static public function urlap($task)
+    {
+        ADT::$view=file_get_contents(GAT::$urlapfiles[$task], true);
+    }
+    static public function tabla()
+    {
+        ADT::$view=MOD::ikonsor();
+        $tabla=MOD::tabla(GAT::$tabla_szerk,ADT::$dataT);
+        ADT::$view = str_replace('<!--|tabla|-->', $tabla,ADT::$view);
+    }
 
 }
-
-class AppData_base
+class DataAdmin extends DataBase
 {
-    public  function pub()
+    static public function urlap($task)
     {
-        DB::tobb_pub(ADT::$tablanev,ADT::$itemidtomb);
+        GAT::$urlap_dataT=DB::assoc_sor(GAT::$urlap_sqlT[$task]);
     }
-    public  function unpub()
+    /*   static public function enhu_urlap($task)
+       {
+           GAT::$urlap_dataT=DB::assoc_tomb(GAT::$urlap_sqlT[$task]);
+       }**/
+    static public function ment_post()
     {
-        DB::tobb_unpub(ADT::$tablanev,ADT::$itemidtomb);
+        $result=DB::frissit_postbol(GAT::$tabla,ADT::$itemid,GAT::$ment_mezok);
+        return $result;
     }
-    public  function torol()
-    {//print_r(ADT::$itemidtomb);
-        DB::tobb_del(ADT::$tablanev,ADT::$itemidtomb);
-    }
-    public function beszur()
+    static public function beszur_post()
     {
-        $id= DB::beszur_postbol(ADT::$tablanev,ADT::$mentmezok);
-        return $id;
+        $result=DB::beszur_postbol(GAT::$tabla,GAT::$ment_mezok);
+        return $result;
     }
-    public  function frissit()
+    static public function torol($id)
+    { if(is_array($id))
+    {DB::tobb_del(GAT::$tabla,$id);}
+    else
+    {DB::del(GAT::$tabla,$id);}
+
+    }
+    static public function parancs_sql($task)
     {
-        DB::frissit_postbol(ADT::$tablanev,ADT::$itemid,ADT::$mentmezok);
+        $result=DB::parancs(GAT::$urlap_sqlT[$task]);
+        return $result;
     }
-    public  function ment()
-    {//echo ADT::$itemid ;
-        if(ADT::$itemid >'0')
+    static public function pub($id)
+    {  if(is_array($id))
+    {
+        DB::tobb_pub(GAT::$tabla,$id);
+    }
+    else
+    {
+        DB::pub(GAT::$tabla,$id);
+    }
+
+    }
+    static public function unpub($id)
+    {
+        if(is_array($id))
         {
-            $this->frissit();
+            DB::tobb_unpub(GAT::$tabla,$id);
         }
         else
         {
-            $this->beszur();
+            DB::unpub(GAT::$tabla,$id);
         }
     }
-    public  function item_feltolt()
-    {   $sql=DB::select_sql(ADT::$tablanev,ADT::$itemid);
-        //ADT::$itemtomb=DB::assoc_sor($sql);
-        $itemtomb=DB::assoc_sor($sql);
-        return $itemtomb;
-    }
-    public  function lista_feltolt()
-    {
-        $sql=ADT::$lista_sql;
-       // $sql="SELECT * FROM ".ADT::$lista_sql." ORDER BY prior ASC";
-        //ADT::$listatomb=DB::assoc_tomb($sql);
-        $listatomb=DB::assoc_tomb($sql);
-        return  $listatomb;
-    }
-
 }
-
-class AppView_base
+class AdminBase extends AppBase
 {
-    public function alap($listatomb)
+    public function uj($task)
     {
-      $tartalom=$this->lista($listatomb);
-       return $tartalom;
+        ViewAdmin::urlap($task);
     }
-    public function uj(){
-       $tartalom= file_get_contents(ADT::$ujurlap, true);
-        return $tartalom;
-    }
-    public function szerk($itemtomb)
+    public function szerk()
     {
-        $tartalom= $this->uj();
-        $tartalom= Admin::view_feltolt($tartalom,$itemtomb,'data="','"','value="','" ');
-        return $tartalom;
+        ViewAdmin::urlap('szerk');
+        DataAdmin::urlap('szerk');
+        ADT::$view =AppS::db_feltolt(ADT::$view,GAT::$urlap_dataT);
+        ADT::$view=AppS::inputmezo_feltolt(ADT::$view,GAT::$urlap_dataT);
     }
-    public function lista($listatomb)
+    public function ment()
+    {  if(ADT::$itemid=='')
     {
-        $table = new Table(ADT::$tablaszerk,$listatomb);
-        $tartalom = file_get_contents(ADT::$alapview, true);
-        $tartalom = str_replace('<!--|tabla|-->', $table, $tartalom);
-        return $tartalom;
+        ADT::$itemid= DataAdmin::beszur_post();
     }
+    else
+    {
+        DataAdmin::ment_post() ;
+    }
+        $this->alap();
+    }
+    public function torol()
+    {
+        DataAdmin::torol($_POST['sor']);
+        $this->alap();
+    }
+
+    public function pub()
+    {
+        DataAdmin::pub($_POST['sor']);
+        $this->alap();
+    }
+    public function unpub()
+    {   DataAdmin::pub($_POST['sor']);
+        $this->alap();
+    }
+
 }
+class AdminS extends AppS{}
+
+?>

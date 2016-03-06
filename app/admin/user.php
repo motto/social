@@ -8,7 +8,7 @@ class ADT
     public static $tablanev='userek';
     //public static $ujurlap='app/admin/view/faucet_urlap.html';
     public static $alapview='app/admin/view/tabla_userek.html';
-    public static $allowed_func=array('cancel','torol','pub','unpub','joghiba','email');
+    public static $allowed_func=array('cancel','torol','pub','unpub','joghiba','mail');
     /**
      * cim,mezonev,func,tipus
      */

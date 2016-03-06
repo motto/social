@@ -27,7 +27,7 @@ class ADT
     (
         array('mezonev'=>'username'),
         //array('mezonev'=>'','postnev'=>'','ell'=>'','tipus'=>''),
-        array('mezonev'=>'email'),
+        array('mezonev'=>'mail'),
         array('mezonev'=>'password'),
         array('mezonev'=>'ref')
     );

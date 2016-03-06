@@ -3,106 +3,70 @@
 class ADT
 {
     public static $jog="noname";
+    public static $itemid='';
+    public static $itemid_tomb='';
+    public static $feltolt_func="full_feltolt"; //alapból ez tölti fel a view-t
     public static $view="Nincs tartalom";
-    public static $view_fileT=array(); //['task'=>'file','task2'=>'file2']
-    public static $dataT_sql='';        //['task'=>'sql']
-    public static $dataT=array();      //[['mezo2'=>'adat','mezo2'=>'adat2']['mezo2'=>'adat']]
-    public static $dbLT_sql='';        //['task'=>'sql']
-    public static $dbLT=array();       //[nev=>['hu'=>'adat','en'=>'adat']]
-    public static $LT=array();         //[nev=>adat,nev2=>adat2]
+    public static $itemview="";
+    public static $view_file=array('alap'=>'','lista'=>'','item'=>'');
+    public static $sql=array('alap'=>'','lista'=>'','item'=>'','dbLT'=>'');
+    public static $datatomb=array('alap'=>'','lista'=>'','item'=>'','dbLT'=>'');
+    public static $LT=array();
     /**Taskok összevonása, több taskhoz ugyanaz a datatomb ['view'=>['task'=>'alias','task2'=>'alias']]
      */
     public static $func_aliasT=array();//['view'=>['task1'=>'alias','task2'=>'alias']]
     public static $allowed_funcT=array();//['func1','func2']
+
 }
 
 
 class ViewBase
 {
-    public function __construct($task)
+   static public function alap()
+   {
+       ADT::$view=file_get_contents(ADT::$view_file['alap'], true);
+   }
+    static public function lista()
     {
-        $this->general($task);
-    }
-    public function general($task)
-    {
-        $funcnev= $task;
-
-                if(isset(ADT::$func_aliasT['view'][$task]))
-                {
-                    $funcnev=ADT::$func_aliasT['view'][$task];
-                }
-
-        // StaticClass::{"methodName"}();
-        if(1==1)
-        {
-            $this->$funcnev($task) ;
-        }else
-        {
-            $this->alap($task);
-        }
+        ADT::$view=file_get_contents(ADT::$view_file['lista'], true);
+        ADT::$itemview=file_get_contents(ADT::$view_file['item'], true);
 
     }
-
-    public function alap($task)
+   static public function task_to_view($task)
     {
-       ADT::$view=file_get_contents(ADT::$view_fileT[$task], true);
+        ADT::$view=file_get_contents(ADT::$view_file[$task], true);
     }
 
-    public function result($task)
-    {
-        $this->general($task);
-        return ADT::$view;
-    }
+
 }
 class DataBase{
-    public function __construct($task)
+    static public function alap()
     {
-        $this->general($task);
-    }
-    public function general($task)
-    {
-        $funcnev= $task;
-
-        if(isset(ADT::$func_aliasT['data'][$task]))
-        {
-            $funcnev=ADT::$func_aliasT['data'][$task];
-        }
-
-        // StaticClass::{"methodName"}();
-        if(function_exists(1==1)) //  if(function_exists($this->{$funcnev}))
-        {   $this->alap($task);
-          $this->$funcnev($task);
-            //eval(''.$funcnev.'();');
-        }else
-        {
-            $this->alap($task);
-        }
-
-
+        ADT::$datatomb['alap']=DB::assoc_tomb(ADT::$sql['alap']);
     }
 
-    public function alap($task)
+    static public function lista()
     {
-        if(isset(ADT::$dataT_sql[$task]))
-        {
-            ADT::$dataT=DB::assoc_tomb(ADT::$dataT_sql[$task]);
-        }
-        if(isset(ADT::$dbLT_sql[$task]))
-        {//echo ADT::$dbLT_sql[$task];
-            ADT::$dbLT=DB::assoc_tomb(ADT::$dbLT_sql[$task]);
-            //print_r(ADT::$dbLT);
-        }
-
+        ADT::$datatomb['lista']=DB::assoc_tomb(ADT::$sql['lista']);
+    }
+    static public function item()
+    {
+    ADT::$datatomb['item']=DB::assoc_tomb(ADT::$sql['item']);
+    }
+    static public function lang()
+    {
+        ADT::$datatomb['dbLT']=DB::assoc_tomb(ADT::$sql['dbLT']);
+    }
+    static public function task_to_data($task)
+    {
+        ADT::$datatomb[$task]=DB::assoc_tomb(ADT::$sql[$task]);
     }
 
 }
 
 class AppBase
 {
-    public function __construct($task)
-    {
-        $this->general($task);
-    }
+
     public function general($task)
     {
         $funcnev='alap';
@@ -112,19 +76,16 @@ class AppBase
         }
         else
         {
-            if(in_array($task,ADT::$allowed_funcT))
-            {
+            //if(in_array($task,ADT::$allowed_funcT))
+            //{
                 $funcnev=$task;
                 if(isset(ADT::$func_aliasT['app'][$task]))
                 {
                     $funcnev=ADT::$func_aliasT['app'][$task];
                 }
 
-            }
+            //}
         }
-
-
-       // StaticClass::{"methodName"}();
         if(1==1)
         {
             $this->$funcnev($task) ;
@@ -138,13 +99,23 @@ class AppBase
 
     public function alap($task)
     {
-        ADT::$view =AppS::db_feltolt(ADT::$view,ADT::$dataT);
-        ADT::$view=LANG::db_feltolt(ADT::$view,ADT::$dbLT);
-        //print_r(ADT::$dbLT);
+            ViewBase::task_to_view($task) ;
+            DataBase::task_to_data($task);
+        $feltolt_func=ADT::$feltolt_func;
+        $this->$feltolt_func($task);
+    }
+    public function hun_feltolt($task)
+    {
+        ADT::$view =AppS::db_feltolt(ADT::$view,ADT::$datatomb[$task]);
+        ADT::$view=AppS::inputmezo_feltolt(ADT::$view,ADT::$datatomb[$task]);
+    }
+    public function full_feltolt($task)
+    {
+        ADT::$view =AppS::db_feltolt(ADT::$view,ADT::$datatomb[$task]);
+        ADT::$view=AppS::inputmezo_feltolt(ADT::$view,ADT::$datatomb[$task]);
         ADT::$view=LANG::LT_feltolt(ADT::$view,ADT::$LT);
-        //$view=AppS::mod_feltolt(ADT::$view);
-       // $view=AppS::inputmezo_feltolt(ADT::$view,ADT::$dataT);
-
+       // ADT::$view=AppS::mod_feltolt(ADT::$view);
+        ADT::$view=AppS::inputmezo_feltolt(ADT::$view,ADT::$dataT);
     }
     public function result($task)
     {
@@ -164,11 +135,6 @@ class AppBase
 }
 
 class AppS{
-    static public function result($task){
-        $app=new App($task);
-        return $app->result($task);
-    }
-
     static public function all_feltolt($view,$datatomb)
     {
         $view=self::mod_feltolt($view);
@@ -214,9 +180,9 @@ class AppS{
         {
             foreach($mezotomb as $mezo)
             {   if(isset($datatomb[$mezo]))
-                {
-                    $view= str_replace('data="'.$mezo.'""',$datatomb[$mezo].'""' , $view);
-                }
+            {
+                $view= str_replace('data="'.$mezo.'""',$datatomb[$mezo].'""' , $view);
+            }
             }
         }
         return $view;

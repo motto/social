@@ -7,7 +7,6 @@ session_start();
 include_once 'definial.php';
 include_once 'lib/lang.php';
 include_once 'lib/db_fgv.php';
-include_once 'app/app.php';
 //include_once 'lib/factory.php';
 include_once 'lib/jog.php';
 include_once 'lib/lang.php';

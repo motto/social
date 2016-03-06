@@ -9,6 +9,6 @@ GOB::$LT=array(
     'licenc'=>'Felhasználói szerződés',
     'contact'=>'Kapcsolat',
     'account'=>'Számla',
-    'home'=>'Nyitólap','joghiba'=>'Jogosultság hiba!',''=>''
+    'home'=>'Nyitólap','joghiba'=>'Jogosultság hiba!', 'lapoz'=>'Lapozás >>','infoablak'=>'Info ablak','admin'=>'Admin','home'=>'Nyitólap',''=>''
 
 );

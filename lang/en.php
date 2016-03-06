@@ -8,5 +8,8 @@ GOB::$LT=array(
     'licenc'=>'Licenc',
     'contact'=>'Contact',
     'account'=>'Account',
-    'home'=>'Home','joghiba'=>'Error,authority!',''=>''
+    'home'=>'Home','joghiba'=>'Error,authority!',
+    'lapoz'=>'Page up >>',
+    'infoablak'=>'Info tab',
+    'admin'=>'Admin','home'=>'Home',''=>''
 );

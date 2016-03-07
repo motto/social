@@ -1,21 +1,21 @@
 <?php
 class LANG{
-public static function db_feltolt($view,$datatomb,$cseretomb=array())
+public static function db_feltolt($view,$datatomb)
     {
-        if(empty($cseretomb))
+       /* if(empty($cseretomb))
         {
             preg_match_all ("/<!--##([^`]*?)-->/",$view , $matches);
             $cseretomb=$matches[1];
         }
         //print_r($datatomb);
         if(is_array($cseretomb))
-        {
+        {*/
             foreach($datatomb as $value)
             {
                 $csere_str='<!--##'.$value['nev'].'-->';
                 $view= str_replace($csere_str,$value[GOB::$lang] , $view);
             }
-        }
+        //}
         return $view;
     }
     public static function LT_feltolt($view,$cseretomb=array())

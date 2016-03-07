@@ -1,9 +1,12 @@
 <?php
+include_once'app/alap.php';
+ADT::$view_file='tmpl/'.GOB::$tmpl.'/content/nyito.html';
+ADT::$sql_LT="SELECT nev,".GOB::$lang." FROM lng WHERE lap='nyito'";
+ADT::$LT['hu']=array('email'.'Email');
+ADT::$LT['en']=array('email'.'Email');
+$app=new AppBase();
+ADT::$view=LANG::db_feltolt(ADT::$view,ADT::$datatomb_LT);
+//print_r(ADT::$datatomb_LT);
 
-ADT::$view_fileT['alap']='tmpl/'.GOB::$tmpl.'/content/nyito.html';
-ADT::$dbLT_sql['alap']="SELECT * FROM lng WHERE lap='nyito' ";
-//echo $task;
-//class Data extends DataBase{} $dt=new Data($task);
-//class View extends ViewBase{} $vw=new View($task);
-class App extends AppBase{}
-$ap=new App($task);
+
+

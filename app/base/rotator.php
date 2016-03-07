@@ -1,4 +1,8 @@
 <?php
+include_once'app/alap.php';
+
+
+
 class Rview
 {//$varolista='<div id="infoablak">';public static $fejlec=
 
@@ -13,7 +17,7 @@ class Rview
     {
         $varolista ='<div id="infoablak">';
         $varolista = $varolista .self::$fejlec;
-        foreach (ADT::$linktomb as $varosor)
+        foreach (Appt::$linktomb as $varosor)
         {
             $varolista = $varolista . self::varolink($varosor['link'], $varosor['pont'], $varosor['hatravan'],$varosor['id']);
         }
@@ -133,7 +137,7 @@ class Adatok
  *becsatolja az fget-et ha van illetve beállítja az APPT::$task-ot
  * tartalmazza a task függvényeket;
  */
-class App extends App_base
+class App extends AppBase
 {
     public function alap()
     {
@@ -148,6 +152,7 @@ class App extends App_base
 $lap=new Lap();
 $adatok = new Adatok();
 $app=new App();
+
 //$view=new View_base();
 
 

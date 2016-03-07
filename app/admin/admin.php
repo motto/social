@@ -1,11 +1,11 @@
 <?php
 
-include_once 'app/admin/lib/admin_func.php';
-
+//include_once 'app/admin/lib/admin_func.php';
+include_once 'app/app.php'; //taskválasztó
 if(GOB::get_userjog('admin'))
 {
     GOB::$html = file_get_contents('tmpl/flat/admin.html', true);
-    $fget='faucet';
+    $fget='nyito';
 }
 else
 {

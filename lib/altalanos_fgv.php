@@ -74,7 +74,8 @@ static public function kiir($tomb){
  * link kezelő
  *
  */
-class LINK {
+class LINK
+{
 	/**
 	 * a kép neve elé teszi a /thumb-ot (thumb elérési útját állítja elő
 	 * @param $src
@@ -93,49 +94,39 @@ static public function thumb_src($src)
 }
 
 
-static public function kiszed($link,$kiszed1)
+static public function kiszed($link,$kiszed='')
 {
-	$get_resz='';
-	$altag=array();
-if(is_array($kiszed1)){$kiszed=$kiszed1;}else{$kiszed=explode(',',$kiszed1);}
-$linktomb1=explode('?',$link);
-if(empty($linktomb1[1])){$link2=$link.'?gt=0'; GOB::$hiba['link'][]='Link::kiszed:linkben nincs kérdőjel';
-}else{
-	$linktomb=explode('&',$linktomb1[1]);
+	$linktomb=explode('&',parse_url($link, PHP_URL_QUERY));
 	if(is_array($linktomb))
-	{
+	{	$get_resz='';
 		foreach($linktomb as $tag)
 		{
-		$altag=explode('=',$tag);
-		if( in_array($altag[0],$kiszed))//if($altag[0]!=$kiszed)
-		{}else{
-		if($get_resz==''){$kotojel='?';}else{$kotojel='&';}
-		$get_resz=$get_resz.$kotojel.$altag[0].'='.$altag[1];}
+			$altag = explode('=', $tag);
+			if (($altag[0] != $kiszed))
+			{
+				$get_resz = $get_resz . $altag[0] . '='$altag[0].'&';
+			}
 		}
-	}else{$get_resz='?'.$altag[0].'='.$altag[1];}
-$link2=$linktomb1[0].$get_resz;	
-}
+	}
+	if($get_resz=='')
+	{return parse_url($url, PHP_URL_PATH);}
+	else
+	{return parse_url($url, PHP_URL_PATH).'?'.$get_resz;}
 
-return $link2; 
 }
 
 static public function get_cserel($link,$cserel)
 {
-//$cserel pl.: $cserel='task=ment&id=1'
+$csereT=explode('=',$cserel);
+$link2=Link::kiszed($link,$csereT[0]);
 
-$kiszed1=explode('&',$cserel);
-foreach($kiszed1 as $kiszed2){$kiszed3=explode('=',$kiszed2);$kiszedtomb[]=$kiszed3[0];}
-$link2=Link::kiszed($link,$kiszedtomb);
-//megnézni hogy vane már get érték és ettől függően vagy ? vagy & jellel fűzni össze
-if (strpos($link,'?') === false){$link2=$link2.'?'.$cserel;}else{$link2=$link2.'&'.$cserel;}
-//echo $link2;
-return $link2; 
+return $link2.'&'.$csereT[0].'='.$csereT[1];
 }
-	static public function link_cserel($cserel)
-	{
-		$link2=self::get_cserel($_SERVER['REQUEST_URI'],$cserel);
-		return $link2;
-	}
+static public function link_cserel($cserel)
+{
+	$link2=self::get_cserel($_SERVER['REQUEST_URI'],$cserel);
+	return $link2;
+}
 
 }
 

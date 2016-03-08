@@ -1,11 +1,23 @@
 <?php
+$url = 'http://infolapok.hu/index.php?hello=ee&ff=rr';
+
+var_dump(parse_url($url));
+//var_dump(parse_url($url, PHP_URL_QUERY));
+
+echo parse_url($url, PHP_URL_PATH);
+
+
 //require 'coinbase/src/Client.php';
 //require 'coinbase/src/Configuration.php';
+
+/*
 require_once('vendor/autoload.php');
 use Coinbase\Wallet\Client;
 use Coinbase\Wallet\Configuration;
 use Coinbase\Wallet\Resource\Address;
 use Coinbase\Wallet\Resource\Account;
+
+
 
 
 $apiKey='duqWXbUlCKH8qNg8';
@@ -19,7 +31,7 @@ $client->enableActiveRecord();
 //$accounts = $client->getAccounts();
 //$buyPrice = $client->getBuyPrice();
 
-
+*/
 /*
 $client->enableActiveRecord();
 $accounts = $client->getAccounts();
@@ -29,7 +41,7 @@ foreach ($accounts as &$account) {
    // print_r($account->getAddress($account->getId()));
    // print_r($client->getAccountTransactions($account));
 }
-*/
+
 
 //eddig jó $cc tartalmazza a tárca címet------------
 //$valletid="3189b9e0-a5d6-5f97-a7d9-51de62fcafaa";
@@ -50,7 +62,7 @@ $client->createAccountAddress($account, $address);
 $adressid=$client->getAccountAddresses($account)->getFirstId();
 print_r($client->getAccountAddress($account,$adressid)->getAddress());
 //14iBfNefGdpAJPYkuRPtUAfPXRpfPnUxtA
-
+*/
 /*
 (
  [previousUri:Coinbase\Wallet\Resource\ResourceCollection:private] => [nextUri:Coinbase\Wallet\Resource\ResourceCollection:private] => [resources:Coinbase\Wallet\Resource\ResourceCollection:private] =>

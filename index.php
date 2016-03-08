@@ -4,6 +4,12 @@ session_start();
 //error_reporting(E_ERROR | E_WARNING | E_PARSE);
 //doc megjelenítés: ctrl+q
 
+//nyelv-----------------------------------
+if(substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2)=='hu'){GOB::$lang= 'hu';}
+if(isset($_SESSION['lang'])){GOB::$lang=$_SESSION['lang'];}
+if(isset($_GET['lang'])){GOB::$lang=$_GET['lang'];$_SESSION['lang']=$_GET['lang'];}
+include_once('lang/'.GOB::$lang.'.php');
+
 include_once 'definial.php';
 include_once 'lib/lang.php';
 include_once 'lib/db_fgv.php';
@@ -70,11 +76,6 @@ GOB::$client = Client::create($configuration);
 $db=DB::connect();
 $azonosit= new Azonosit; //$_SESSION['userid']=62;
 GOB::set_userjog();
-//nyelv-----------------------------------
-if(substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2)=='hu'){GOB::$lang= 'hu';}
-if(isset($_SESSION['lang'])){GOB::$lang=$_SESSION['lang'];}
-if(isset($_GET['lang'])){GOB::$lang=$_GET['lang'];$_SESSION['lang']=$_GET['lang'];}
-include_once('lang/'.GOB::$lang.'.php');
 //applikáció becsatolás-----------------------------
 GOB::$app=ADAT::GET_POST_SESS('app',GOB::$app);
 include_once 'app/'.GOB::$app.'/'.GOB::$app.'.php';

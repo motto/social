@@ -2,7 +2,8 @@
 class ADT
 {
     public static $jog="noname";
-    public static $task="alap";
+    public static $task='alap';
+    public static $task_valaszt=array('post','get');
   //  public static $feltolt_func="full_feltolt"; //alapból ez tölti fel a view-t
     public static $view="Nincs tartalom";
     public static $view_file='';
@@ -39,8 +40,8 @@ class AppBase
 {
     public function __construct()
     {
-        $funcnev=TASK_S::get_funcnev();
-        $this->$funcnev();
+       // $funcnev=TASK_S::get_funcnev();
+        //$this->$funcnev();
     }
 
     public function alap()

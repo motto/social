@@ -1,109 +1,51 @@
 <?php
-class TaskValaszt
-{
-    public $task='alap';
-    public $task_nev='task';
+class Task
+{   public $adt='ADT';
+    public $ob=null;
+    //ADT-be--------------------------
+    public $task_nev='motask';//ADT::$alap_func;ADT::tiltott_func
     public $task_tip=array('post','get');//az utolsó lesz a post
 
-    public function __construct($task_nev='', $task='alap',$task_tip=array('post','get'))
+    public function __construct($ob,$adt)
     {
-        if($task_nev!=''){$this->task_nev = $task_nev;}
-        $this->task = $task;
-        $this->task_tip = $task_tip;
+        $this->ob = $ob; $this->adt = $adt;
     }
 
 
-    public function result()
-    {   $task=$this->task;
+    public function get_funcnev()
+    {
         foreach($this->task_tip as $tip) {
             switch ($tip) {
                 case 'get':
                     if (isset($_GET[$this->task_nev])) {
-                        $ask = $_GET[$this->task_nev];
+                        $funcnev = $_GET[$this->task_nev];
                     }
                     break;
                 case 'post':
                     if (isset($_POST[$this->task_nev])) {
-                        $task = $_POST[$this->task_nev];
+                        $funcnev = $_POST[$this->task_nev];
                     }
                     break;
             }
         }
-        return  $task;
+        if(in_array($funcnev ,ADT::tiltott_func )){$funcnev=ADT::$alap_func;}
+        if(!method_exists ($this->ob , $funcnev)){$funcnev=ADT::$alap_func;}
+        if(!GOB::get_userjog(ADT::$jog)) {$funcnev='joghiba';}
+        return $funcnev;
     }
 
 }
-class ValasztS
-{
-   static public function Nev($valasztT=array('post','get'))
-    {
-        $ob=new TaskValaszt('nev','nincs',$valasztT);
-        return $ob->result();
-    }
-    static public function task($task='alap',$valasztT)
-    {
-        $ob=new TaskValaszt('task',$task,$valasztT);
-        return $ob->result();
-    }
-}
-class Task extends TaskADT
-{
 
-    public function result()
-    {
-        $funcnev=$this->get_funcnev();
 
-        $nev=ValasztS::Nev(ADT::$task_valaszt);
-        if($nev!='nincs')
-        {
-            $funcnev='szerk';
-            ADT::$nev=$nev;
-        }
-        if(!method_exists ($this->ob , $funcnev)){$funcnev=ADT::$task;}
-        if(!GOB::get_userjog(ADT::$jog))
-        {$funcnev='joghiba';}
-       return $funcnev;
-    }
-}
-
-class TaskADT
-{
-    public $ob=null;
-    public $taskvalaszt=null;
-    public $funcnev='alap';
-    public function __construct($ob)
-    {
-        $this->ob = $ob;
-    }
-
-    public function get_funcnev()
-    {
-        $funcnev=ValasztS::task(ADT::$task,ADT::$task_valaszt);
-        ADT::$task=$funcnev;
-       /* if(isset(ADT::$func_aliasT[$funcnev]))
-        {
-            $funcnev=ADT::$func_aliasT[$funcnev];
-        }*/
-        if(!method_exists ($this->ob , $funcnev)){$funcnev=ADT::$task;}
-        if(!GOB::get_userjog(ADT::$jog))
-        {$funcnev='joghiba';}
-     return $funcnev;
-    }
-
-}
 
 class TASK_S
 {
-static public function get_funcnev($ob)
-{
-    $ob2=new TaskADT($ob);
-    return $ob2->get_funcnev();
-}
-static public function get_nev_funcnev($ob)
-{
-    $ob2=new Task($ob);
-    return $ob2->result();
-}
+    static public function get_funcnev($ob,$adt)
+    {
+        $ob2=new Task($ob,$adt);
+        return $ob2->get_funcnev();
+    }
+
 }
 
 class AppS{
@@ -162,13 +104,13 @@ class AppS{
     {
         if(empty($dataT)){$dataT=GOB::$LT;}
         // a GOB::LT nagy lehet ne keljen rjatmindig végifutni:
-      preg_match_all ("/<!--##([^`]*?)-->/",$view , $matches);
-      $cseretomb=$matches[1];
+        preg_match_all ("/<!--##([^`]*?)-->/",$view , $matches);
+        $cseretomb=$matches[1];
 
         foreach($cseretomb as $mezonev)
         {
-                $csere_str='<!--##'.$mezonev.'-->';
-                $view= str_replace($csere_str,$dataT[$mezonev], $view);
+            $csere_str='<!--##'.$mezonev.'-->';
+            $view= str_replace($csere_str,$dataT[$mezonev], $view);
 
         }
         return $view;
@@ -180,5 +122,5 @@ class  AppEll
     /**
      * ez fut le íráskor és frissétéskor ha nincs megadva ell függvény a mezőtömbben
      */
-static public function base(){return true;}
+    static public function base(){return true;}
 }

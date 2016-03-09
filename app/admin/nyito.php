@@ -17,7 +17,7 @@ class ADT
     public static $inputurlap='app/admin/view/urlapok/nyitoinput.html';
     public static $view_file='tmpl/flat/content/nyito.html';
     public static $mezotomb=array();
-    public static $func_aliasT=array();
+   // public static $func_aliasT=array();
 
 }
 
@@ -54,8 +54,6 @@ class AppView {
             $html=str_replace('data="hu"', 'value="'.$datasor['hu'].'"', $html );
             $html=str_replace('data="en"', 'value="'.$datasor['en'].'"', $html );
         }
-        $html=str_replace('data="hu"', 'value="'.$datasor['hu'].'"', $html );
-        $html=str_replace('data="en"', 'value="'.$datasor['en'].'"', $html );
         ADT::$view= $html;
     }
 }
@@ -72,7 +70,7 @@ class Admin {
        AppView::alap();
        $this->szerk_gomb_beszur();
         AppDataS::datatomb_LT();
-       ADT::$view= LANG::db_feltolt(ADT::$view,ADT::$datatomb_LT);
+       ADT::$view= AppS::LT_db_feltolt(ADT::$view,ADT::$datatomb_LT);
        if(ADT::$mezokeszit)
        {AppDataS::db_mezo_keszit();}
        if(ADT::$mezotorol)

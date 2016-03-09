@@ -11,12 +11,8 @@ if(isset($_GET['lang'])){GOB::$lang=$_GET['lang'];$_SESSION['lang']=$_GET['lang'
 include_once('lang/'.GOB::$lang.'.php');
 
 include_once 'definial.php';
-include_once 'lib/lang.php';
 include_once 'lib/db_fgv.php';
-//include_once 'lib/factory.php';
 include_once 'lib/jog.php';
-include_once 'lib/lang.php';
-//include_once 'lib/html.php';
 include_once 'lib/altalanos_fgv.php';
 include_once 'mod/mod.php';
 require_once('vendor/autoload.php');

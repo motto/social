@@ -5,14 +5,14 @@ include_once 'app/app.php'; //taskválasztó
 if(GOB::get_userjog('admin'))
 {
     GOB::$html = file_get_contents('tmpl/flat/admin.html', true);
-    $fget='nyito';
+    $fget='faucet';
 }
 else
 {
     GOB::$html = file_get_contents('tmpl/flat/useradmin.html', true);
     $fget='alap';
 }
-GOB::$html=LANG::LT_feltolt(GOB::$html);
+GOB::$html=AppS::LT_feltolt(GOB::$html);
 GOB::$html=AppS::mod_feltolt(GOB::$html);
 
 if(isset($_GET['fget'])){$fget=$_GET['fget'];}

@@ -12,7 +12,7 @@ class Zaszlo
             $nyelvcsere = 'en';
             $img = $this->en_img;
         }
-        $link = LINK::link_cserel('lang=' . $nyelvcsere);
+        $link = LINK::getcsere('lang=' . $nyelvcsere);
         $result = '<a href="' . $link . '" ><img src="'.$img.'" height="30px;"></a>';
         return $result;
     }

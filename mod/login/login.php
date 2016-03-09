@@ -1,6 +1,6 @@
 <?php
 //namespace Login;
-class DT
+class LogADT
 {
     public static $itemid='0';
     public static $jog='noname';
@@ -9,7 +9,7 @@ class DT
     public static $belep_form='mod/login/view/belep_form.html';
     public static $belepve_form='mod/login/view/belepve_form.html';
     public static $valtoztat_form='mod/login/view/valtoztat_form.html';
-    public static $allowed_func=array('belep_form','szerk','reg','ment','belep','kilep');
+    public static $tiltott_func=array('belep_form','szerk','reg','ment','belep','kilep');
 
     public static $mentmezok=array
     (
@@ -27,19 +27,19 @@ class Login
    // public function __construct($appview,$appdata){}
     public function belepform()
     {
-        $this->tartalom= file_get_contents(DT::$belep_form, true);
+        $this->tartalom= file_get_contents(LogADT::$belep_form, true);
 
     }
     public function belep()
     {
         if(MDataStat::belep())
         {
-            $tartalom= file_get_contents(DT::$belepve_form, true);
+            $tartalom= file_get_contents(LogADT::$belepve_form, true);
         }
         else
         {
             $hiba=MDataStat::hibakiir();
-            $view= file_get_contents(DT::$belep_form, true);
+            $view= file_get_contents(LogADT::$belep_form, true);
             $tartalom = str_replace('<!--<h5>hiba</h5>-->', $hiba, $view);
         }
         $this->tartalom=$tartalom;
@@ -49,11 +49,11 @@ class Login
     {
         if($_SESSION['userid']>0)
         {
-            $tartalom= file_get_contents(DT::$belepve_form, true);
+            $tartalom= file_get_contents(LogADT::$belepve_form, true);
         }
         else
         {
-            $tartalom= file_get_contents(DT::$belep_form, true);
+            $tartalom= file_get_contents(LogADT::$belep_form, true);
         }
         $this->tartalom=$tartalom;
 
@@ -65,12 +65,12 @@ class Login
     }
     public function szerk()
     {
-        $this->tartalom= file_get_contents(DT::$valtoztat_form, true);
+        $this->tartalom= file_get_contents(LogADT::$valtoztat_form, true);
 
     }
     public function reg()
     {
-        $view=file_get_contents(DT::$reg_form, true);
+        $view=file_get_contents(LogADT::$reg_form, true);
         if(isset($_GET['ref']))
         {
             $view= str_replace('<!--<h5>ref</h5>-->','Referencia:'. $_GET['ref'], $view);
@@ -89,7 +89,7 @@ class Login
         }
         else
         {
-            $view= file_get_contents(DT::$reg_form, true);
+            $view= file_get_contents(LogADT::$reg_form, true);
             $hiba=MDataStat::hibakiir();
             $tartalom = str_replace('<!--<h5>hiba</h5>-->', $hiba, $view);
             $this->tartalom=$tartalom;
@@ -117,7 +117,7 @@ class MDataStat {
 
         if($hiba)
         {
-            $sql = "SELECT username FROM " .DT::$tablanev. " WHERE username='" .$usernev."'";
+            $sql = "SELECT username FROM " .LogADT::$tablanev. " WHERE username='" .$usernev."'";
             $marvan=DB::assoc_sor($sql);
             if($marvan['username']==$usernev)
             {
@@ -128,7 +128,7 @@ class MDataStat {
         }
         if($hiba)
         {
-            $beszurtid=DB::beszur_postbol(DT::$tablanev,DT::$mentmezok);
+            $beszurtid=DB::beszur_postbol(LogADT::$tablanev,LogADT::$mentmezok);
             if($beszurtid==0)
             {
                 GOB::$hiba['login'][]='Adatbázis hiba';
@@ -190,7 +190,7 @@ class MDataStat {
 
         if(self::usernev_ell($usernev))
         {
-            $sql="SELECT id,password FROM ".DT::$tablanev." WHERE username='".$usernev."'";
+            $sql="SELECT id,password FROM ".LogADT::$tablanev." WHERE username='".$usernev."'";
             $dd=DB::assoc_sor($sql);
             if($jelszo!=$dd['password'])
             {

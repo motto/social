@@ -1,12 +1,38 @@
 <?php
-$url = 'http://infolapok.hu/index.php?hello=ee&ff=rr';
+$url = 'http://infolapok.hu/index.php?&ff=rr';
 
 var_dump(parse_url($url));
 //var_dump(parse_url($url, PHP_URL_QUERY));
 
-echo parse_url($url, PHP_URL_PATH);
+//echo parse_url($url, PHP_URL_PATH);
+//$csereT=explode('&','');
+//print_r($csereT);
 
+class LogADT
+{
+    public static $itemid='0';
+    public static $jog='noname';
+    public static $tablanev='userek';
+    public static $reg_form='mod/login/view/regisztral_form.html';
+    public static $belep_form='mod/login/view/belep_form.html';
+    public static $belepve_form='mod/login/view/belepve_form.html';
+    public static $valtoztat_form='mod/login/view/valtoztat_form.html';
+    public static $tiltott_func=array('belep_form','szerk','reg','ment','belep','kilep');
 
+    public static $mentmezok=array
+    (
+        array('mezonev'=>'username'),
+        //array('mezonev'=>'','postnev'=>'','ell'=>'','tipus'=>''),
+        array('mezonev'=>'mail'),
+        array('mezonev'=>'password'),
+        array('mezonev'=>'ref')
+    );
+}
+$ss='LogADT';
+//echo $ss::$tiltott_func;
+print_r($ss::$tiltott_func);
+
+//echo $csereT;
 //require 'coinbase/src/Client.php';
 //require 'coinbase/src/Configuration.php';
 

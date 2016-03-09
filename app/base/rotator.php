@@ -1,5 +1,5 @@
 <?php
-include_once'app/alap.php';
+include_once'app/app_nyito.php';
 
 
 

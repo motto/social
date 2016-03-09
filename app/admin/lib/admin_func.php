@@ -1,6 +1,6 @@
 <?php
 include_once 'app/admin/lib/table.php';
-include_once 'app/appuj.php';
+
 
 class GAT
 {

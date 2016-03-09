@@ -33,13 +33,13 @@ public static function ikonsor($ikonok=array('uj','szerk','pub','unpub','torol',
         $ob->mezok=$ikonok;
         return $ob->result();
     }
-    public static function tabla($dataszerk,$datatomb)
+public static function tabla($dataszerk,$datatomb)
     {
         include_once 'mod/tabla/tabla.php';
         $ob=new Tabla($dataszerk,$datatomb);
         return $ob->result();
     }
-    public static function email()
+public static function email()
 {
     include_once 'mod/mail/mail.php';
     $ob=new Mail();

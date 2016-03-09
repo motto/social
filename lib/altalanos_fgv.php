@@ -94,38 +94,32 @@ static public function thumb_src($src)
 }
 
 
-static public function kiszed($link,$kiszed='')
+static public function getcsere($csere,$link='')
 {
+	if($link==''){$link=$_SERVER['REQUEST_URI'];}
+	// echo $link;
 	$linktomb=explode('&',parse_url($link, PHP_URL_QUERY));
-	if(is_array($linktomb))
-	{	$get_resz='';
+	// print_r($linktomb);
+	if(empty($linktomb[0]))
+	{
+		return parse_url($link, PHP_URL_PATH).'?'.$csere;
+	}
+	else
+	{
+		$csereT=explode('=',$csere);
+		$get_resz='';
 		foreach($linktomb as $tag)
 		{
 			$altag = explode('=', $tag);
-			if (($altag[0] != $kiszed))
+			if (($altag[0] != $csereT[0]))
 			{
-				$get_resz = $get_resz . $altag[0] . '='$altag[0].'&';
+				$get_resz = $get_resz . $altag[0].'='.$altag[1].'&';
 			}
 		}
+		//$get_resz =substr($get_resz, 0, -1);
+		$get_resz = $get_resz.$csere;
+		return parse_url($link, PHP_URL_PATH).'?'.$get_resz;
 	}
-	if($get_resz=='')
-	{return parse_url($url, PHP_URL_PATH);}
-	else
-	{return parse_url($url, PHP_URL_PATH).'?'.$get_resz;}
-
-}
-
-static public function get_cserel($link,$cserel)
-{
-$csereT=explode('=',$cserel);
-$link2=Link::kiszed($link,$csereT[0]);
-
-return $link2.'&'.$csereT[0].'='.$csereT[1];
-}
-static public function link_cserel($cserel)
-{
-	$link2=self::get_cserel($_SERVER['REQUEST_URI'],$cserel);
-	return $link2;
 }
 
 }

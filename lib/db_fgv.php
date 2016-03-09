@@ -132,7 +132,6 @@ foreach($id_tomb as $id){self::del($tabla,$id,$id_nev); }
 static public function beszur_postbol($tabla,$mezok=array())
 	{
 		$ellenor_func='base';
-		$value='';
 		$value_string='';
 		$mezo_string='';
 		foreach ($mezok as $mezodata)
@@ -165,21 +164,20 @@ static public function beszur_postbol($tabla,$mezok=array())
 					$value='';
 				}
 
-			if($ellenor_func!='')
-			{
+
 				if (AppEll::$ellenor_func($value))
 				{
 					$value_string = $value_string . "'" . $value . "',";
 					$mezo_string = $mezo_string . $mezonev . ",";
 				}
-			}
+
 		}
 		if($mezo_string!='')
 		{
 		$mezo_string2=rtrim($mezo_string,',');
 		$value_string2=rtrim($value_string,',');
 		$sql="INSERT INTO $tabla ($mezo_string2) VALUES ($value_string2)";
-			//echo $sql;
+			echo $sql;
 		$result=DB::beszur($sql);
 		}
 		else
@@ -212,18 +210,19 @@ static public function frissit_postbol($tabla,$id,$mezok=array())
 			{
 				$postnev=$mezodata['mezonev'];
 			}
-			if(isset($mezodata['ell'])){$ellenor_func=$mezodata['ell'];}
-			if($ellenor_func!='')
+			if(isset($mezodata['ell']))
 			{
-				if (AppEll_base::$ellenor_func($value))
-				{
-					if (isset($_POST[$postnev])) {
+				$ellenor_func=$mezodata['ell'];
+
+			}
+			if(AppEll::$ellenor_func($value))
+			{
+					if (isset($_POST[$postnev]))
+					{
 						$value = $_POST[$postnev];
 					}
-
 					$setek = $setek . $mezonev . "='" . $value . "', ";
 					//echo $setek;
-				}
 			}
 
 
@@ -233,7 +232,7 @@ static public function frissit_postbol($tabla,$id,$mezok=array())
 			$setek2 = substr($setek, 0, -2);
 			$sql = "UPDATE $tabla SET $setek2 WHERE id='$id'";
 			//echo $sql;
-			$result = DB::parancs($sql);
+			$result = DB::beszur($sql);
 		}
 		return $result;
 	}

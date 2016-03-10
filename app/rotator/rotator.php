@@ -13,8 +13,8 @@ class AppS{
         }
 }
 GOB::$html=file_get_contents('tmpl/flat/rotator.html', true);
-GOB::$html=LANG::LT_feltolt(GOB::$html);
-GOB::$html=AppS::mod_feltolt(GOB::$html);
+GOB::$html=FeltoltS::from_LT(GOB::$html);
+GOB::$html=FeltoltS::mod(GOB::$html);
 if($_SESSION['userid']==0)
 {
         $tartalom=MOD::login();

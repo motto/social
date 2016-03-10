@@ -3,7 +3,6 @@ session_start();
 // GodMode.{ED7BA470-8E54-465E-825C-99712043E01C}    új mappa és erre átnevezni
 //error_reporting(E_ERROR | E_WARNING | E_PARSE);
 //doc megjelenítés: ctrl+q
-
 //nyelv-----------------------------------
 if(substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2)=='hu'){GOB::$lang= 'hu';}
 if(isset($_SESSION['lang'])){GOB::$lang=$_SESSION['lang'];}
@@ -14,7 +13,10 @@ include_once 'definial.php';
 include_once 'lib/db_fgv.php';
 include_once 'lib/jog.php';
 include_once 'lib/altalanos_fgv.php';
+include_once 'app/app.php'; //taskválasztó
 include_once 'mod/mod.php';
+//include_once 'mod/mod_alap.php';
+include_once 'lib/view_feltolt.php'; //nézet feltöltő függvények
 require_once('vendor/autoload.php');
 use Coinbase\Wallet\Client;
 use Coinbase\Wallet\Configuration;
@@ -72,6 +74,7 @@ GOB::$client = Client::create($configuration);
 $db=DB::connect();
 $azonosit= new Azonosit; //$_SESSION['userid']=62;
 GOB::set_userjog();
+GOB::$user=DB::assoc_sor("SELECT id,username,email,password FROM userek WHERE id='".$_SESSION['userid']."'");
 //applikáció becsatolás-----------------------------
 GOB::$app=ADAT::GET_POST_SESS('app',GOB::$app);
 include_once 'app/'.GOB::$app.'/'.GOB::$app.'.php';

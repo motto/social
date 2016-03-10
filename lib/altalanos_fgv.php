@@ -111,7 +111,7 @@ static public function getcsere($csere,$link='')
 		foreach($linktomb as $tag)
 		{
 			$altag = explode('=', $tag);
-			if (($altag[0] != $csereT[0]))
+			if (($altag[0] != $csereT[0])&& isset($altag[1]))
 			{
 				$get_resz = $get_resz . $altag[0].'='.$altag[1].'&';
 			}

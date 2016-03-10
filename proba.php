@@ -15,8 +15,8 @@ class LogADT
     public static $tablanev='userek';
     public static $reg_form='mod/login/view/regisztral_form.html';
     public static $belep_form='mod/login/view/belep_form.html';
-    public static $belepve_form='mod/login/view/belepve_form.html';
-    public static $valtoztat_form='mod/login/view/valtoztat_form.html';
+    public static $belepve_form='mod/login/view/kilep_form.html';
+    public static $valtoztat_form='mod/login/view/szerk_form.html';
     public static $tiltott_func=array('belep_form','szerk','reg','ment','belep','kilep');
 
     public static $mentmezok=array

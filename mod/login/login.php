@@ -1,104 +1,167 @@
 <?php
 //namespace Login;
+//echo $_POST['ltask'].'éééé';
+include_once 'mod/mod_alap.php';
 class LogADT
 {
     public static $itemid='0';
     public static $jog='noname';
     public static $tablanev='userek';
+    public static $view='';
+    public static $referer=true;
+    public static $alap_func='alap';
+    public static $task_nev='ltask';
+    public static $task_tip=array('post','get');
     public static $reg_form='mod/login/view/regisztral_form.html';
     public static $belep_form='mod/login/view/belep_form.html';
-    public static $belepve_form='mod/login/view/belepve_form.html';
-    public static $valtoztat_form='mod/login/view/valtoztat_form.html';
-    public static $tiltott_func=array('belep_form','szerk','reg','ment','belep','kilep');
+    public static $kilep_form='mod/login/view/kilep_form.html';
+    public static $szerk_form='mod/login/view/szerk_form.html';
+    public static $szerk_kesz_form='mod/login/view/szerk_kesz__form.html';
+    public static $tiltott_func=array();
 
-    public static $mentmezok=array
+    public static $frissitmezok=array
     (
         array('mezonev'=>'username'),
         //array('mezonev'=>'','postnev'=>'','ell'=>'','tipus'=>''),
-        array('mezonev'=>'mail'),
-        array('mezonev'=>'password'),
+        array('mezonev'=>'password')
+    );
+
+
+    public static $mentmezok=array
+    (
+        array('mezonev'=>'username',),
+        //array('mezonev'=>'','postnev'=>'','ell'=>'','tipus'=>''),
+        array('mezonev'=>'mail',),
+        array('mezonev'=>'password',),
         array('mezonev'=>'ref')
     );
+}
+class LogView
+{
+   public static function belep()
+   {
+      LogADT::$view= file_get_contents(LogADT::$belep_form, true);
+   }
+    public static function kilep(){
+        LogADT::$view= file_get_contents(LogADT::$kilep_form, true);
+    }
+    public static function reg(){
+        LogADT::$view= file_get_contents(LogADT::$reg_form, true);
+    }
+    public static function szerk(){
+        LogADT::$view= file_get_contents(LogADT::$szerk_form, true);
+    }
+    public static function szerk_kesz(){
+    LogADT::$view= file_get_contents(LogADT::$szerk_kesz_form, true);
+}
+
 }
 
 class Login
 {
-    public $tartalom='';
-   // public function __construct($appview,$appdata){}
-    public function belepform()
-    {
-        $this->tartalom= file_get_contents(LogADT::$belep_form, true);
 
-    }
-    public function belep()
-    {
-        if(MDataStat::belep())
-        {
-            $tartalom= file_get_contents(LogADT::$belepve_form, true);
-        }
-        else
-        {
-            $hiba=MDataStat::hibakiir();
-            $view= file_get_contents(LogADT::$belep_form, true);
-            $tartalom = str_replace('<!--<h5>hiba</h5>-->', $hiba, $view);
-        }
-        $this->tartalom=$tartalom;
+    /**
+     * Login constructor.
+     */
+    public function __construct()
+    {/*
+        if (LogADT::$referer && isset($_SESSION['ref'])) {
+            if (!empty($_SESSION['ref'])) {
+                $_SESSION['ref'] = $_SERVER['HTTP_REFERER'];
+            }
 
+        }*/
     }
+
     public function alap()
     {
-        if($_SESSION['userid']>0)
-        {
-            $tartalom= file_get_contents(LogADT::$belepve_form, true);
+        if ($_SESSION['userid'] > 0) {
+            LogView::kilep();
+        } else {
+            LogView::belep();
+            $hiba = LogDataS::hibakiir();
+            LogADT::$view = str_replace('<!--<h5>hiba</h5>-->', $hiba, LogADT::$view);
         }
-        else
-        {
-            $tartalom= file_get_contents(LogADT::$belep_form, true);
-        }
-        $this->tartalom=$tartalom;
+       // echo '-------------';
+    }
 
-    }
-    public function kilep(){
-        $_SESSION['userid']=0;
+
+    public function belep()
+    {
+        LogDataS::belep();
+       if (empty(GOB::$hiba['login'])) {
+            if (isset($_SESSION['ref']) && !empty($_SESSION['ref'])) {
+                $cim = $_SESSION['ref'];
+                unset($_SESSION['ref']);
+                header($cim);
+            } else {
+                ;
+            }
+        } else {
+            $this->alap();
+        }
+        //echo '-ggggggggggg';
         $this->alap();
-       
     }
+
+
+    public function kilep()
+    {
+        $_SESSION['userid'] = 0;
+        $this->alap();
+    }
+
     public function szerk()
     {
-        $this->tartalom= file_get_contents(LogADT::$valtoztat_form, true);
-
+        LogView::szerk();
     }
-    public function reg()
+
+    public function szerkment()
     {
-        $view=file_get_contents(LogADT::$reg_form, true);
-        if(isset($_GET['ref']))
-        {
-            $view= str_replace('<!--<h5>ref</h5>-->','Referencia:'. $_GET['ref'], $view);
-            $view= str_replace('data="ref"','value="'.$_GET['ref'].'"', $view);
+        LogDataS::szerk_ment();
+        if (empty(GOB::$hiba['login'])) {
+            LogView::szerk_kesz();
+        } else {
+            LogView::szerk();
+            $hiba = LogDataS::hibakiir();
+            LogADT::$view = str_replace('<!--<h5>hiba</h5>-->', $hiba, LogADT::$view);
         }
 
-        $this->tartalom =  $view;
+    }
+
+
+    public function reg()
+    {
+        $view = file_get_contents(LogADT::$reg_form, true);
+        if (isset($_GET['ref'])) {
+            $view = str_replace('<!--<h5>ref</h5>-->', 'Referencia:' . $_GET['ref'], $view);
+            $view = str_replace('data="ref"', 'value="' . $_GET['ref'] . '"', $view);
+        }
+
+        LogADT::$view= $view;
 
     }
+
     public function ment()
     {
 
-        if(MDataStat::ment())
-        {
+        if (LogDataS::ment()) {
             $this->alap();
-        }
-        else
-        {
-            $view= file_get_contents(LogADT::$reg_form, true);
-            $hiba=MDataStat::hibakiir();
+        } else {
+            $view = file_get_contents(LogADT::$reg_form, true);
+            $hiba = LogDataS::hibakiir();
             $tartalom = str_replace('<!--<h5>hiba</h5>-->', $hiba, $view);
-            $this->tartalom=$tartalom;
+            LogADT::$view= $tartalom;
         }
 
     }
+
+    public function mégsem()
+    {
+        $this->alap();
+    }
 }
-class MData {}
-class MDataStat {
+class LogDataS {
     public static function ment()
     {
         $hiba=true;
@@ -152,7 +215,7 @@ class MDataStat {
                     DB::parancs($ql);
                 }
                 else
-                {echo 'nincs address';}
+                {GOB::$hiba['coin'][]= 'nincs address';}
 
             }
         }
@@ -160,10 +223,11 @@ class MDataStat {
     }
     public static function hibakiir()
     {$result='';
+        if(isset(GOB::$hiba['login'])){
         foreach(GOB::$hiba['login'] as $hiba)
         {
             $result=$result.$hiba.'</br>';
-        }
+        }}
         return $result;
     }
     public static function usernev_ell($usernev)
@@ -200,14 +264,49 @@ class MDataStat {
             else
             {
                 $_SESSION['userid']=$dd['id'];
+               // echo $_SESSION['userid'];
             }
         }
         return $result;
+       // echo 'belépés----';
+    }
+    public static function szerk_ment()
+    {
+        $hiba = true;
+        $old_jelszo = md5($_POST['password']);
+        $jelszo = md5($_POST['password']);
+        $jelszo2 = md5($_POST['password2']);
+        $usernev = $_POST['username'];
+        if ($old_jelszo != GOB::$user['password']) {
+            GOB::$hiba['login'][] = 'A régi jelszó nem jó!';
+            $hiba = false;
+        }
+        if ($jelszo != $jelszo2) {
+            GOB::$hiba['login'][] = 'A két új jelszó nem egyezik!';
+            $hiba = false;
+        }
+
+
+        if ($hiba) {
+
+            if ($_POST['username'] != GOB::$user['username']) {
+                if (!self::usernev_ell($usernev)) {
+                    $hiba = false;
+                }
+                $sql = "SELECT username FROM " . LogADT::$tablanev . " WHERE username='" . $usernev . "'";
+                $marvan = DB::assoc_sor($sql);
+                if ($marvan['username'] == $usernev) {
+                    GOB::$hiba['login'][] = 'Már van ilyen felhasználónév';
+                    $hiba = false;
+                }
+            }
+
+
+        }
+        if ($hiba) {
+            $beszurtid = DB::frissit_postbol(LogADT::$tablanev, GOB::$user['id'], LogADT::$frissitmezok);
+        }
+
     }
 
 }
-class AppView {
-
-
-}
-

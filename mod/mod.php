@@ -19,12 +19,13 @@ public static function rotator()
     return $rotator->result();
 }
 public static function login()
-    {   $func='alap';
+    {
         include_once 'mod/login/login.php';
         $login=new Login();
-       if(isset($_POST['task'])){ $func=$_POST['task'];}
-         $login->$func();
-            return $login->tartalom;
+        $func= ModTaskS::get_funcnev($login,'LogADT');
+         $login->$func(); //echo $func;
+       // print_r(GOB::$hiba);
+            return LogADT::$view;
     }
 public static function ikonsor($ikonok=array('uj','szerk','pub','unpub','torol','email'))
     {

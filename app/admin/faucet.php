@@ -29,7 +29,7 @@ class Admin extends AdminBase{
 };
 
 $app=new Admin();
-$fn=TASK_S::get_nev_funcnev($app);
+$fn=TASK_S::get_funcnev($app);
 ADT::$datasor_sql="SELECT * FROM faucet WHERE id='".ADT::$id."' ";
 
 $app->$fn();

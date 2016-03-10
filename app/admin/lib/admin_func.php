@@ -91,8 +91,8 @@ class AdminBase extends AppBase
     {
         ViewAdmin::urlap('szerk');
         DataAdmin::urlap('szerk');
-        ADT::$view =AppS::db_feltolt(ADT::$view,GAT::$urlap_dataT);
-        ADT::$view=AppS::inputmezo_feltolt(ADT::$view,GAT::$urlap_dataT);
+        ADT::$view =FeltoltS::db_feltolt(ADT::$view,GAT::$urlap_dataT);
+        ADT::$view=FeltoltS::inputmezo_feltolt(ADT::$view,GAT::$urlap_dataT);
     }
     public function ment()
     {  if(ADT::$itemid=='')
@@ -122,6 +122,6 @@ class AdminBase extends AppBase
     }
 
 }
-class AdminS extends AppS{}
+class AdminS extends FeltoltS{}
 
 ?>

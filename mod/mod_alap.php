@@ -1,122 +1,63 @@
 <?php
-class Task
-{   public $adt='ADT';
-    public $ob=null;
-    //ADT-be--------------------------
-    public $task_nev='motask';//ADT::$alap_func;ADT::tiltott_func
-    public $task_tip=array('post','get');//az utolsó lesz a post
+class ADT1
+{
+    public static $jog='noname';
+    public static $referer=true;
+    public static $alap_func='alap';
+    public static $task_nev='ltask';
+    public static $task_tip=array('post','get');
+    public static $tiltott_func=array();
 
-    public function __construct($ob,$adt)
+}
+class ModTask
+{
+    public function task_valaszt($adt='ADT1')
     {
-        $this->ob = $ob; $this->adt = $adt;
-    }
-
-
-    public function get_funcnev()
-    {
-        foreach($this->task_tip as $tip) {
+        $tasknev =$adt::$alap_func;
+        foreach ($adt::$task_tip as $tip)
+        {
             switch ($tip) {
                 case 'get':
-                    if (isset($_GET[$this->task_nev])) {
-                        $funcnev = $_GET[$this->task_nev];
+                    if (isset($_GET[$adt::$task_nev])) {
+                        $tasknev = $_GET[$adt::$task_nev];
                     }
                     break;
                 case 'post':
-                    if (isset($_POST[$this->task_nev])) {
-                        $funcnev = $_POST[$this->task_nev];
+                    if (isset($_POST[$adt::$task_nev])) {
+                        $tasknev = $_POST[$adt::$task_nev];
                     }
                     break;
             }
         }
-        if(in_array($funcnev ,ADT::tiltott_func )){$funcnev=ADT::$alap_func;}
-        if(!method_exists ($this->ob , $funcnev)){$funcnev=ADT::$alap_func;}
-        if(!GOB::get_userjog(ADT::$jog)) {$funcnev='joghiba';}
+      return $tasknev;
+    }
+      public function get_funcnev($ob,$adt='ADT1')
+    {
+        $funcnev=$this->task_valaszt($adt);
+        if(in_array($funcnev ,$adt::$tiltott_func )){$funcnev=$adt::$alap_func;}
+        if(!method_exists ($ob , $funcnev)){$funcnev=$adt::$alap_func;}
+        if(!GOB::get_userjog($adt::$jog)) {$funcnev='joghiba';}
         return $funcnev;
+        //return 'ggggggggg';
     }
 
 }
-
-
-
-class TASK_S
+class ModTaskS
 {
-    static public function get_funcnev($ob,$adt)
+    static public function get_funcnev($ob,$adt='LogADT')
     {
-        $ob2=new Task($ob,$adt);
-        return $ob2->get_funcnev();
+        $log=new ModTask();
+        return $log->get_funcnev($ob,$adt);
+    }
+    static   public function task_valaszt($adt='LogADT')
+    {
+        $log=new ModTask();
+        return $log->get_funcnev($adt);
     }
 
 }
 
-class AppS{
 
-    static public function all_feltolt($view,$datatomb)
-    {
-        $view=self::mod_feltolt($view);
-        $view=self::db_feltolt($view,$datatomb);
-        $view=self::inputmezo_feltolt($view,$datatomb);
-        return $view;
-    }
-    static public function mod_feltolt($view)
-    {
-        preg_match_all ("/<!--:([^`]*?)-->/",$view , $matches);
-        $mezotomb=$matches[1];
-        if(is_array($mezotomb))
-        {
-            foreach($mezotomb as $mezo)
-            {
-                $view= str_replace('<!--:'.$mezo.'-->', MOD::$mezo(), $view);
-            }
-        }
-        return $view;
-    }
-    static public function db_feltolt($view,$datatomb)
-    {
-
-        if(is_array($datatomb))
-        {
-            foreach($datatomb as $mezonev=>$mezoertek)
-            {
-                if(isset($mezoertek))
-                {
-                    $view= str_replace('<!--#'.$mezonev.'-->',$mezoertek, $view);
-                    $view= str_replace('data="'.$mezonev.'"','value="'.$mezoertek.'"' , $view);
-                    $view= str_replace('data="'.$mezonev.'">','>'.$mezoertek , $view);
-                }
-            }
-        }
-        return $view;
-    }
-
-
-
-    public static function LT_db_feltolt($view,$datatomb)
-    {
-        foreach($datatomb as $datasor)
-        {
-            $csere_str='<!--##'.$datasor['nev'].'-->';
-            $view= str_replace($csere_str,$datasor[GOB::$lang] , $view);
-        }
-        //}
-        return $view;
-    }
-    public static function LT_feltolt($view,$dataT=array())
-    {
-        if(empty($dataT)){$dataT=GOB::$LT;}
-        // a GOB::LT nagy lehet ne keljen rjatmindig végifutni:
-        preg_match_all ("/<!--##([^`]*?)-->/",$view , $matches);
-        $cseretomb=$matches[1];
-
-        foreach($cseretomb as $mezonev)
-        {
-            $csere_str='<!--##'.$mezonev.'-->';
-            $view= str_replace($csere_str,$dataT[$mezonev], $view);
-
-        }
-        return $view;
-    }
-
-}
 class  AppEll
 {
     /**

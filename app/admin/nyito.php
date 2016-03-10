@@ -70,7 +70,7 @@ class Admin {
        AppView::alap();
        $this->szerk_gomb_beszur();
         AppDataS::datatomb_LT();
-       ADT::$view= AppS::LT_db_feltolt(ADT::$view,ADT::$datatomb_LT);
+       ADT::$view= FeltoltS::LT_fromdb(ADT::$view,ADT::$datatomb_LT);
        if(ADT::$mezokeszit)
        {AppDataS::db_mezo_keszit();}
        if(ADT::$mezotorol)
@@ -181,6 +181,6 @@ class AppDataS
     }
 }
 $app=new Admin();
-$fn=TASK_S::get_nev_funcnev($app);
+$fn=Task_S::get_nev_funcnev($app);
 //echo $fn;
 $app->$fn();

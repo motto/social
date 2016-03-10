@@ -21,7 +21,7 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="tmpl/flat/images/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="tmpl/flat/images/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="tmpl/flat/images/ico/apple-touch-icon-57-precomposed.png">
-    <script src="lib/js/jquery-1.9.1.min.js"></script>
+
     <script>
 
         $(document).ready(function(){
@@ -74,12 +74,20 @@
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a href="index.php?app=rotator">Rotator</a></li>
-                <li><a href="index.php?app=admin&fget=login">Login</a></li>
+                <li class="active"><a href="index.php">Weblap</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Pénztár<i class="icon-angle-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="career.html">Bejövő</a></li>
+                        <li><a href="blog-item.html">Számlatörténet</a></li>
+                        <li><a href="pricing.html">Egyenlegek</a></li>
+
+                    </ul>
+                </li>
                 <li><a href="index.php?app=admin&fget=user">Userek</a></li>
                 <li><a href="index.php?app=admin&fget=faucet">Faucet</a></li>
                 <li><a href="index.php?app=admin&fget=nyito">Nyitólap</a></li>
-                <li><a href="index.php?app=admin&fget=login&task=reg">Regisztrálás</a></li>
+                <li><a href="index.php?app=admin&fget=login">Login</a></li>
             </ul>
         </div>
     </div>
@@ -97,9 +105,10 @@
         </div>
     </div>
 </footer><!--/#footer-->
-
-<!--<script src="tmpl/flat/js/bootstrap.min.js"></script>
+<script src="lib/js/jquery-1.9.1.min.js"></script>
+<script src="tmpl/flat/js/main.js"></script>
+<script src="tmpl/flat/js/bootstrap.min.js"></script>
 <!--<script src="tmpl/flat/js/jquery.prettyPhoto.js"></script>
-<script src="tmpl/flat/js/main.js"></script>-->
+-->
 </body>
 </html>

@@ -36,8 +36,8 @@ class AppView {
         $html=str_replace('data="id"', 'value="'.ADT::$id.'"', $html );
         if(!empty(ADT::$datasor))
         {
-            $html=AppS::db_feltolt($html,ADT::$datasor);
-            $html=AppS::db_feltolt($html,ADT::$datasor);
+            $html=FeltoltS::db_feltolt($html,ADT::$datasor);
+            $html=FeltoltS::db_feltolt($html,ADT::$datasor);
         }
 
         ADT::$view= $html;
@@ -55,7 +55,7 @@ class AdminBase {
         }
         if(isset($_POST['itemid']))
         {
-            ADT::$id=$_POST['id'];
+            ADT::$id=$_POST['itemid'];
         }
     }
 

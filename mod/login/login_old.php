@@ -83,7 +83,7 @@ if($adatok['password']!=''){$uj_jelszo=md5(ELL::$adatok['password']);}else{$uj_j
 	}else{
 	Tomb::kiir(GOB::$hiba['ELL']);
 	
-	include LOGINPATH.DS.'view'.DS.'valtoztat_form.html';
+	include LOGINPATH.DS.'view'.DS.'szerk_form.html';
 	}
 	
 }
@@ -94,7 +94,7 @@ switch ($_GET['login']){
 	include LOGINPATH.DS.'view'.DS.'regisztral_form.html';
 		break;
 	case 'valtoztat':
-	include LOGINPATH.DS.'view'.DS.'valtoztat_form.html';
+	include LOGINPATH.DS.'view'.DS.'szerk_form.html';
 		break;
 	case 'vment':
 		vment($adatok);
@@ -104,7 +104,7 @@ switch ($_GET['login']){
 		break;
 	default: 
 	if($_SESSION['userid']>0)
-		{include LOGINPATH.DS.'view'.DS.'belepve_form.html';}
+		{include LOGINPATH.DS.'view'.DS.'kilep_form.html';}
 		else
 		{include LOGINPATH.DS.'view'.DS.'belep_form.html';}
 	}

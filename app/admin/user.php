@@ -22,7 +22,7 @@ class Admin extends AdminBase{
 };
 
 $app=new Admin();
-$fn=TASK_S::get_nev_funcnev($app);
+$fn=ModTaskS::get_nev_funcnev($app);
 ADT::$datasor_sql="SELECT * FROM userek WHERE id='".ADT::$id."' ";
 
 $app->$fn();

@@ -4,8 +4,7 @@ include_once'app/admin/lib/tablas_alap.php';
     ADT::$view_file='app/admin/view/tabla_alap.html';
     ADT::$urlap_file ='app/admin/view/faucet_urlap.html';
     ADT::$datatomb_sql="SELECT * FROM faucet ORDER BY id DESC ";
-// ADT::$datasor_sql="SELECT * FROM faucet WHERE id='".ADT::$id."' ";
-// ha tároló változót tartalmaz PL:id az osztály pédányosítás után kell declarálni
+
     ADT::$tablanev='faucet';
     ADT::$tabla_szerk =array(
 array('cim'=>'','mezonev'=>'','tipus'=>'checkbox'),

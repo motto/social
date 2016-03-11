@@ -25,6 +25,7 @@ public static function login()
         $func= ModTaskS::get_funcnev($login,'LogADT');
          $login->$func(); //echo $func;
        // print_r(GOB::$hiba);
+        LogADT::$view=FeltoltS::from_sajatLT(LogADT::$view,'ModLT');
             return LogADT::$view;
     }
 public static function ikonsor($ikonok=array('uj','szerk','pub','unpub','torol','email'))

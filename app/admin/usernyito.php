@@ -4,59 +4,30 @@ class ADT
     public static $jog='admin';
     public static $task='alap';
     public static $task_valaszt=array('post','get');
-    public static $view='<h3>usernyito</h3>';
+    public static $view='';
     public static $datasor_LT=array();
     public static $lapnev='usernyito';
     public static $tablanev='userek';
-    public static $view_file='tmpl/flat/content/nyito.html';
-    public static $mezotomb=array();
-    // public static $func_aliasT=array();
-
+    public static $view_file='tmpl/flat/content/user_nyitoadmin.html';
 }
-
-
-class AppView {
-
-    public static function alap()
-    {
-        ADT::$view=file_get_contents(ADT::$view_file, true);
-
-    }
-
-}
-
-class Admin {
+class Admin{
 
     public function alap()
-    {
-        //AppView::alap();
+    {$sql="SELECT userid, SUM(satoshi) AS total_satoshi FROM penztar GROUP BY userid";
+        $dat=DB::assoc_tomb($sql);
+        print_r($dat);
 
-    }
-
-    public function joghiba()
-    {
-        if($_SESSION['userid']==0)
-        {ADT::$view=MOD::login();}
+        if($_SESSION['userid']>0)
+        {
+            ADT::$view=file_get_contents(ADT::$view_file, true);
+        }
         else
-        {ADT::$view='<h2><!--#joghiba--></h2>';}
-
-    }
-
-}
-
-class AppDataS
-{
-
-    public static  function datasor_LT($nev)
-    {
-        $sql="SELECT * FROM ".ADT::$tablanev." WHERE ='".$_SESSION['userid']."'";
-        ADT::$datasor_LT =DB::assoc_sor($sql);
-        return ADT::$datasor_LT;
+        {
+            ADT::$view=MOD::login();
+            ;
+        }
     }
 
 }
 $app=new Admin();
-$fn=Task_S::get_funcnev($app);
-$app->$fn();
-
-
+$app->alap();

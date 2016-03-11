@@ -2,6 +2,7 @@
 //namespace Login;
 //echo $_POST['ltask'].'éééé';
 include_once 'mod/mod_alap.php';
+include_once 'mod/login/lt.php';
 class LogADT
 {
     public static $itemid='0';
@@ -60,19 +61,6 @@ class LogView
 class Login
 {
 
-    /**
-     * Login constructor.
-     */
-    public function __construct()
-    {/*
-        if (LogADT::$referer && isset($_SESSION['ref'])) {
-            if (!empty($_SESSION['ref'])) {
-                $_SESSION['ref'] = $_SERVER['HTTP_REFERER'];
-            }
-
-        }*/
-    }
-
     public function alap()
     {
         if ($_SESSION['userid'] > 0) {
@@ -82,26 +70,12 @@ class Login
             $hiba = LogDataS::hibakiir();
             LogADT::$view = str_replace('<!--<h5>hiba</h5>-->', $hiba, LogADT::$view);
         }
-       // echo '-------------';
     }
 
 
     public function belep()
     {
-        LogDataS::belep();
-       if (empty(GOB::$hiba['login'])) {
-            if (isset($_SESSION['ref']) && !empty($_SESSION['ref'])) {
-                $cim = $_SESSION['ref'];
-                unset($_SESSION['ref']);
-                header($cim);
-            } else {
-                ;
-            }
-        } else {
             $this->alap();
-        }
-        //echo '-ggggggggggg';
-        $this->alap();
     }
 
 
@@ -170,31 +144,25 @@ class LogDataS {
         $usernev = $_POST['username'];
         if($jelszo!=$jelszo2)
         {
-            GOB::$hiba['login'][]='A két jelszó nem egyezik!';
+            GOB::$hiba['login'][]=ModLT::$newpasswd_nomatch[GOB::$lang];
             $hiba=false;
         }
         if(!self::usernev_ell($usernev))
         {
             $hiba=false;
         }
-
-        if($hiba)
-        {
-            $sql = "SELECT username FROM " .LogADT::$tablanev. " WHERE username='" .$usernev."'";
-            $marvan=DB::assoc_sor($sql);
-            if($marvan['username']==$usernev)
-            {
-                GOB::$hiba['login'][]='Már van ilyen felhasználónév';
-                $hiba=false;
-            }
-
+        $sql = "SELECT username FROM " . LogADT::$tablanev . " WHERE username='" . $usernev . "'";
+        $marvan = DB::assoc_sor($sql);
+        if ($marvan['username'] == $usernev) {
+            GOB::$hiba['login'][] = ModLT::$username_have[GOB::$lang];
+            $hiba = false;
         }
         if($hiba)
         {
             $beszurtid=DB::beszur_postbol(LogADT::$tablanev,LogADT::$mentmezok);
             if($beszurtid==0)
             {
-                GOB::$hiba['login'][]='Adatbázis hiba';
+                GOB::$hiba['login'][]=ModLT::$dberror[GOB::$lang];
                 $hiba=false;
             }
             else
@@ -215,7 +183,7 @@ class LogDataS {
                     DB::parancs($ql);
                 }
                 else
-                {GOB::$hiba['coin'][]= 'nincs address';}
+                {GOB::$hiba['coin'][]= 'nincs coin address';}
 
             }
         }
@@ -237,14 +205,15 @@ class LogDataS {
         $Regex_minmax='/^.{5,20}$/';
         if(preg_match($Regex_minmax,$usernev)!=1)
         {
-            GOB::$hiba['login'][]= 'A felhasználó névnek min 5 max 20 karakternek kell lenni!';
+            GOB::$hiba['login'][]= ModLT::$usernamelong_err[GOB::$lang];
             $result=false;
         }
         if(preg_match($Regex_hu_tobbszo,$usernev)!=1)
         {
-            GOB::$hiba['login'][]='A felhasználó név nem tartalmazhat "különleges karaktereket" ! Csak kis és nagybetűket (ékeztest is), szóközöket és számokat ';
+            GOB::$hiba['login'][]=ModLT::$spec_char_error[GOB::$lang];
             $result=false;
         }
+
         return $result;
     }
     public static function belep()
@@ -254,11 +223,11 @@ class LogDataS {
 
         if(self::usernev_ell($usernev))
         {
-            $sql="SELECT id,password FROM ".LogADT::$tablanev." WHERE username='".$usernev."'";
+            $sql="SELECT id,password FROM userek WHERE username='".$usernev."'";
             $dd=DB::assoc_sor($sql);
             if($jelszo!=$dd['password'])
             {
-                GOB::$hiba['login']='A felhasználónév vagy a jelszó nem jó!';
+                GOB::$hiba['login']=ModLT::$login_data_nomatch[GOB::$lang];
                 $result=false;
             }
             else
@@ -278,11 +247,11 @@ class LogDataS {
         $jelszo2 = md5($_POST['password2']);
         $usernev = $_POST['username'];
         if ($old_jelszo != GOB::$user['password']) {
-            GOB::$hiba['login'][] = 'A régi jelszó nem jó!';
+            GOB::$hiba['login'][] = ModLT::$oldpasswd_err[GOB::$lang];
             $hiba = false;
         }
         if ($jelszo != $jelszo2) {
-            GOB::$hiba['login'][] = 'A két új jelszó nem egyezik!';
+            GOB::$hiba['login'][] = ModLT::$newpasswd_nomatch[GOB::$lang];
             $hiba = false;
         }
 
@@ -293,12 +262,7 @@ class LogDataS {
                 if (!self::usernev_ell($usernev)) {
                     $hiba = false;
                 }
-                $sql = "SELECT username FROM " . LogADT::$tablanev . " WHERE username='" . $usernev . "'";
-                $marvan = DB::assoc_sor($sql);
-                if ($marvan['username'] == $usernev) {
-                    GOB::$hiba['login'][] = 'Már van ilyen felhasználónév';
-                    $hiba = false;
-                }
+
             }
 
 

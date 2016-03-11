@@ -15,6 +15,7 @@ include_once 'lib/jog.php';
 include_once 'lib/altalanos_fgv.php';
 include_once 'app/app.php'; //taskválasztó
 include_once 'mod/mod.php';
+include_once 'mod/login/login.php';
 //include_once 'mod/mod_alap.php';
 include_once 'lib/view_feltolt.php'; //nézet feltöltő függvények
 require_once('vendor/autoload.php');
@@ -28,7 +29,6 @@ if(MoConfig::$offline=='igen'){ //offline módban kikapcsolja a weblapot
 				return false;
 				}
 }
-
 /**
  * Class GOB
  * globális változók
@@ -36,6 +36,7 @@ if(MoConfig::$offline=='igen'){ //offline módban kikapcsolja a weblapot
 class GOB {
 	private static $userjog=Array();
 	public static $lang='en';
+	public static $log_mod=true;
 	public static $LT=array(); //nyelvi tömb
 	public static $html='';
 	public static $admin_data=array();
@@ -72,11 +73,18 @@ $configuration =Configuration::apiKey(GOB::$coinKey, GOB::$coinSecret);
 GOB::$client = Client::create($configuration);
 //adatbázis,azonosítás--------------------
 $db=DB::connect();
+if(isset($_POST['password']) &&isset ($_POST['username']))
+{
+if(LogDataS::belep()){GOB::$log_mod=false;}
+}
 $azonosit= new Azonosit; //$_SESSION['userid']=62;
 GOB::set_userjog();
 GOB::$user=DB::assoc_sor("SELECT id,username,email,password FROM userek WHERE id='".$_SESSION['userid']."'");
 //applikáció becsatolás-----------------------------
-GOB::$app=ADAT::GET_POST_SESS('app',GOB::$app);
+//GOB::$app=ADAT::GET_POST_SESS('app',GOB::$app); //a session könnyen bekavar!
+
+if(isset($_POST['app'])){GOB::$app=$_POST['app'];}
+if(isset($_GET['app'])){GOB::$app=$_GET['app'];}
 include_once 'app/'.GOB::$app.'/'.GOB::$app.'.php';
 
 ?>

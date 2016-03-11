@@ -15,13 +15,13 @@ class AppS{
 GOB::$html=file_get_contents('tmpl/flat/rotator.html', true);
 GOB::$html=FeltoltS::from_LT(GOB::$html);
 GOB::$html=FeltoltS::mod(GOB::$html);
-if($_SESSION['userid']==0)
+if($_SESSION['userid']>0)
 {
-        $tartalom=MOD::login();
+        $tartalom=MOD::rotator();
 }
 else
 {
-        $tartalom=MOD::rotator();
+        $tartalom=MOD::login();
 }
 
 

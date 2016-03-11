@@ -54,8 +54,50 @@ class FeltoltS{
 
         foreach($cseretomb as $mezonev)
         {
-            $csere_str='<!--##'.$mezonev.'-->';
-            $view= str_replace($csere_str,$LT[$mezonev], $view);
+            if(isset($LT[$mezonev]))
+            {
+                $csere_str='<!--##'.$mezonev.'-->';
+                $view= str_replace($csere_str,$LT[$mezonev], $view);
+            }
+
+
+        }
+        return $view;
+    }
+    public static function from_sajatLT($view,$LTnev)
+    {
+        preg_match_all ("/<!--##([^`]*?)-->/",$view , $matches);
+        $cseretomb=$matches[1];
+
+        //get_object_vars ( object $object )
+        $vars = get_class_vars($LTnev);
+        foreach($cseretomb as $mezonev)
+        {
+           // print_r($LTnev::$$mezonev);
+            if(  property_exists($LTnev,$mezonev ))
+            {   $lt=$vars[$mezonev];
+                $csere_str='<!--##'.$mezonev.'-->';
+                $view= str_replace($csere_str,$lt[GOB::$lang], $view);
+            }
+
+
+        }
+        return $view;
+    }
+
+
+
+    public static function LT_tisztit($view)
+    {
+        preg_match_all ("/<!--##([^`]*?)-->/",$view , $matches);
+        $cseretomb=$matches[1];
+
+        foreach($cseretomb as $mezonev)
+        {
+
+                $csere_str='<!--##'.$mezonev.'-->';
+                $view= str_replace($csere_str,'', $view);
+
 
         }
         return $view;

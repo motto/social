@@ -23,8 +23,10 @@ class Rview
 
     public static function varolink($link,$pont,$perc,$id)
     {
+        if(parse_url($link, PHP_URL_HOST)==''){$linknev='undefined link';}
+        else{$linknev=parse_url($link, PHP_URL_HOST);}
         $result='<div id="'.$id.'" class="varodiv">
-                <div class="varolink"><a href="index.php?app=rotator&id='.$id.'" >'.parse_url($link, PHP_URL_HOST).'</a></div>
+                <div class="varolink"><a href="index.php?app=rotator&id='.$id.'" >'.$linknev.'</a></div>
                 <div class="varopont">'.$pont.'</div>
                 <div class="varoperc">'.$perc.'</div>
                 <div style="clear: both;"></div>

@@ -51,6 +51,8 @@ class GOB {
 	public static $adminok=array(3,4);
 	public static $coinKey='duqWXbUlCKH8qNg8';
 	public static $coinSecret='DE4hteGw1nAzRwpxh4hPVN8dwRBjSBCL';
+	public static $tarcaBase='1FzgRFSFRS6aPxEWXS9yG9o4ZSPuCrvmTR';
+	public static $tarcaDelBase='13gc8kS3K1NJcSWXm3yC4Y5pcmrV6QrCaQ';
 	public static $client=null;
 	/**
 	 * @var string
@@ -71,9 +73,11 @@ class GOB {
 }
 $configuration =Configuration::apiKey(GOB::$coinKey, GOB::$coinSecret);
 GOB::$client = Client::create($configuration);
+//$client = Client::create($configuration);
+//$accounts =$client->getAccount('');
 //adatbázis,azonosítás--------------------
 $db=DB::connect();
-if(isset($_POST['password']) &&isset ($_POST['username']))
+if(isset($_POST['ltask']) && $_POST['ltask']=='belep')
 {
 if(LogDataS::belep()){GOB::$log_mod=false;}
 }

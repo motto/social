@@ -13,10 +13,7 @@ class ADT
 class Admin{
 
     public function alap()
-    {$sql="SELECT userid, SUM(satoshi) AS total_satoshi FROM penztar GROUP BY userid";
-        $dat=DB::assoc_tomb($sql);
-        print_r($dat);
-
+    {
         if($_SESSION['userid']>0)
         {
             ADT::$view=file_get_contents(ADT::$view_file, true);

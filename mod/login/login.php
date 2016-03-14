@@ -3,6 +3,12 @@
 //echo $_POST['ltask'].'éééé';
 include_once 'mod/mod_alap.php';
 include_once 'mod/login/lt.php';
+require_once('vendor/autoload.php');
+use Coinbase\Wallet\Client;
+use Coinbase\Wallet\Configuration;
+use Coinbase\Wallet\Resource\Address;
+use Coinbase\Wallet\Resource\Account;
+
 class LogADT
 {
     public static $itemid='0';
@@ -12,7 +18,7 @@ class LogADT
     public static $referer=true;
     public static $alap_func='alap';
     public static $task_nev='ltask';
-    public static $task_tip=array('post','get');
+    public static $task_tip=array('get','post');
     public static $reg_form='mod/login/view/regisztral_form.html';
     public static $belep_form='mod/login/view/belep_form.html';
     public static $kilep_form='mod/login/view/kilep_form.html';
@@ -32,7 +38,7 @@ class LogADT
     (
         array('mezonev'=>'username',),
         //array('mezonev'=>'','postnev'=>'','ell'=>'','tipus'=>''),
-        array('mezonev'=>'mail',),
+        array('mezonev'=>'email',),
         array('mezonev'=>'password',),
         array('mezonev'=>'ref')
     );
@@ -48,6 +54,11 @@ class LogView
     }
     public static function reg(){
         LogADT::$view= file_get_contents(LogADT::$reg_form, true);
+        if(isset($_POST['ref'])){
+            LogADT::$view = str_replace('<!--<h5>ref</h5>-->','<h5>Ref:'.$_POST['ref'].'</h5>', LogADT::$view);
+            LogADT::$view = str_replace('data="ref"','value="'.$_POST['ref'].'"', LogADT::$view);
+        }
+
     }
     public static function szerk(){
         LogADT::$view= file_get_contents(LogADT::$szerk_form, true);
@@ -151,9 +162,9 @@ class LogDataS {
         {
             $hiba=false;
         }
-        $sql = "SELECT username FROM " . LogADT::$tablanev . " WHERE username='" . $usernev . "'";
+        $sql = "SELECT username FROM  userek WHERE username='" . $usernev . "'";
         $marvan = DB::assoc_sor($sql);
-        if ($marvan['username'] == $usernev) {
+        if (isset($marvan['username'])) {
             GOB::$hiba['login'][] = ModLT::$username_have[GOB::$lang];
             $hiba = false;
         }
@@ -179,8 +190,11 @@ class LogDataS {
                 $adressid=GOB::$client->getAccountAddresses($account)->getFirstId();
                 $address=GOB::$client->getAccountAddress($account,$adressid)->getAddress();
                 if($address!=''){
-                    $ql="UPDATE userek SET tarca='".$address."', tarcaid='".$adressid."', accountid='".$accountid."' WHERE id='".$beszurtid."'";
-                    DB::parancs($ql);
+                    $sql="INSERT INTO tarcak (tarcanev,tarca,tarcaid,accountid) VALUES ('".$usernev."','".$address."','".$adressid."','".$accountid."')";
+                    $tarcaid=DB::beszur($sql);
+
+                    $ql2="UPDATE userek SET tarcaid='".$tarcaid."' WHERE id='".$beszurtid."'";
+                    DB::parancs($ql2);
                 }
                 else
                 {GOB::$hiba['coin'][]= 'nincs coin address';}
@@ -223,24 +237,30 @@ class LogDataS {
 
         if(self::usernev_ell($usernev))
         {
-            $sql="SELECT id,password FROM userek WHERE username='".$usernev."'";
+            $sql="SELECT id,password FROM userek WHERE username='".$usernev."' AND pub='0'";
             $dd=DB::assoc_sor($sql);
-            if($jelszo!=$dd['password'])
-            {
-                GOB::$hiba['login']=ModLT::$login_data_nomatch[GOB::$lang];
-                $result=false;
-            }
-            else
-            {
-                $_SESSION['userid']=$dd['id'];
-               // echo $_SESSION['userid'];
-            }
+            if(!empty($dd))
+            {    if($jelszo!=$dd['password'])
+                {
+                    GOB::$hiba['login']=ModLT::$login_data_nomatch[GOB::$lang];
+
+                }
+                else
+                {
+                    $_SESSION['userid']=$dd['id'];
+                   // echo $_SESSION['userid'];
+                }
+            }else{ $result=false;GOB::$hiba['login']=ModLT::$login_data_nomatch[GOB::$lang];}
         }
         return $result;
        // echo 'belépés----';
     }
     public static function szerk_ment()
     {
+        /**TODO
+         * userné ellenórzést megcsinálni hogy ne lehessen két ugyanolyan de a sajátja maradhasson  ment llenőrzése nemó ide!
+         */
+
         $hiba = true;
         $old_jelszo = md5($_POST['password']);
         $jelszo = md5($_POST['password']);

@@ -30,7 +30,43 @@ class LogADT
 }
 $ss='LogADT';
 //echo $ss::$tiltott_func;
+
+
 print_r($ss::$tiltott_func);
+AppDataS::datatomb(ADT::$datatomb_sql);
+$configuration =Configuration::apiKey(GOB::$coinKey, GOB::$coinSecret);
+$client = Client::create($configuration);
+$accounts = $client->getAccounts();
+foreach (ADT::$datatomb as $sor) {
+    $sor['uj']='';
+    $datatomb[]=$sor;
+}
+ADT::$datatomb=$datatomb;
+
+foreach ($accounts as &$account) {
+    $balance = $account->getBalance();
+    $adressid=$client->getAccountAddresses($account)->getFirstId();
+    $address=$client->getAccountAddress($account,$adressid)->getAddress();
+
+    if($balance->getAmount()>0)
+    {   $vansor=true;
+        foreach (ADT::$datatomb as $key=>$sor) {
+            if($account->getName()==$sor['username'])
+            {
+                $sor['uj']= $balance->getAmount();
+                ADT::$datatomb[$key]=$sor;
+                $vansor=false;
+            };
+        }
+        if($vansor)
+        {
+            ADT::$datatomb[] =Array('id'=>'','username'=>$account->getName() ,'trcim'=>'bejövő','tarca'=>'','egyenleg'=>'0','uj'=>$balance->getAmount());
+        }
+
+    }
+
+    //echo $address. ":--------- " . $account->getId() . ": " . $account->getName() . ": " .  $balance->getAmount() . $balance->getCurrency() .  "<br/>";
+}
 
 //echo $csereT;
 //require 'coinbase/src/Client.php';

@@ -1,4 +1,5 @@
 <?php
+//include_once 'lib/view_feltolt';
 class ADT
 {//paraméterek------------------------
     public static $jog = 'admin';
@@ -33,11 +34,12 @@ class AppView {
     public static function urlap()
     {
         $html=file_get_contents(ADT::$urlap_file, true);
-        $html=str_replace('data="id"', 'value="'.ADT::$id.'"', $html );
+
         if(!empty(ADT::$datasor))
         {
-            $html=FeltoltS::db_feltolt($html,ADT::$datasor);
-            $html=FeltoltS::db_feltolt($html,ADT::$datasor);
+            $html=str_replace('data="id"', 'value="'.ADT::$id.'"', $html );
+            $html=FeltoltS::fromdb($html,ADT::$datasor);
+            //$html=FeltoltS::fromdb($html,ADT::$datasor);
         }
 
         ADT::$view= $html;
@@ -57,6 +59,11 @@ class AdminBase {
         {
             ADT::$id=$_POST['itemid'];
         }
+        if(isset($_POST['id']))
+        {
+            ADT::$id=$_POST['id'];
+        }
+
     }
 
     public function alap()
@@ -152,7 +159,7 @@ class AppDataS
     {
         ADT::$datasor =DB::assoc_sor($sql);
        // print_r(ADT::$datasor);
-        echo $sql;
+       // echo $sql;
         return ADT::$datasor;
     }
     public static  function datatomb($sql)

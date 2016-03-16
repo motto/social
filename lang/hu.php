@@ -1,6 +1,9 @@
 <?php
 GOB::$LT=array(
     'faucet rotator'=>'Faucet rotator',
+  /*  'faucet rotator'=>array(
+        'hu'=>'Faucet rotator',
+        'en'=>'Faucet rotator',*/
     'penztar'=>'Pénztár',
     'username'=>'Usernév',
     'cancel'=>'Mégsem',

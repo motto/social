@@ -8,7 +8,7 @@ if(substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2)=='hu'){GOB::$lang= 'hu';}
 if(isset($_SESSION['lang'])){GOB::$lang=$_SESSION['lang'];}
 if(isset($_GET['lang'])){GOB::$lang=$_GET['lang'];$_SESSION['lang']=$_GET['lang'];}
 include_once('lang/'.GOB::$lang.'.php');
-
+if(isset($_GET['ref'])){$_SESSION['ref']=$_GET['ref'];}
 include_once 'definial.php';
 include_once 'lib/db_fgv.php';
 include_once 'lib/jog.php';

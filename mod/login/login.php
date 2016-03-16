@@ -118,9 +118,9 @@ class Login
     public function reg()
     {
         $view = file_get_contents(LogADT::$reg_form, true);
-        if (isset($_GET['ref'])) {
-            $view = str_replace('<!--<h5>ref</h5>-->', 'Referencia:' . $_GET['ref'], $view);
-            $view = str_replace('data="ref"', 'value="' . $_GET['ref'] . '"', $view);
+        if (isset($_SESSION['ref'])) {
+            $view = str_replace('<!--<h5>ref</h5>-->', 'Referencia:' . $_SESSION['ref'], $view);
+            $view = str_replace('data="ref"', 'value="' . $_SESSION['ref'] . '"', $view);
         }
 
         LogADT::$view= $view;
@@ -205,11 +205,13 @@ class LogDataS {
     }
     public static function hibakiir()
     {$result='';
-        if(isset(GOB::$hiba['login'])){
-        foreach(GOB::$hiba['login'] as $hiba)
-        {
-            $result=$result.$hiba.'</br>';
-        }}
+        if(isset(GOB::$hiba['login']))
+        {//print_r(GOB::$hiba);
+            foreach(GOB::$hiba['login'] as $hiba)
+            {
+                $result=$result.$hiba.'</br>';
+            }
+        }
         return $result;
     }
     public static function usernev_ell($usernev)

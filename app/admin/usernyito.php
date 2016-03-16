@@ -8,7 +8,7 @@ class ADT
     public static $datasor_LT=array();
     public static $lapnev='usernyito';
     public static $tablanev='userek';
-    public static $view_file='tmpl/flat/content/user_nyitoadmin.html';
+    public static $view_file='app/admin/view/user_sajat.html';
 }
 class Admin{
 

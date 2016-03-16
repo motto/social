@@ -21,6 +21,28 @@
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="tmpl/flat/images/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="tmpl/flat/images/ico/apple-touch-icon-57-precomposed.png">
 
+
+    <meta property="og:type"          content="website" />
+    <meta property="og:title"         content="SocialBittap" />
+    <meta property="og:description"   content="A jövő pénze! Otthonról, könnyedén!" />
+    <meta property="og:image"         content="http://social.infolapok.hu/image/image.jpg" />
+
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/hu_HU/sdk.js#xfbml=1&version=v2.5";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+    <script src="lib/js/jquery-1.9.1.min.js"></script>
+    <script src="tmpl/flat/js/bootstrap.min.js"></script>
+    <!--<script src="tmpl/flat/js/jquery.prettyPhoto.js"></script>
+    --><script src="tmpl/flat/js/main.js"></script>
+
 </head><!--/head-->
 <body>
 <style>
@@ -61,7 +83,7 @@
                 <li><a href="index.php?app=admin&fget=usernyito"><!--##personal--></a></li>
                 <li><a href="index.php?app=admin&fget=account"><!--##account--></a></li>
                 <li><a href="index.php?app=base&fget=contact"><!--##contact--></a></li>
-                <li><a href="index.php?app=base&fget==login"><!--##login--></a></li>
+                <li><a href="index.php?app=base&fget=login"><!--##login--></a></li>
                 <li><!--:zaszlo--></li>
             </ul>
         </div>
@@ -80,9 +102,7 @@
         </div>
     </div>
 </footer><!--/#footer-->
-<script src="lib/js/jquery-1.9.1.min.js"></script>
-<script src="tmpl/flat/js/bootstrap.min.js"></script>
-<!--<script src="tmpl/flat/js/jquery.prettyPhoto.js"></script>
---><script src="tmpl/flat/js/main.js"></script>
+
+
 </body>
 </html>

@@ -27,6 +27,11 @@ class TaskValaszt
                         $task = $_POST[$this->task_nev];
                     }
                     break;
+                case 'session':
+                    if (isset($_SESSION[$this->task_nev])) {
+                        $task = $_SESSION[$this->task_nev];
+                    }
+                    break;
             }
         }
         return  $task;
@@ -80,10 +85,6 @@ class TaskADT
     {
         $funcnev=ValasztS::task(ADT::$task,ADT::$task_valaszt);
         ADT::$task=$funcnev;
-       /* if(isset(ADT::$func_aliasT[$funcnev]))
-        {
-            $funcnev=ADT::$func_aliasT[$funcnev];
-        }*/
         if(!method_exists ($this->ob , $funcnev)){$funcnev=ADT::$task;}
         if(!GOB::get_userjog(ADT::$jog))
         {$funcnev='joghiba';}
@@ -104,6 +105,12 @@ static public function get_nev_funcnev($ob)
     $ob2=new Task($ob);
     return $ob2->result();
 }
+    static public function var_GPS($varnev='task',$varalap='alap',$sorrend=array('session','post','get'))
+    {
+        $ob2=new TaskValaszt($varnev,$varalap,$sorrend);
+        return $ob2->result();
+    }
+
 }
 
 /*

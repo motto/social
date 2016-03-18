@@ -9,7 +9,7 @@ preg_match_all ("/<!--#([^`]*?)-->/", $str, $matches);
 
  $db=DB::connect();
 //$er=DB::beszur("insert into lng (nev) VALUE ('ffff')");
-print_r($er);
+print_r($tarcat=DB::assoc_sor("SELECT SUM(p.satoshi) AS egyenleg FROM penztar p WHERE userid='16' GROUP BY p.userid"));
 
 class MoConfig {
 

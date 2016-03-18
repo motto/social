@@ -12,7 +12,7 @@ if(GOB::get_userjog('admin'))
 else
 {
     GOB::$html = file_get_contents('tmpl/flat/useradmin.html', true);
-    $fget='usernyito';
+    $fget='user_sajat';
 }
 
 

@@ -23,12 +23,12 @@ class LogADT
     public static $belep_form='mod/login/view/belep_form.html';
     public static $kilep_form='mod/login/view/kilep_form.html';
     public static $szerk_form='mod/login/view/szerk_form.html';
-    public static $szerk_kesz_form='mod/login/view/szerk_kesz__form.html';
+    public static $szerk_kesz_form='mod/login/view/szerk_kesz_form.html';
     public static $tiltott_func=array();
 
     public static $frissitmezok=array
     (
-        array('mezonev'=>'username'),
+       // array('mezonev'=>'username'),
         //array('mezonev'=>'','postnev'=>'','ell'=>'','tipus'=>''),
         array('mezonev'=>'password')
     );
@@ -111,7 +111,7 @@ class Login
             $hiba = LogDataS::hibakiir();
             LogADT::$view = str_replace('<!--<h5>hiba</h5>-->', $hiba, LogADT::$view);
         }
-
+//print_r(GOB::$hiba['login']);
     }
 
 
@@ -204,7 +204,8 @@ class LogDataS {
         return $hiba;
     }
     public static function hibakiir()
-    {$result='';
+    {
+        $result='';
         if(isset(GOB::$hiba['login']))
         {//print_r(GOB::$hiba);
             foreach(GOB::$hiba['login'] as $hiba)
@@ -212,6 +213,7 @@ class LogDataS {
                 $result=$result.$hiba.'</br>';
             }
         }
+      //  echo $result;
         return $result;
     }
     public static function usernev_ell($usernev)
@@ -244,7 +246,7 @@ class LogDataS {
             if(!empty($dd))
             {    if($jelszo!=$dd['password'])
                 {
-                    GOB::$hiba['login']=ModLT::$login_data_nomatch[GOB::$lang];
+                    GOB::$hiba['login'][]=ModLT::$login_data_nomatch[GOB::$lang];
 
                 }
                 else
@@ -252,7 +254,7 @@ class LogDataS {
                     $_SESSION['userid']=$dd['id'];
                    // echo $_SESSION['userid'];
                 }
-            }else{ $result=false;GOB::$hiba['login']=ModLT::$login_data_nomatch[GOB::$lang];}
+            }else{ $result=false;GOB::$hiba['login'][]=ModLT::$login_data_nomatch[GOB::$lang];}
         }
         return $result;
        // echo 'belépés----';
@@ -260,14 +262,13 @@ class LogDataS {
     public static function szerk_ment()
     {
         /**TODO
-         * userné ellenórzést megcsinálni hogy ne lehessen két ugyanolyan de a sajátja maradhasson  ment llenőrzése nemó ide!
+         * usernév ellenórzést megcsinálni hogy ne lehessen két ugyanolyan de a sajátja maradhasson  ment llenőrzése nemó ide!
          */
 
         $hiba = true;
-        $old_jelszo = md5($_POST['password']);
+        $old_jelszo = md5($_POST['oldpass']);
         $jelszo = md5($_POST['password']);
         $jelszo2 = md5($_POST['password2']);
-        $usernev = $_POST['username'];
         if ($old_jelszo != GOB::$user['password']) {
             GOB::$hiba['login'][] = ModLT::$oldpasswd_err[GOB::$lang];
             $hiba = false;
@@ -276,21 +277,8 @@ class LogDataS {
             GOB::$hiba['login'][] = ModLT::$newpasswd_nomatch[GOB::$lang];
             $hiba = false;
         }
-
-
         if ($hiba) {
-
-            if ($_POST['username'] != GOB::$user['username']) {
-                if (!self::usernev_ell($usernev)) {
-                    $hiba = false;
-                }
-
-            }
-
-
-        }
-        if ($hiba) {
-            $beszurtid = DB::frissit_postbol(LogADT::$tablanev, GOB::$user['id'], LogADT::$frissitmezok);
+          DB::parancs("UPDATE userek SET password='".$jelszo."' WHERE id='".GOB::$user['id']."'");;
         }
 
     }

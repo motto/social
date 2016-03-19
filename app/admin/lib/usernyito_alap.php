@@ -28,29 +28,26 @@ class AlapView {
         return $res;
     }
     public static function feltolt_alap($dataT,$nyito_string="<!--##",$zaro_string="-->")
-    {
-        preg_match_all ("/".$nyito_string."([^`]*?)".$zaro_string."/",ADT::$view , $matches);
-        $cseretomb=$matches[1];
-        foreach($cseretomb as $mezonev)
+    {//echo'ffffffffffffff';
+        foreach($dataT as $mezokulcs=> $mezoertek)
         {
-            // print_r($LTnev::$$mezonev);
-            if(isset($dataT[$mezonev] ))
-            {
-                $csere_str=$nyito_string.$mezonev.$zaro_string;
-                ADT::$view= str_replace($csere_str,$dataT[$mezonev] ,ADT::$view );
-            }
+                $csere_str=$nyito_string.$mezokulcs.$zaro_string;
+           // echo $csere_str;
+                ADT::$view= str_replace($csere_str,$mezoertek ,ADT::$view );
         }
-       // ADT::$view='ddddddd';
+
     }
     public static function feltolt(){
+       // echo'----------';
        // ADT::$view='ddddddd';
-        self::feltolt_alap(ADT::$LT,"<!--##");
-        self::feltolt_alap(ADT::$dataT,"<!--#");
+       // self::feltolt_alap(ADT::$LT,"<!--##");
+       // print_r(ADT::$dataT);
+        AlapView::feltolt_alap(ADT::$dataT,"<!--#"); //self::feltolt_alap(ADT::$dataT,"<!--#");
     }
 
 
     public static function szerk(){
-        AppDataS::szerk();
+        AlapDataS::szerk();
         if(substr(ADT::$nev, 0, 2)=='tx')
         {$html=file_get_contents(ADT::$texturlap, true);}
         else

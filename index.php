@@ -16,6 +16,7 @@ include_once 'lib/altalanos_fgv.php';
 include_once 'app/app.php'; //taskválasztó
 include_once 'mod/mod.php';
 include_once 'mod/login/login.php';
+//include_once 'mod/login/lt.php';
 //include_once 'mod/mod_alap.php';
 include_once 'lib/view_feltolt.php'; //nézet feltöltő függvények
 require_once('vendor/autoload.php');
@@ -83,7 +84,7 @@ if(LogDataS::belep()){GOB::$log_mod=false;}
 }
 $azonosit= new Azonosit; //$_SESSION['userid']=62;
 GOB::set_userjog();
-GOB::$user=DB::assoc_sor("SELECT id,username,email,password FROM userek WHERE id='".$_SESSION['userid']."'");
+GOB::$user=DB::assoc_sor("SELECT id,kifcim,username,email,password FROM userek WHERE id='".$_SESSION['userid']."'");
 //applikáció becsatolás-----------------------------
 //GOB::$app=ADAT::GET_POST_SESS('app',GOB::$app); //a session könnyen bekavar!
 

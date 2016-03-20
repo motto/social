@@ -8,42 +8,65 @@ table{background-color: #374f70;}
     h2{padding-left: 5%;}
     h4{padding-left: 5%;}
 </style>
+<script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/hu_HU/sdk.js#xfbml=1&version=v2.5";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
 
 
-    <h2>Üdvözöljük <!--#usernev--> !</h2>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<h2><!--##udv-->  <!--#username--> !</h2>
 
     <form method="post" action="index.php?app=admin" >
 
 <table>
-    <tr><td> <h4>Az ön egyenlege: </h4></td>
+    <tr><td> <h4><!--##sajat_egyenleg-->  </h4></td>
         <td><span class="ertek" ><!--#egyenleg--> <span class="feher">satoshi </span></span></td>
         <td>
-            <button style="padding:0.2%;margin-left:3%;" type="reset" class="btn btn-primary btn-lg" onclick="window.location='index.php?app=admin&fget=account'">Pénztár
-            </button>
+            <button type="reset" class="btn btn-primary btn-lg" onclick="window.location='index.php?app=admin&fget=account'">
+                <!--##penztar-->   </button>
         </td>
     </tr>
-    <tr><td> <h4>Az ön bitcoin tárcája: </h4></td>
+    <tr><td> <h4> <!--##sajat_tarca--></h4></td>
         <td><span class="ertek" ><!--#tarca--></span></td>
         <td>
 
         </td>
     </tr>
-    <tr><td> <h4>Az ön ajánló linkje:</h4></td>
+    <tr><td> <h4><!--##ajanlo_link--></h4></td>
         <td><span class="ertek" > http://socialbittap.com/?ref=<!--#userid--></span></td>
         <td>
 
     </tr>
 </table>
         <h2></h2>
-        <h4>Az ajánló linket bármilyen formában megoszthatja, aki rákattintva érkezik a weblapunkra automatikusan az ön referáltja lesz.</h4>
-        <h4> Szintén szeméyre szabott linket generáló közösségi gombok: </h4>
-        <!-- <div class="fb-like" data-href="http://socialbittap.com/index.php?app=base&ref=123" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>-->
+        <h4><!--##ajanlo_link_tx--></h4>
+        <h4> <!--##ajanlo_link_tx2--> </h4>
+        <table>
+            <tr>
+
+                <td><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://proba.socialbittap.com/index.php?ref=<!--refid-->" data-text="Ez az intro">Tweet</a>
+                </td>
+                <td> <div class="g-plusone"></div></td>
+                <td>
+                    <div id="fb-root"></div><div class="fb-share-button" data-href="http://socialbittap.com/index.php?ref=<!--refid-->" data-layout="button_count"></div>
+                    <div class="fb-send"
+                         data-href="http://proba.socialbittap.com/index.php?ref=<!--refid-->" data-layout="button_count"
+                         data-layout="button_count">
+                    </div></td>
+
+            </tr>
+        </table>
 
  <table>
-     <tr><td> <h4>Jelszó:</h4></td>
-         <td><span class="ertek" >Érdemes havonta változtatni!</span></td>
+     <tr><td> <h4><!--##passwd--></h4></td>
+         <td><span class="ertek" ><!--##valtoztatni--></span></td>
          <td>
-             <button style="padding:0.2%;margin-left:3%;" type="reset" class="btn btn-primary btn-lg" onclick="window.location='index.php?app=admin&mod=login&ltask=szerk'">Változtatás
+             <button  type="reset" class="btn btn-primary btn-lg" onclick="window.location='index.php?app=admin&mod=login&ltask=szerk'"><!--##change-->
              </button>
          </td>
      </tr>
@@ -51,21 +74,21 @@ table{background-color: #374f70;}
      <tr><td> <h4>Email:</h4></td>
          <td><span class="ertek" ><!--#email--></span></td>
         <td>
-            <button style="padding:0.2%;margin-left:3%;" type="submit" name="nev" value="email" class="btn btn-primary btn-lg">Változtatás
+            <button  type="submit" name="nev" value="email" class="btn btn-primary btn-lg"><!--##change-->
             </button>
         </td>
     </tr>
-    <tr><td> <h4>Felhasználónév:</h4></td>
+    <tr><td> <h4><!--##username--></h4></td>
         <td><span class="ertek" ><!--#username--></span></td>
         <td>
-            <button style="padding:0.2%;margin-left:3%;" type="submit" name="nev" value="username" class="btn btn-primary btn-lg">Változtatás
+            <button  type="submit" name="nev" value="username" class="btn btn-primary btn-lg"><!--##change-->
             </button>
         </td>
     </tr>
-    <tr><td> <h4>Kifizetési cím::</h4></td>
+    <tr><td> <h4><!--##kifcim--></h4></td>
         <td><span class="ertek" ><!--#kifcim--></span></td>
         <td>
-            <button style="padding:0.2%;margin-left:3%;" type="submit" name="nev" value="kifcim" class="btn btn-primary btn-lg">Változtatás
+            <button  type="submit" name="nev" value="kifcim" class="btn btn-primary btn-lg"><!--##change-->
             </button>
         </td>
     </tr>

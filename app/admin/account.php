@@ -8,10 +8,10 @@ ADT::$datatomb_sql="SELECT tr_cim,satoshi,megjegyzes,ido   FROM penztar WHERE us
 ADT::$ikonsor=array();
 ADT::$tablanev='penztar';
 ADT::$tabla_szerk =array(
-    array('cim'=>'Tranzakcio','mezonev'=>'tr_cim','tipus'=>''),
-    array('cim'=>'összeg','mezonev'=>'satoshi','tipus'=>''),
-    array('cim'=>'Megjegyzes','mezonev'=>'megjegyzes','tipus'=>''),
-    array('cim'=>'Dátum','mezonev'=>'ido','tipus'=>'')
+    array('cim'=>'Tr','mezonev'=>'tr_cim','tipus'=>''),
+    array('cim'=>'Satoshi','mezonev'=>'satoshi','tipus'=>''),
+    array('cim'=>'Comment','mezonev'=>'megjegyzes','tipus'=>''),
+    array('cim'=>'Date','mezonev'=>'ido','tipus'=>'')
 
 );
 

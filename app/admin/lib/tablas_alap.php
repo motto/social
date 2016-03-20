@@ -30,6 +30,7 @@ class AppView {
     {
         ADT::$view=MOD::ikonsor(ADT::$ikonsor);
         ADT::$view=str_replace('<!--|tabla|-->', ADT::$datatabla, ADT::$view );
+
     }
     public static function urlap()
     {

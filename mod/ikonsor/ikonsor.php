@@ -14,6 +14,7 @@ class Ikonsor
             <!--|tabla|-->
             <!--|tartalom2|-->
         </div>
+       <!--|hidden|-->
     </form>';
 
     public function result()

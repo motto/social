@@ -38,11 +38,9 @@ class AlapView {
 
     }
     public static function feltolt(){
-       // echo'----------';
-       // ADT::$view='ddddddd';
-       // self::feltolt_alap(ADT::$LT,"<!--##");
-       // print_r(ADT::$dataT);
-        AlapView::feltolt_alap(ADT::$dataT,"<!--#"); //self::feltolt_alap(ADT::$dataT,"<!--#");
+      $langT=AlapDataS::LT_to_feltolt(ADT::$LT);
+        self::feltolt_alap($langT,"<!--##");
+        self::feltolt_alap(ADT::$dataT,"<!--#");
     }
 
 
@@ -108,13 +106,21 @@ class AlapAdmin {
 }
 
 class AlapDataS
-{ public static  function db_to_LT($db)
+{
+public static  function db_to_LT($db)
 {
     foreach($db as $sor) {
         $resT[$sor['nev']]=$sor['ertek'];
     }
     return $resT;
 }
+    public static  function LT_to_feltolt($db)
+    {
+        foreach($db as $key=>$value) {
+            $resT[$key]=$value[GOB::$lang];
+        }
+        return $resT;
+    }
 
     public static  function szerk()
     {

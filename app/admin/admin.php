@@ -45,6 +45,7 @@ switch ($mod) {
 GOB::$html= str_replace('<!--|tartalom|-->',$tartalom ,GOB::$html);
 GOB::$html=FeltoltS::mod(GOB::$html);
 GOB::$html=FeltoltS::from_LT(GOB::$html);
+GOB::$html= str_replace('<!--refid-->',GOB::$user['id'],GOB::$html);
 echo GOB::$html;
 
 ?>

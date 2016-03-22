@@ -3,10 +3,13 @@ include_once'app/admin/lib/tablas_alap.php';
 require_once('vendor/autoload.php');
 use Coinbase\Wallet\Client;
 use Coinbase\Wallet\Configuration;
-
+//küldés---------
+use Coinbase\Wallet\Enum\CurrencyCode;
+use Coinbase\Wallet\Resource\Transaction;
+use Coinbase\Wallet\Value\Money;
 ADT::$jog='admin';
 ADT::$ikonsor=array('pub','unpub');
-ADT::$view_file='app/admin/view/tabla_alap.html';
+//ADT::$view_file='app/admin/view/tabla_alap.html';
 ADT::$datatomb_sql="SELECT p.id,p.userid,u.username,u.tarca,p.tr_cim, SUM(p.satoshi) AS egyenleg FROM penztar p INNER JOIN userek u ON p.userid=u.id GROUP BY p.userid";
 ADT::$tablanev='penztar';
 ADT::$tabla_szerk =array(
@@ -16,24 +19,15 @@ ADT::$tabla_szerk =array(
 );
 
 class SDT{
-public static $azonok='';
+    //paraméterek
 public static $notarcaT=array('BTC Wallet','Base','Deleted base','ggg');
-public static $szazalekT=array(14,8,4,2,1,0.4,0.2,0.1);//ref jutalék százalékok
-public static $szazalekU=71;//sajat szazalék
-public static $utalT=array(); //végrehajtandó utalások adatai
+public static $szazalekT=array(71,14,8,4,2,1,0.4,0.2,0.1);//ref jutalék százalékok
+//változók--------------------
+public static $satoshi=0;
+public static $accuserid=0;
 }
 
 class PdataS{
-    public static function azonok_to_tomb($azonok)
-    {
-        $tomb=explode(',',$azonok);
-        foreach ($tomb as $sor) {
-           $sorT= explode(':',$sor);
-           $res[$sorT[0]]=array('sorazon'=>$sorT[0],'balance'=>$sorT[1],'accountid'=>$sorT[2]);
-
-        }
-        return $res;
-    }
 
 public static function refleker($userid)
 {
@@ -41,26 +35,33 @@ public static function refleker($userid)
     $res=DB::assoc_sor($sql);
     if(empty($res)){return 0;}else{return $res['ref'];}
 }
+    public static function tarca_leker($userid)
+    {
+        $sql="SELECT id,userid,tarca FROM tarcak  WHERE userid ='".$userid."'";
+        $res=DB::assoc_sor($sql);
+        if(empty($res)){return 0;}else{return $res['tarca'];}
+    }
 
     public static function ujleker()
     {
         $accounts =GOB::$client->getAccounts();
-        $k=1;
+
         foreach ($accounts as &$account)
         {
             $balance = $account->getBalance();
             if($balance->getAmount()>0)
             {
-                ADT::$datatomb['sor'.$k] =Array('id'=>'sor'.$k,'tarcanev'=>$account->getName() ,'trcim'=>'bejövő','accountid'=>$account->getId() ,'amount'=>$balance->getAmount());
-                SDT::$azonok=  SDT::$azonok.'sor'.$k.':'.$balance->getAmount().
-            ':'.$account->getId().',';
+                ADT::$datatomb[] =Array('id'=>$balance->getAmount().
+            ':'.$account->getId(),'tarcanev'=>$account->getName() ,'trcim'=>'bejövő','accountid'=>$account->getId() ,'amount'=>$balance->getAmount());
+
             }
-         $k++;
+
         }
 
     }
     public static function utal($accountid,$osszeg,$to_tarca,$uzenet=' ')
-    {//echo $accountid;
+    {
+        $result=true;
         $account= GOB::$client->getAccount($accountid);
         $transaction = Transaction::send([
             'toBitcoinAddress' => $to_tarca,
@@ -68,91 +69,121 @@ public static function refleker($userid)
             'description'      => $uzenet,
             'fee'              => '0.0001' // only requi..
         ]);
-        GOB::$client->createAccountTransaction($account, $transaction);
-    }
-    public static function utal_from_utalT()
-    {
-        //$accounts =GOB::$client->getAccounts();
-        foreach (SDT::$utalT as $sorid=>$utalT )
-        {
-            if(!in_array(ADT::$datatomb[$sorid]['tarcanev'],SDT::$notarcaT))
+
+        try {
+            GOB::$client->createAccountTransaction($account, $transaction);
+            $response=GOB::$client->decodeLastResponse();
+            if(!$response['data']['status'] == 'pending')
             {
-                $eredeti_oszzeg=ADT::$datatomb[$sorid]['amount']/0.00000001;
-                $maradek_oszzeg=$eredeti_oszzeg;
-
-                foreach($utalT as $utal)
-                { $sql="SELECT tarca FROM tarcak WHERE userid='".$utal['cim']."'";
-                    $sor=DB::assoc_sor($sql);
-                    $szazalek=$utal['szazalek']/100;
-                    $osszeg=$eredeti_oszzeg*$szazalek;
-                    $accountid=ADT::$datatomb[$sorid]['accountid'];
-                    PdataS::utal($accountid,$osszeg,$sor['tarca']);
-                    $maradek_oszzeg=$maradek_oszzeg-$osszeg;
-                    $sql="INSERT INTO penztar (userid,tr_cim,satoshi,megjegyzes)VALUES(".$utal['cim'].",'jutalek:".$utal['szazalek']."%','".$osszeg."','kuldo accountid:". $accountid."')";
-                  $beszurtid = DB::assoc_tomb($sql);
-                }
+                $result=false;
+                GOB::$hiba['coin'][]='status hiba történt tranzakció közben! accountid:'.$accountid.', to tarca:'.$to_tarca.', osszeg: '.$osszeg.' uzenet: '.$uzenet;
             }
-            $sql="INSERT INTO penztar (userid,tr_cim,satoshi,megjegyzes)VALUES('0','jutalek','".$maradek_oszzeg."','kuldo accountid:". $accountid."')";
-               $beszurtid2 = DB::assoc_tomb($sql);
-            PdataS::utal($accountid,$osszeg,GOB::$tarcaBase);
+
+
+        } catch (Exception $e)
+        {
+            GOB::$hiba['coin'][]='1-es szintű hiba történt tranzakció közben!accountid:'.$accountid.', to tarca:'.$to_tarca.', osszeg: '.$osszeg.' uzenet: '.$uzenet;
+            $result=false;
         }
-
-
+        return $result;
     }
+    public static function utal_todb($userid,$accountid,$maradek,$i=0)
+    {
+        $szazalek = SDT::$szazalekT[$i] / 100;
+        $osszeg = SDT::$satoshi* $szazalek;
+        if($osszeg<=$maradek)
+        {
+            $maradek = $maradek - $osszeg;
+            if($i==0)
+            {$megjegyzes='rotator jovairás';
+            }
+            else
+            { $megjegyzes='jutalek:' . $szazalek*100 . '%';}
 
+
+            $sql = "INSERT INTO penztar (userid,tr_cim,satoshi,megjegyzes)VALUES('" . $userid . "','" .$megjegyzes . "','" . $osszeg . "','kuldo accountid:" . $accountid . "')";
+           // echo $sql;
+             DB::parancs($sql);
+        }
+       else
+       {
+           GOB::$hiba['bejovo'][]='elfogyott a jutalék. összeg:'.$osszeg.',maradék:'.$maradek.'szint:'.$i;
+       }
+
+        return $maradek;
+    }
+    public static function accountid_to_userid($accountid)
+    {
+        $sql = "SELECT u.id,t.tarca FROM userek u INNER JOIN tarcak t ON u.tarcaid=t.id   WHERE accountid ='".$accountid ."'";
+        $userT = DB::assoc_sor($sql);
+        if(isset($userT['id']))
+        { SDT::$accuserid=$userT['id'];
+          return true;
+        }
+        else
+        {
+            GOB::$hiba['bejovo'][] = 'ezzel az accountiddel nincs felhasználó';
+            return false;
+        }
+    }
 }
 
 class Admin extends AdminBase
 {
 
-    public function pub()
-    {// echo $_POST['azonok'] ;
-       // PdataS::ujleker();
-
-        foreach (ADT::$idT as $sorid)
-        { $azonT=PdataS::azonok_to_tomb($_POST['azonok']);
-           $accountid=$azonT[$sorid]['accountid'];
-            //echo $tarcanev.'-----------------';
-            $sql="SELECT id,userid,tarca FROM tarcak  WHERE accountid ='".$accountid."'";
-            $tT=DB::assoc_sor($sql);
-        // echo $tT['userid'].'-----------------';
-            if(isset($tT['userid']))
+public function pub()
+{
+    if (isset($_POST['sor']))
+    {
+    foreach ($_POST['sor'] as $sor)
+    {
+        $sorT = explode(':', $sor);
+        $accountid = $sorT[1];$amount = $sorT[0];
+        SDT::$satoshi=$amount/0.00000001;
+        if(PdataS::accountid_to_userid($accountid))
+        {
+            if(PdataS::utal($accountid, $amount,GOB::$tarcaBase,'bejovo'))
             {
-                $i=1;
-                $refid=$tT['userid'];
-                SDT::$utalT[$sorid][]=array('cim'=>$tT['userid'],'szazalek'=>SDT::$szazalekT[0]);
-
-                while ($refid>0)
+            //user rész elküldése-------------------
+            $maradek =PdataS::utal_todb(SDT::$accuserid,$accountid,SDT::$satoshi,0);
+            //rfjutalékok leosztása----------------------
+            $refid = PdataS::refleker(SDT::$accuserid);
+            $i = 1;
+                while ($refid > 0)
                 {
-                    $refid =PdataS::refleker($refid);
-                    if($refid>0)
+                    if ($refid > 0)
                     {
-                  SDT::$utalT[$sorid][]=array('cim'=>$refid,'szazalek'=>SDT::$szazalekT[$i]);
+                    $maradek = PdataS::utal_todb($refid, $accountid,$maradek, $i);
+                    $refid = PdataS::refleker($refid);
+                    $i++; if ($i > 8) {$refid = 0;}
                     }
-                  $i++;
+                }
+
+                if ( $maradek> 0)
+                {
+                DB::parancs("INSERT INTO penztar (userid,tr_cim,satoshi,megjegyzes)VALUES('0','jutalek maradék','" .$maradek . "','kuldo accountid:" . $accountid . "')");
                 }
             }
-            else
-            {
-            //egyenlőre nem csinál semmit ha nem felhasználóé a tárca
-            }
         }
-       // print_r(SDT::$utalT);
-
-        PdataS::utal_from_utalT();
-      //  echo 'Utalás megtörtént';
-        $this->alap();
+    }
     }
 
+    $this->alap();
+
+}
 
     public function alap()
     {
+        $hiba='';
         PdataS::ujleker();
         ADT::$datatabla=MOD::tabla(ADT::$tabla_szerk,ADT::$datatomb);
         ADT::$view=MOD::ikonsor(ADT::$ikonsor);
         ADT::$view=str_replace('<!--|tabla|-->', ADT::$datatabla, ADT::$view );
-        $hidden='<input type="hidden" name="azonok" value="'.SDT::$azonok.'">';
-        ADT::$view=str_replace('<!--|hidden|-->', $hidden, ADT::$view );
+        if(isset(GOB::$hiba['belep']))
+        {$hiba=FeltoltS::hibakiir(GOB::$hiba['belep']);}
+        if(isset(GOB::$hiba['coin']))
+        {$hiba=$hiba.FeltoltS::hibakiir(GOB::$hiba['coin']);}
+       ADT::$view=str_replace('<!--|hiba|-->', $hiba, ADT::$view );
     }
 
 };

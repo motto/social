@@ -10,6 +10,7 @@ class Ikonsor
     public $cont_bezar='</div><div style="clear: both;" ></div>
     </div>
         <div style="margin-top:70px;">
+            <!--|hiba|-->
             <!--|tartalom|-->
             <!--|tabla|-->
             <!--|tartalom2|-->

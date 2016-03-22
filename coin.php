@@ -23,18 +23,54 @@ $client = Client::create($configuration);
 //$client->enableActiveRecord();
 //$account = new Account();
 //$accounts = $client->getAccounts([Param::FETCH_ALL => true]);
+///$account= GOB::$client->getAccount($accountid);
+
+//$response = $client->createAccountTransaction(, $transaction);`
+//user 2: 0.00020
+
+$account= $client->getAccount('2f2e973e-1323-5755-8ecb-fa9c7576b82a');
+$transaction = Transaction::send([
+    'toBitcoinAddress' => '1QCnJHPGmw9pMestTF8kfV5i1dvBc3nyDK',
+    'amount'           => new Money(0.0001, CurrencyCode::BTC),
+    'description'      => '',
+    'fee'              => '0.0001' // only requi..
+]);
 
 
-$sql="SELECT userid, SUM(satoshi) AS total_satoshi FROM penztar GROUP BY userid";
-$dat=DB::assoc_tomb($sql);
-print_r($dat);
+try {
+    $client->createAccountTransaction($account,$transaction);
+    echo 'sikerült';
+    $response=$client->decodeLastResponse();
+  if($response['data']['status'] == 'pending'){}
 
+
+} catch (Exception $e) {
+ // echo 'Caught exception: ',  $e->getMessage(), "\n";
+    echo 'nemsikerült';
+    $response=$client->decodeLastResponse();
+    // if($response['data']['status'] == 'pending')
+print($response);
+   // echo 'Done:'.$response['data']['status'];
+}
+
+
+///print_r($response);
+//echo
+//print_r($response);
+/*
+if($response->)
+	{
+		echo 'Done.';
+	}
+else{  echo 'nemsikerült.';  }
+
+*/
 
 
 
 /*
 //coin küldés-----------------------------
-$account=$client->getAccount('3189b9e0-a5d6-5f97-a7d9-51de62fcafaa');
+//$account=$client->getAccount('3189b9e0-a5d6-5f97-a7d9-51de62fcafaa');
 
 
 //echo '<html>';

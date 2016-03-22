@@ -1,7 +1,13 @@
 <?php
 
 class FeltoltS{
-
+    public static function hibakiir($hibatomb){
+        $res='';
+        foreach ($hibatomb as $hiba){
+            $res =$res.'<h4>'.$hiba.'</h4>';
+        }
+        return $res;
+    }
     static public function mod($view)
     {
         preg_match_all ("/<!--:([^`]*?)-->/",$view , $matches);
